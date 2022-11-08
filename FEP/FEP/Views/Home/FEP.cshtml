@@ -1,0 +1,260 @@
+﻿@using FEP.Models
+@using FEP.SingletonPattern
+@{
+    var Nikes = ViewBag.Nikes;
+    var Adidas = ViewBag.Adidas;
+    var MLBs = ViewBag.MLBs;
+    var Deps = ViewBag.Deps;
+    var Luxurys = ViewBag.Luxurys;
+}
+
+@{
+    ViewBag.Title = "FEP";
+    Layout = "~/Views/Shared/_LayoutPageMain.cshtml";
+}
+
+<div class="slideshow">
+    <div class="slides">
+        <input type="radio" name="rSlide" id="rS1" checked>
+        <input type="radio" name="rSlide" id="rS2">
+        <input type="radio" name="rSlide" id="rS3">
+        <div class="slide S1">
+            <img src="~/Content/img/slider/s1.JPG" alt="">
+        </div>
+        <div class="slide">
+            <img src="~/Content/img/slider/s2.JPG" alt="">
+        </div>
+        <div class="slide">
+            <img src="~/Content/img/slider/s3.JPG" alt="">
+        </div>
+    </div>
+    <div class="dots">
+        <label for="rS1" class="dot active"></label>
+        <label for="rS2" class="dot"></label>
+        <label for="rS3" class="dot"></label>
+    </div>
+</div>
+<div class="distance-slideshow"></div>
+
+
+<div class="container-xl">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="container-dv">
+                <div class="block-title">
+                    <h2>GIÀY NIKE</h2>
+                </div>
+                <div class="row">
+                    @foreach (Sneaker item in Nikes)
+                    {
+
+                        List<string> AnhBia = Utilities.Instance.ListLink(item.LinkPicture);
+                        List<string> AnhChiTiet = Utilities.Instance.ListLink(item.LinkPictureDetails);
+                        <div class="product col-lg-3 col-md-6 col-sm-6 col-6">
+                            <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__link" title="@item.Name">
+                                <span class="sale">- @item.Discount%</span>
+                                <img class="product__img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
+                                @if (AnhBia.Count > 1)
+                                {
+                                    <div class="product__hover">
+                                        <img class="product__hover-img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[1]" alt="@item.Name">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="product__hover">
+                                        <img class="product__hover-img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
+                                    </div>
+                                }
+                            </a>
+                            <div class="product__caption">
+                                <h3><a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
+                            </div>
+                            <div class="product__price">
+                                <div class="product__price-current">@item.PriceAfterDiscount<span class="product__price-current--symbol">₫</span></div>
+                                <div class="product__price-old">@item.Price<span class="product__price-current--symbol">₫</span></div>
+                            </div>
+                        </div>
+                    }
+
+                <div class="submit">
+                    <a href="~/Home/Products?idSneakerType=2" class="submit__link">XEM THÊM</a>
+                </div>
+            </div>
+
+            <div class="container-dv">
+                <div class="block-title">
+                    <h2>Giày Adidas</h2>
+                </div>
+                <div class="row">
+                    @foreach (Sneaker item in Adidas)
+                    {
+
+                        List<string> AnhBia = Utilities.Instance.ListLink(item.LinkPicture);
+                        List<string> AnhChiTiet = Utilities.Instance.ListLink(item.LinkPictureDetails);
+                        <div class="product col-lg-3 col-md-6 col-sm-6 col-6">
+                            <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__link" title="@item.Name">
+                                <span class="sale">- @item.Discount%</span>
+                                <img class="product__img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
+                                @if (AnhBia.Count > 1)
+                                {
+                                    <div class="product__hover">
+                                        <img class="product__hover-img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[1]" alt="@item.Name">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="product__hover">
+                                        <img class="product__hover-img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
+                                    </div>
+                                }
+                            </a>
+                            <div class="product__caption">
+                                <h3><a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
+                            </div>
+                            <div class="product__price">
+                                <div class="product__price-current">@item.PriceAfterDiscount<span class="product__price-current--symbol">₫</span></div>
+                                <div class="product__price-old">@item.Price<span class="product__price-current--symbol">₫</span></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="submit">
+                    <a href="~/Home/Products?idSneakerType=3" class="submit__link">XEM THÊM</a>
+                </div>
+            </div>
+
+            <div class="container-dv">
+                <div class="block-title">
+                    <h2>Giày MLB</h2>
+                </div>
+                <div class="row">
+                    @foreach (Sneaker item in MLBs)
+                    {
+
+                        List<string> AnhBia = Utilities.Instance.ListLink(item.LinkPicture);
+                        List<string> AnhChiTiet = Utilities.Instance.ListLink(item.LinkPictureDetails);
+                        <div class="product col-lg-3 col-md-6 col-sm-6 col-6">
+                            <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__link" title="@item.Name">
+                                <span class="sale">- @item.Discount%</span>
+                                <img class="product__img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
+                                @if (AnhBia.Count > 1)
+                                {
+                                    <div class="product__hover">
+                                        <img class="product__hover-img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[1]" alt="@item.Name">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="product__hover">
+                                        <img class="product__hover-img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
+                                    </div>
+                                }
+                            </a>
+                            <div class="product__caption">
+                                <h3><a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
+                            </div>
+                            <div class="product__price">
+                                <div class="product__price-current">@item.PriceAfterDiscount<span class="product__price-current--symbol">₫</span></div>
+                                <div class="product__price-old">@item.Price<span class="product__price-current--symbol">₫</span></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="submit">
+                    <a href="~/Home/Products?idSneakerType=7" class="submit__link">XEM THÊM</a>
+                </div>
+            </div>
+
+            <div class="container-dv">
+                <div class="block-title">
+                    <h2>Dép siêu cấp nam nữ</h2>
+                </div>
+                <div class="row">
+                    @foreach (Sneaker item in Deps)
+                    {
+
+                        List<string> AnhBia = Utilities.Instance.ListLink(item.LinkPicture);
+                        List<string> AnhChiTiet = Utilities.Instance.ListLink(item.LinkPictureDetails);
+                        <div class="product col-lg-3 col-md-6 col-sm-6 col-6">
+                            <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__link" title="@item.Name">
+                                <span class="sale">- @item.Discount%</span>
+                                <img class="product__img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
+                                @if (AnhBia.Count > 1)
+                                {
+                                    <div class="product__hover">
+                                        <img class="product__hover-img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[1]" alt="@item.Name">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="product__hover">
+                                        <img class="product__hover-img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
+                                    </div>        
+                                }
+                            </a>
+                            <div class="product__caption">
+                                <h3><a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
+                            </div>
+                            <div class="product__price">
+                                <div class="product__price-current">@item.PriceAfterDiscount<span class="product__price-current--symbol">₫</span></div>
+                                <div class="product__price-old">@item.Price<span class="product__price-current--symbol">₫</span></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="submit">
+                    <a href="~/Home/Products?idSneakerType=8" class="submit__link">XEM THÊM</a>
+                </div>
+            </div>
+
+            <div class="container-dv">
+                <div class="block-title">
+                    <h2>Luxury</h2>
+                </div>
+                <div class="row">
+                    @foreach (Sneaker item in Luxurys)
+                    {
+
+                        List<string> AnhBia = Utilities.Instance.ListLink(item.LinkPicture);
+                        List<string> AnhChiTiet = Utilities.Instance.ListLink(item.LinkPictureDetails);
+                        <div class="product col-lg-3 col-md-6 col-sm-6 col-6">
+                            <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__link" title="@item.Name">
+                                <span class="sale">- @item.Discount%</span>
+                                <img class="product__img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
+                                @if (AnhBia.Count > 1)
+                                {
+                                    <div class="product__hover">
+                                        <img class="product__hover-img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[1]" alt="@item.Name">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="product__hover">
+                                        <img class="product__hover-img" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
+                                    </div>
+                                }
+                            </a>
+                            <div class="product__caption">
+                                <h3><a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
+                            </div>
+                            <div class="product__price">
+                                <div class="product__price-current">@item.PriceAfterDiscount<span class="product__price-current--symbol">₫</span></div>
+                                <div class="product__price-old">@item.Price<span class="product__price-current--symbol">₫</span></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+                    <div class="submit">
+                        <a href="~/Home/Products?idSneakerType=5" class="submit__link">XEM THÊM</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
