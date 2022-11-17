@@ -16,19 +16,36 @@ namespace FEP.Controllers
         static ISneakerData _NHibernateData = new NHibernateData();
         static SneakerService _SneakerService = new SneakerService(_NHibernateData);
         static List<Sneaker> _Sneakers = _SneakerService.getAll();
+        static int IDTypeNike = _SneakerService.GetIDSneaker("Nike");
+        static int IDTypeAdidas = _SneakerService.GetIDSneaker("Adidas");
+        static int IDTypeLuxury = _SneakerService.GetIDSneaker("Luxury");
+        static int IDTypeMLB = _SneakerService.GetIDSneaker("MLB");
+        static int IDTypeDep = _SneakerService.GetIDSneaker("Dép");
         // GET: Home
         public ActionResult FEP()
         {
-            ViewBag.Nikes = _Sneakers.FindAll(x => x.IDSneakerType == 2).Take(8).ToList();
-            ViewBag.Adidas = _Sneakers.FindAll(x => x.IDSneakerType == 3).Take(4).ToList();
-            ViewBag.MLBs = _Sneakers.FindAll(x => x.IDSneakerType == 7).Take(4).ToList();
-            ViewBag.Deps = _Sneakers.FindAll(x => x.IDSneakerType == 8).Take(4).ToList();
-            ViewBag.Luxurys = _Sneakers.FindAll(x => x.IDSneakerType == 5).Take(3).ToList();
+            ViewBag.Nikes = _Sneakers.FindAll(x => x.IDSneakerType == IDTypeNike).Take(8).ToList();
+            ViewBag.Adidas = _Sneakers.FindAll(x => x.IDSneakerType == IDTypeAdidas).Take(4).ToList();
+            ViewBag.MLBs = _Sneakers.FindAll(x => x.IDSneakerType == IDTypeMLB).Take(4).ToList();
+            ViewBag.Deps = _Sneakers.FindAll(x => x.IDSneakerType == IDTypeDep).Take(4).ToList();
+            ViewBag.Luxurys = _Sneakers.FindAll(x => x.IDSneakerType == IDTypeLuxury).Take(3).ToList();
+
+
+            Session["IDTypeNike"] = IDTypeNike;
+            Session["IDTypeAdidas"] = IDTypeAdidas;
+            Session["IDTypeLuxury"] = IDTypeLuxury;
+            Session["IDTypeMLB"] = IDTypeMLB;
+            Session["IDTypeDep"] = IDTypeDep;
             return View();
         }
 
         public ActionResult Products(int? page, int idSneakerType)
         {
+            Session["IDTypeNike"] = IDTypeNike;
+            Session["IDTypeAdidas"] = IDTypeAdidas;
+            Session["IDTypeLuxury"] = IDTypeLuxury;
+            Session["IDTypeMLB"] = IDTypeMLB;
+            Session["IDTypeDep"] = IDTypeDep;
             var pageNumber = (page ?? 1);
             ViewBag.pageSize = 8;
             var sneaker = _Sneakers.FindAll(x => x.IDSneakerType == idSneakerType).ToList();

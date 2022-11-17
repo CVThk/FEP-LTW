@@ -2,35 +2,43 @@
 @using PagedList
 @using FEP.Models
 @using FEP.SingletonPattern
+@using FEP.Core.Interfaces.IData;
+@using FEP.Core.Services;
+@using FEP.Data;
 @model IPagedList<Sneaker>
 
 @{
 
-    switch (ViewBag.idSneakerType)
+    int IDTypeNike = int.Parse(Session["IDTypeNike"].ToString());
+    int IDTypeAdidas = int.Parse(Session["IDTypeAdidas"].ToString());
+    int IDTypeLuxury = int.Parse(Session["IDTypeLuxury"].ToString());
+    int IDTypeMLB = int.Parse(Session["IDTypeMLB"].ToString());
+    int IDTypeDep = int.Parse(Session["IDTypeDep"].ToString());
+    ISneakerData _NHibernateData = new NHibernateData();
+    SneakerService _SneakerService = new SneakerService(_NHibernateData);
+}
+
+@{
+    int idCur = ViewBag.idSneakerType;
+    if (idCur == IDTypeNike)
     {
-        case 1:
-            break;
-        case 2:
-            ViewBag.Title = "Giày Nike Air Force 1 Rep 1:1 Nam Nữ 2021 - FEP";
-            break;
-        case 3:
-            ViewBag.Title = "Giày Adidas Yeezy Boost Nam Nữ chuẩn Rep 1:1 | Sale 50% - FEP";
-            break;
-        case 4:
-            break;
-        case 5:
-            ViewBag.Title = "Giày Alexander Mcqueen Nam Nữ rep 1:1 và siêu cấp giá tốt nhất 2020 - FEP";
-            break;
-        case 6:
-            break;
-        case 7:
-            ViewBag.Title = "Giày MLB Korea Big Ball Chunky Rep 1:1 Nam Nữ - FEP";
-            break;
-        case 8:
-            ViewBag.Title = "Dép Balenciaga nam hàng hiệu siêu cấp - FEP";
-            break;
-        case 9:
-            break;
+        ViewBag.Title = "Giày Nike Air Force 1 Rep 1:1 Nam Nữ 2021 - FEP";
+    }
+    else if (idCur == IDTypeAdidas)
+    {
+        ViewBag.Title = "Giày Adidas Yeezy Boost Nam Nữ chuẩn Rep 1:1 | Sale 50% - FEP";
+    }
+    else if (idCur == IDTypeLuxury)
+    {
+        ViewBag.Title = "Giày Alexander Mcqueen Nam Nữ rep 1:1 và siêu cấp giá tốt nhất 2020 - FEP";
+    }
+    else if (idCur == IDTypeMLB)
+    {
+        ViewBag.Title = "Giày MLB Korea Big Ball Chunky Rep 1:1 Nam Nữ - FEP";
+    }
+    else if (idCur == IDTypeDep)
+    {
+        ViewBag.Title = "Dép Balenciaga nam hàng hiệu siêu cấp - FEP";
     }
     Layout = "~/Views/Shared/_LayoutPageMain.cshtml";
     <link rel="stylesheet" href="~/Content/fonts/fontawesome-free-5.15.4-web/css/all.css">
@@ -41,32 +49,26 @@
     <script src="~/Content/js/jquery.js"></script>
 }
 
-@switch (ViewBag.idSneakerType)
-    {
-        case 1:
-            break;
-        case 2:
-            <div class="heading detail"><span>NIKE AIR FORCE 1 Rep 1:1</span></div>
-            break;
-        case 3:
-            <div class="heading detail"><span>Adidas yeezy</span></div>
-            break;
-        case 4:
-            break;
-        case 5:
-            <div class="heading detail"><span>Giày Alexander Mcqueen</span></div>
-            break;
-        case 6:
-            break;
-        case 7:
-            <div class="heading detail"><span>Giày Mlb Rep 1:1 Nam Nữ mới nhất 2021</span></div>
-            break;
-        case 8:
-            <div class="heading detail"><span>Dép Balenciaga</span></div>
-            break;
-        case 9:
-            break;
-    }
+@if (idCur == IDTypeNike)
+{
+    <div class="heading detail"><span>NIKE AIR FORCE 1 Rep 1:1</span></div>
+}
+else if (idCur == IDTypeAdidas)
+{
+    <div class="heading detail"><span>Adidas yeezy</span></div>
+}
+else if (idCur == IDTypeLuxury)
+{
+    <div class="heading detail"><span>Giày Alexander Mcqueen</span></div>
+}
+else if (idCur == IDTypeMLB)
+{
+    <div class="heading detail"><span>Giày Mlb Rep 1:1 Nam Nữ mới nhất 2021</span></div>
+}
+else if (idCur == IDTypeDep)
+{
+    <div class="heading detail"><span>Dép Balenciaga</span></div>
+}
 
 
 <div class="container-xl">
@@ -82,31 +84,25 @@
                             </a>
                             <span class="slash">/</span>
                             <a href="#" class="item">
-                                @switch (ViewBag.idSneakerType)
+                                @if (idCur == IDTypeNike)
                                 {
-                                    case 1:
-                                        break;
-                                    case 2:
-                                        <div class="item-descript">Nike</div>
-                                        break;
-                                    case 3:
-                                        <div class="item-descript">Adidas</div>
-                                        break;
-                                    case 4:
-                                        break;
-                                    case 5:
-                                        <div class="item-descript">Giày Alexander Mcqueen</div>
-                                        break;
-                                    case 6:
-                                        break;
-                                    case 7:
-                                        <div class="item-descript">MLB</div>
-                                        break;
-                                    case 8:
-                                        <div class="item-descript">Dép Balenciaga</div>
-                                        break;
-                                    case 9:
-                                        break;
+                                    <div class="item-descript">Nike</div>
+                                }
+                                else if (idCur == IDTypeAdidas)
+                                {
+                                    <div class="item-descript">Adidas</div>
+                                }
+                                else if (idCur == IDTypeLuxury)
+                                {
+                                    <div class="item-descript">Giày Alexander Mcqueen</div>
+                                }
+                                else if (idCur == IDTypeMLB)
+                                {
+                                    <div class="item-descript">MLB</div>
+                                }
+                                else if (idCur == IDTypeDep)
+                                {
+                                    <div class="item-descript">Dép Balenciaga</div>
                                 }
 
                             </a>
@@ -127,22 +123,24 @@
                     <div class="row">
                         @foreach (Sneaker item in Model)
                         {
-                            List<string> AnhBia = Utilities.Instance.ListLink(item.LinkPicture);
-                            List<string> AnhChiTiet = Utilities.Instance.ListLink(item.LinkPictureDetails);
+                            List<string> AnhBia = _SneakerService.GetCoverPicture(item.ID);
                             <div class="detail product col-lg-3 col-md-3 col-sm-6 col-6">
                                 <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__link detail" title="@item.Name">
-                                    <span class="sale detail">- @item.Discount%</span>
+                                    @if (item.Discount != 0)
+                                    {
+                                        <span class="sale detail">- @item.Discount%</span>
+                                    }
                                     <img class="product__img detail" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
                                     @if (AnhBia.Count > 1)
                                     {
                                         <div class="product__hover detail">
-                                            <img class="product__hover-img detail" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[1]" alt="@item.Name">
+                                            <img class="product__hover-img detail" src="~/Content/img/Link/@item.ID/@AnhBia[1]" alt="@item.Name">
                                         </div>
                                     }
                                     else
                                     {
                                         <div class="product__hover detail">
-                                            <img class="product__hover-img detail" src="~/Content/img/Link/@item.ID.Trim()/@AnhBia[0]" alt="@item.Name">
+                                            <img class="product__hover-img detail" src="~/Content/img/Link/@item.ID/@AnhBia[0]" alt="@item.Name">
                                         </div>
                                     }
                                 </a>
@@ -150,8 +148,11 @@
                                     <h3><a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__caption-link detail" title="@item.Name">@item.Name</a></h3>
                                 </div>
                                 <div class="product__price detail">
-                                    <div class="product__price-current detail">@item.PriceAfterDiscount<span class="product__price-current--symbol">₫</span></div>
-                                    <div class="product__price-old detail">@item.Price<span class="product__price-current--symbol">₫</span></div>
+                                    <div class="product__price-current detail">@string.Format("{0:0,0}", item.PriceAfterDiscount)<span class="product__price-current--symbol">₫</span></div>
+                                    @if (item.Discount != 0)
+                                    {
+                                        <div class="product__price-old detail">@string.Format("{0:0,0}", item.Price)<span class="product__price-current--symbol">₫</span></div>
+                                    }
                                 </div>
                                 <div class="detail__buy">
                                     <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="detail__buy-link">Mua ngay</a>
@@ -163,399 +164,395 @@
                 </div>
                 <nav class="nav__detail">
                     <div class="text-center">
-                        @Html.PagedListPager(Model, page => Url.Action("Products", new { page, ViewBag.idSneakerType }))
+                        @Html.PagedListPager(Model, page => Url.Action("Products", "Home", new { page, ViewBag.idSneakerType }))
                     </div>
-                    @switch (ViewBag.idSneakerType)
+                    @if (idCur == IDTypeNike)
                     {
-                        case 1:
-                            break;
-                        case 2:
-                            <div class="nav__detail-descript">
-                                <p>
-                                    Những mẫu giày <b>Air Force 1</b> nhà <strong>#Nike</strong> chẳng bao giờ hết HOT bởi tính dễ phối đồ, thiết kế đơn giản với các phối màu đa dạng, độc đáo kiểu unisex phù hợp cho nam và nữ. Nhìn thì tưởng chừng khá basic, nhưng lại cực kỳ nổi bật và “ăn điểm” khi mang lên chân. Từ nữ tính nhẹ nhàng cho các bạn nữ đến phối màu Cool ngầu cho các chàng trai. Rất nhiều phiên bản AF1 đã được ra mắt. Giờ cùng Shopgiayreplica tìm hiểu rõ hơn về dòng giày đang HOT-HIT này nhé:
-                                </p>
-                                <h2>Giày huyền thoại Nike Air Force 1 với hơn 40 năm tuổi</h2>
-                                <p>
-                                    Sở dĩ giày
-                                    <a href="/giay-nike-air-force/giay-nike-air-force.html" class="internal">Nike Air Force 1</a>
-                                    được coi là một huyền thoại bởi đây là đôi giày đầu tiên trên thế giới ứng dụng công nghệ tiên tiến nhất, mở ra chương mới cho nhà mốt Nike. Air Force 1 thực sự là một cú “hit” lớn khi nó đã “sold out” ngay trong ngày đầu trình làng. Đến giờ, dòng giày Af1 này được coi như con gà đẻ trứng vàng của hãng Nike.
-                                    <div><img src="~/Content/img/NIKE/nike-af1-shadow-7-mau.jpg" alt=""></div>
-                                </p>
-                                <p>
-                                    Điều đặc biệt tạo nên sự thu hút của mẫu giày này đó là công nghệ “Air” – một túi khí được bố trí trên trong đế giày nhằm hấp thụ lực khi tiếp chân, giảm chấn thương cho bàn chân. Chính vì vậy, giày thể thao AF1 này ngoài vai trò là một kiểu giày thời trang đình đám, nó còn đặc biệt phù hợp với những người chơi bóng rổ.
-                                </p>
-                                <h2>Thiết kế thu hút</h2>
-                                <p>
-                                    Dù đã tồn tại rất lâu trên thị trường nhưng tính thiết kế và chất lượng Nike Air Force 1 vẫn nhận được sự yêu mến từ giới mộ điệu.
-                                </p>
-                                <p>
-                                    Về ngoại hình, mẫu giày mang vẻ đơn giản, basic nhưng không hề nhàm chán. Mẫu giày được gia công từ chất liệu da cao cấp, được xử lý tỉ mỉ với công nghệ hiện đại nên đảm bảo độ bền đẹp, bóng mịn.
-                                </p>
+                        <div class="nav__detail-descript">
+                            <p>
+                                Những mẫu giày <b>Air Force 1</b> nhà <strong>#Nike</strong> chẳng bao giờ hết HOT bởi tính dễ phối đồ, thiết kế đơn giản với các phối màu đa dạng, độc đáo kiểu unisex phù hợp cho nam và nữ. Nhìn thì tưởng chừng khá basic, nhưng lại cực kỳ nổi bật và “ăn điểm” khi mang lên chân. Từ nữ tính nhẹ nhàng cho các bạn nữ đến phối màu Cool ngầu cho các chàng trai. Rất nhiều phiên bản AF1 đã được ra mắt. Giờ cùng Shopgiayreplica tìm hiểu rõ hơn về dòng giày đang HOT-HIT này nhé:
+                            </p>
+                            <h2>Giày huyền thoại Nike Air Force 1 với hơn 40 năm tuổi</h2>
+                            <p>
+                                Sở dĩ giày
+                                <a href="/giay-nike-air-force/giay-nike-air-force.html" class="internal">Nike Air Force 1</a>
+                                được coi là một huyền thoại bởi đây là đôi giày đầu tiên trên thế giới ứng dụng công nghệ tiên tiến nhất, mở ra chương mới cho nhà mốt Nike. Air Force 1 thực sự là một cú “hit” lớn khi nó đã “sold out” ngay trong ngày đầu trình làng. Đến giờ, dòng giày Af1 này được coi như con gà đẻ trứng vàng của hãng Nike.
+                                <div><img src="~/Content/img/NIKE/nike-af1-shadow-7-mau.jpg" alt=""></div>
+                            </p>
+                            <p>
+                                Điều đặc biệt tạo nên sự thu hút của mẫu giày này đó là công nghệ “Air” – một túi khí được bố trí trên trong đế giày nhằm hấp thụ lực khi tiếp chân, giảm chấn thương cho bàn chân. Chính vì vậy, giày thể thao AF1 này ngoài vai trò là một kiểu giày thời trang đình đám, nó còn đặc biệt phù hợp với những người chơi bóng rổ.
+                            </p>
+                            <h2>Thiết kế thu hút</h2>
+                            <p>
+                                Dù đã tồn tại rất lâu trên thị trường nhưng tính thiết kế và chất lượng Nike Air Force 1 vẫn nhận được sự yêu mến từ giới mộ điệu.
+                            </p>
+                            <p>
+                                Về ngoại hình, mẫu giày mang vẻ đơn giản, basic nhưng không hề nhàm chán. Mẫu giày được gia công từ chất liệu da cao cấp, được xử lý tỉ mỉ với công nghệ hiện đại nên đảm bảo độ bền đẹp, bóng mịn.
+                            </p>
+                            <div>
+                                <img src="~/Content/img/NIKE/nike-af1-dragon-paranoise-2.jpg" alt="">
+                            </div>
+                            <p>
+                                Phần upper có cấu tạo thông minh với những lỗ thoáng khí nằm ngay trên thân giày, giúp người dùng luôn có được cảm giác sạch sẽ, khô ráo khi mang dù trong điều kiện thời tiết như thế nào.
+                            </p>
+                            <p>
+                                Đế giày sử dụng đế cao su cao cấp với độ đàn hồi tốt, độ bám cao và rất chắc chắn nên bạn có thể trải nghiệm tự tin trên mọi điều kiện địa hình khác nhau. Bên cạnh đó, phần đế giày cao, đẹp mắt với một đường viên nổi bật ôm trọn gót với dòng chữ “AIR”, đồng thời giúp người dùng ăn gian chiều cao một cách lý tưởng.
+                            </p>
+                            <div>
+                                <img src="~/Content/img/NIKE/de-giay-air-force-1-dragon-paranoise.jpg" alt="">
+                            </div>
+                            <p>
+                                Đơn giản nhưng với những phối màu đầy tinh tế, không quá cầu kỳ, giày Nike AF1 luôn phù hợp với mọi khách hàng và không hề bị lỗi mốt theo thời gian. Đặc biệt, chính điều này cũng giúp người dùng dễ dàng vệ sinh, bảo quản giày tốt hơn.
+                            </p>
+                            <h2>Đa dạng phối màu và kiểu dáng</h2>
+                            <p>
+                                Hiện nay giày thể thao Nike AF1 gồm 3 kiểu dáng:
+                                <em><strong>High-Mid-Low</strong></em>
+                                (cao-vừa-thấp cổ). Hãng đã có hơn 1860 bản phối màu được tung ra, trong đó có cả những phiên bản giới hạn hoặc bản collab.
+                            </p>
+                            <div>
+                                <img src="~/Content/img/NIKE/giay-nike-air-force-1-chinh-hang-2.jpg" alt="">
+                            </div>
+                            <p>
+                                Có thể kể đến đôi đình đám hiện nay như Nike Air Foce 1 Paranoise “tróc sơn”- phiên bản collab với biểu tượng thời trang Hàn Quốc G-Dragon. Hay sự kết hợp giữa Nike và anh chàng rapper da màu Travis Scott tạo nên đôi giày Air Force 1 x Travis Scott đang làm mưa làm gió trong ngành giày sneaker.
+                            </p>
+                            <h2>Giá giày Nike Air Force 1</h2>
+                            <p>
+                                Là một mẫu giày “quốc dân” và là một trong những mẫu sneaker bán chạy nhất trên thế giới, thế nhưng giá 1 đôi Air Force 1 chính hãng có vẻ “khiêm tốn” hơn một chút so với những dòng giày cao cấp khác.
+                            </p>
+                            <p>
+                                Mức giá cho một đôi AF1 chính hãng thường thường nằm ở phân khúc tầm trung, dao động từ 2.000.000 – 4.000.000 đồng, sự chênh lệch sẽ tuỳ vào từng bản phối hoặc mẫu mã. Bạn cũng cần lưu ý rằng, khi mua 1 đôi Air Force real tại store của hãng ở Việt Nam, thì giá có thể sẽ đắt hơn bởi nhiều chi phí phát sinh.
+                            </p>
+                            <p>
+                                Với mức độ phổ biến của AF1, cộng thêm mức giá khá hợp lý thì nếu bạn đã có tài chính, sẽ rất dễ để sở hữu một đôi chỉ với giá từ 2 triệu đồng. Tuy nhiên, con số này đối với các bạn học sinh, sinh viên thì cũng đáng để suy ngẫm.
+                            </p>
+                            <h2>So sánh Nike Air Force 1 chính hãng với replica 1:1</h2>
+                            <p>
+                                Từ khi ra mắt cho đến nay, Nike Air Force 1 vẫn duy trì tôn chỉ về việc giữ nguyên kiểu dáng và chỉ thay đổi về màu sắc. Cũng chính bởi thiết kế trường tồn đó mà Air Force 1 đã trở thành một biểu tượng kinh điển của hãng Nike và chiếm được sự yêu thích cực lớn của các tín đồ sneaker.
+                            </p>
+                            <p>
+                                Để so sánh đôi Nike Air Force 1 real với replica 1:1 thì thực sự khó. Bởi bản chất hàng rep 1:1 là sản phẩm sao y bản chính đến 95%, từ chất da cho đến form dáng, nhưng lại có mức giá thành rẻ hơn rất nhiều so với hàng auth. Vì vậy, nếu muốn sắm cho mình một đôi Nike Air Force real thì hãy đến những store của hãng để bảo đảm độ uy tín. Thế nhưng khi bạn chưa có đủ tài chính, thì giày AF1 rep 1:1 chính là sự lựa chọn tốt nhất.
+                            </p>
+                            <p>
+                                Đi vào chi tiết khi so sánh AF1 chính hãng và rep 1:1, khi nhìn qua thì chúng ta sẽ không thể phân biệt được vì như đã nói, chất da giày và vẻ ngoài của bản rep 1:1 không thua kém gì bản real. Tuy nhiên, nếu soi kỹ từng chi tiết, bạn sẽ thấy một số ít sự khác nhau.
+                            </p>
+                            <h3>Đối với Nike AF1 chính hãng</h3>
+                            <div>
+                                <img src="~/Content/img/NIKE/giay-nike-af1-dragon-paranoise.png" alt="">
                                 <div>
-                                    <img src="~/Content/img/NIKE/nike-af1-dragon-paranoise-2.jpg" alt="">
+                                    <em>Giày Chính Hãng Nike AF1</em>
                                 </div>
-                                <p>
-                                    Phần upper có cấu tạo thông minh với những lỗ thoáng khí nằm ngay trên thân giày, giúp người dùng luôn có được cảm giác sạch sẽ, khô ráo khi mang dù trong điều kiện thời tiết như thế nào.
-                                </p>
-                                <p>
-                                    Đế giày sử dụng đế cao su cao cấp với độ đàn hồi tốt, độ bám cao và rất chắc chắn nên bạn có thể trải nghiệm tự tin trên mọi điều kiện địa hình khác nhau. Bên cạnh đó, phần đế giày cao, đẹp mắt với một đường viên nổi bật ôm trọn gót với dòng chữ “AIR”, đồng thời giúp người dùng ăn gian chiều cao một cách lý tưởng.
-                                </p>
+                            </div>
+                            <p>
+                                Đầu tiên,
+                                <em><strong>chất da cao cấp rất bóng mịn</strong></em>
+                                khi sờ vào. Đồng thời, giày sẽ có những chi tiết nổi bật để nhận diện như: chữ “AIR” được in nổi ở phần đế, những hãng lỗ thoáng khí trên bề mặt upper, miếng cao su có hoạ tiết sao được gắn ở phần mũi giày, dấu swoosh huyền thoại hay là phần tem mác được in trong miếng lót giày. Nói chung, đã là bản chính hãng thì sẽ luôn hoàn hảo, công phu và được gia công cẩn thận. Và Nike Air Force 1 cũng không ngoại lệ, đặc biệt là khi nó còn là sản phẩm bán chạy nhất của nhà mốt Nike.
+                            </p>
+                            <h3>Đối với Nike AF1 rep 1:1</h3>
+                            <p>
+                                Khi sờ vào phần da giày, chất da của nó cũng ngang ngửa bản chính. Nếu hàng real được 10 điểm về chất da cao cấp, thì AF1 rep 1:1 cũng phải được ít nhất 9 điểm. Tất cả những chi tiết như đường kim, mũi chỉ cũng được gia công rất tỉ mỉ. Hơn thế, nếu là hàng chuẩn replica 1:1, logo Nike được thuê phía sau gót giày cũng vô cùng hoàn hảo, giống hệt so với giày auth. Điểm khác nhau ở đây chính là Nike Air Force rep 1:1 sẽ không có phần tem và mác giống với giày real ở phần miếng lót giày. Tuy nhiên điều này thực sự không ảnh hưởng đến chất liệu của đôi giày, khi mà bản AF1 rep 1:1 vẫn áp dụng miếng đệm khí “Air” bên trong đế giày.
+                            </p>
+                            <div>
+                                <img src="~/Content/img/NIKE/nike-air-force-1-low-replica-7.jpg" alt="">
                                 <div>
-                                    <img src="~/Content/img/NIKE/de-giay-air-force-1-dragon-paranoise.jpg" alt="">
+                                    <em>Nike AF1 full trắng loại chuẩn replica 1:1 có thể thấy từng đường kim khâu mũi chỉ rất hoàn thiện.</em>
                                 </div>
+                            </div>
+                            <p>
+                                Bạn cũng cần lưu ý rằng, kể cả Nike AF1 chính hãng thì không phải đôi nào cũng sẽ hoàn hảo 100%. Vậy nên, dù là real hay rep 1:1, chúng ta nên check kỹ giày trước khi mua nhé.
+                            </p>
+                            <h2>Địa chỉ mua giày Nike Air Force 1 Rep 1:1 uy tín</h2>
+                            <p>
+                                Với độ phủ sóng dày đặc của Nike thì không thể tránh khỏi tình trạng xuất hiện hàng kém chất lượng nhưng bán với mức giá trên trời.
+                            </p>
+                            <p>
+                                Vậy nên khi có nhu cầu mua cho mình một đôi Air Force 1, bạn cần tìm hiểu rõ ràng các thông tin trên Website hoặc đến tận nơi để kiểm chứng.
+                            </p>
+                            <p>
+                                Với cam kết bảo hành và uy tín trên thị trường, Shopgiayreplica.com chuyên cung cấp những mẫu giày Nike Air Force chuẩn Replica 1:1 full size nam nữ, đầy đủ phụ kiện như hàng chính hãng và đa dạng các phối màu, từ những mẫu Nike White Air Force 1, Just Do It,… cho đến những bản mới nhất, thời trang nhất như AF1 Shadow Spruce Aura, hay Af1 G-Dragon Korea Exclusive,…
+                            </p>
+                            <p>
+                                Liên hệ ngay với cửa hàng để được tư vấn, phục vụ tận tình và nhận được những ưu đãi hấp dẫn nhất!<br>
+                                ----------------------
+                            </p>
+                        </div>
+                    }
+                    else if (idCur == IDTypeAdidas)
+                    {
+                        <div class="nav__detail-descript">
+                            <h2>1. Adidas Yeezy – “cú hit” cực mạnh của hãng giày 3 sọc.</h2>
+                            <p>
+                                Giày Adidas Yeezy ngay khi trình làng đã tạo ra một cơn sốt làm điên đảo các tín đồ thời trang trên thế giới và “làm mưa làm gió” suốt những năm qua.<br>Trong nhiều thập kỷ, thương hiệu Nike được coi là biểu tượng hàng đầu của giới sneaker. Thế nhưng Kanye West ngay khi đầu quân cho Adidas đã bùng nổ cuộc chiến “ngang tài ngang sức” giữa 2 thương hiệu với cái tên Yeezy.
+                            </p>
+                            <h2>2. Vì sao giày Yeezy lại HOT đến thế?</h2>
+                            <p>
+                                Còn nhớ là vào tháng 4/2018, khi Yeezy vừa về Việt Nam, các tín đồ sneaker đã ráo riết xếp hàng dài ở Bitexco để chờ rinh “em nó” về. Vậy những lý do nào khiến Yeezy lại được săn lùng đến như vậy?
+                            </p>
+                            <ul>
+                                <li><p>Bởi sự ảnh hưởng của người thiết kế ra siêu phẩm này. Không chỉ vậy, mẫu giày còn được những ngôi sao hạng A cho đến những fashionista nhiệt tình săn lùng.</p></li>
+                                <li><p>Bởi mẫu giày Yeezy không được hãng sản xuất nhiều và tung ra ồ ạt, mà mỗi lần release chỉ nhỏ giọt khoảng vài trăm đôi. Vì vậy, mỗi store thường sẽ cháy hàng chỉ trong vòng vài giờ.</p></li>
+                                <li><p>Cũng chính bởi sự khan hiếm khi mua trực tiếp, mà giá resell thậm chí lên đến 15-20 triệu đồng. Điều này lại càng làm tăng thêm giá trị của đôi giày, khiến cho những tay chơi giày phải sở hữu cho bằng được nhằm thỏa mãn niềm đam mê.</p></li>
+                                <li><p>Sự mới lạ trong thiết kế:</p></li>
+                            </ul>
+                            <p>
+                                Giữa thị trường giày sneaker đang ngày càng bão hoà với những thiết kế không mấy nổi bật. Kanye West đã khoác lên cho Yeezy một diện mạo hết sức độc đáo như chính phong cách cá tính, phóng khoáng của anh.
+                            </p>
+                            <p>
+                                Điểm nổi bật nhất đó là các dòng giày Yeezy của Adidas đều được sử dụng công nghệ Boost nén, đem lại độ êm ái và độ đàn hồi cực tốt.
+                            </p>
+                            <p>
+                                Hơn nữa, việc áp dụng công nghệ dệt cao cấp kết hợp với những chất liệu khác nhau và cấu trúc cũng khác nhau đã tạo nên sự thu hút và đa dạng cho dòng giày này.
+                            </p>
+
+
+                            <h2>3. Những mẫu giày nổi bật của Adidas Yeezy</h2>
+                            <ul>
+                                <li><strong>Giày Yeezy 350</strong></li>
+                            </ul>
+                            <p>
+                                Thiết kế của dòng Yeezy 350 được coi là sự phá vỡ mọi khuôn khổ của một đôi sneaker thông thường và đây là sản phẩm thành công nhất của Adidas.
+                            </p>
+                            <p>
+                                Chất liệu vải Primeknit được sử dụng chủ đạo trên thân giày. Đặc trưng của loại vải này là có độ co giãn tối đa và độ thoáng khí cực tốt. Vì thế, bạn có thể thoải mái hoạt động mà không lo bí bách. Ngoại hình giày được phủ bởi những gam màu trung tính, không quá sặc sỡ nên phù hợp với mọi đối tượng.<br>
+                                Nổi bật nhất trong dòng này là phiên bản giày Adidas Yeezy 350 V2. Bạn có thể tham khảo những bản phối màu hot nhất của Yeezy 350 v2.
+                            </p>
+                            <ul><li><strong>Giày Yeezy 500</strong></li></ul>
+                            <p>
+                                Thiết kế của giày Yeezy 500 đậm chất của những đôi chunky cồng kềnh với phần đế khá to, pha trộn giữa phong cách retro và hiện đại. Toàn bộ đôi giày là một thể thống nhất liền mạch với 2 phần cơ bản đó là Midsole và Upper. Phần thân phía trên của giày sử dụng chất liệu vải mesh khá dày, có độ cứng thích hợp. Vì thế tạo nên form giày tốt nhất dù sử dụng lâu dài. Còn nửa thân phía dưới được cấu tạo từ cao su cứng với các đường cong lồi lõm, uốn lượn tạo hiệu ứng thị giác mạnh mẽ.
+                            </p>
+                            <p>
+                                Đặc biệt, dù không có nhiều phối màu như “người anh em” trước đó, nhưng lại có màu phối đơn giản, tinh tế. Yeezy 500 hấp dẫn hơn bao giờ hết bởi nó có thể dễ dàng phối với mọi phong cách thời trang khác nhau.
+                            </p>
+                            <ul><li><strong>Giày Yeezy 700</strong></li></ul>
+                            <p>
+                                Như phiên bản V2 nổi bật ở phần thân giày với biểu tượng 3 sọc phản quang nằm trên vải dệt có độ co dãn (cải tiến hơn vải Mesh ở bản V1). Những phiên bản: Yeezy 700 Mauve, Yy 700 V2 Static, Vanta, Inertia hay Yeezy 700 V3 Azael, Alvah… đều được khách hàng ưa chuộng bởi thiết kế mạnh mẽ, bụi bặm và độc đáo.
+                            </p>
+                            <h3>Thăng trầm của thương hiệu giày Adidas</h3>
+                            <p>
+                                Sau khi Adi – người cha đời, Adidas được tiếp tục tiếp quản bởi con trai của ông và đã đạt được các thành công đáng kể, vượt qua Puma của người bác.
+                            </p>
+                            <p>
+                                Tuy nhiên, sau khi người con qua đời, CEO của Adidas đã có những bước đi sai lầm khiến cho công ty bị đối thủ lớn nhất là Nike vượt mặt.
+                            </p>
+                            <p>
+                                Tình hình chỉ khấm khá hơn khi CEO mới – Rene Jaggi, đã đặt mục tiêu tìm lại giá trị cốt lõi của Adidas, không chạy đua theo thị trường và đem văn hóa làm việc mới vào công ty.
+                            </p>
+                            <p>
+                                Cũng trong quãng thời gian này, hãng giày Adidas cũng tìm ra được biểu tượng riêng cho thương hiệu của mình. Đó là logo 3 sọc chéo nhau, song song và cỏ 3 lá.
+                            </p>
+                            <p>
+                                Không còn nữa triết lý “Chỉ mang đến những gì tốt nhất cho vận động viên”, mà là luôn mang lại những đôi giày với trải nghiệm tốt nhất cho tất cả mọi người.
+                            </p>
+                            <p>
+                                Từ đó, Adidas không chỉ sản xuất giày dành riêng cho mục đích luyện tập, mà sản xuất cả các mẫu giày thể thao dòng Lifewear nữa. Ví dụ đó là các mẫu giày Stan Smith, Adidas Super star, Yeezy ...
+                            </p>
+                            <div>
+                                <img src="~/Content/img/Adidas/1.jpg" alt="">
+                            </div>
+                            <div>
+                                <img src="~/Content/img/Adidas/2.jpg" alt="">
+                            </div>
+                            <div>
+                                <img src="~/Content/img/Adidas/3.jpg" alt="">
+                            </div>
+                            <div>
+                                <img src="~/Content/img/Adidas/4.jpg" alt="">
+                            </div>
+                            <p>
+                                Dần dần, <strong>thương hiệu Adidas đã lấy lại vị thế trong thị trường giày thể thao của mình</strong>. Không chỉ thế, hãng thời trang 3 sọc còn có các hợp đồng quảng cáo với các vận động viên hàng đầu thế giới để khẳng định lại tên tuổi của mình và lần lượt tung ra các bản Collab Sneaker hết sức mỹ mãn cho fan lác mắt chơi.
+                            </p>
+                            <h3>Tạo ra thị trường quần áo Adidas</h3>
+                            <p>
+                                Theo thời gian, không chỉ dừng lại ở thị trường giày sneaker, Adidas biết rằng mình phải nhảy vào cả thị trường quần áo và phụ kiện thể thao nữa. Và không ai bất ngờ, Adidas lại nhanh chóng trở thành số 1 trong lĩnh vực quần áo thể thao.
+                            </p>
+                        </div>
+                    }
+                    else if (idCur == IDTypeLuxury)
+                    {
+                        <div class="nav__detail-descript">
+                            <p>
+                                <strong>Giày Alexander Mcqueen</strong> luôn được săn đón nhiệt tình trên khắp thế giới bởi thiết kế tinh tế, chủ đạo là màu trắng cực dễ phối đồ.
+                            </p>
+                            <p>
+                                Có lẽ khi đam mê nền văn hoá “sát mặt đất”, không ai là không quen với cái tên Alexander McQ. Thương hiệu này có độ phủ sóng dày đặc ở hơn 50 quốc gia, tọa lạc ở những kinh đô thời trang hàng đầu thế giới.
+                            </p>
+                            <p>
+                                Alexander Mcqueen có thể coi là một trong những huyền thoại của sneaker trắng, bên cạnh những cái tên đình đám như Adidas Stan Smith, Superstar, Nike Air Force 1,… dù “sinh sau đẻ muộn”. Vậy lý do nào khiến Mcqueen lại vụt sáng và chiếm lĩnh được sân chơi thời trang nhanh đến như vậy? Hãy cùng khám phá ngay trong bài viết dưới đây nhé!
+                            </p>
+                            <h2>1. <strong>Lịch sử của thương hiệu cao cấp Alexander Mcqueen</strong></h2>
+                            <p>
+                                <strong>Alexander Mcqueen đang là một trong những thương hiệu cao cấp bậc nhất</strong>, đi đầu mọi xu hướng. Dù được thành lập khá muộn, từ năm 1992 bởi nhà thiết kế “Lee Alexander McQueen” (1969 – 2010), nhưng hãng để lại dấu ấn sâu sắc trong làng thời trang thế giới.
+                            </p>
+                            <p>
+                                Nhắc đến thương hiệu này, người ta chắc hẳn sẽ nhớ ngay tới những chiếc áo mang sự sáng tạo vượt bậc của nhà thiết kế người Anh lừng lẫy. Thế nhưng, thật sự là một điều thiếu sót khi không nhắc đến những ngôi sao mới của đế chế này.
+                            </p>
+                            <p>
+                                Đó là sự ra đời của những dòng giày dép, từ giày cao gót cho đến sneaker. Mỗi khi một phiên bản của McQ sneakertrình làng đều khiến người ta mê mệt mà săn lùng cho bằng được bằng thiết kế tinh tế và sang trọng.
+                            </p>
+                            <p>
+                                Trong đó, chúng ta không thể phủ nhận được dòng Alexander Mcqueen sneaker (gọi tắt là giày Mcqueen) đến từ Anh Quốc đã trở thành item footwear phổ biến và có sức lôi cuốn mạnh mẽ nhất hiện nay. Có thể nói, nếu là giới trẻ, không ai là không muốn sở hữu cho mình một đôi trong tủ shoes của mình.
+                            </p>
+                            <div>
+                                <img src="~/Content/img/Luxury/mcqueen-got-den.jpg" alt="">
+                            </div>
+
+                            <h2>2. <strong>Những điểm nổi bật trong thiết kế của giày Alexander Mcqueen</strong></h2>
+                            <h3><strong>Đánh giá tổng thể</strong></h3>
+                            <p>
+                                Khi vừa ra mắt, <strong>giày Mcqueen</strong> đã dấy lên một cuộc tranh cãi khi có vẻ ngoài rất giống với Adidas Stan Smith. Tuy nhiên, nếu bạn ngắm nghía em nó kỹ hơn một chút, thì những điểm khác biệt của sneaker McQ sẽ khiến bạn vô cùng thích thú đấy.
+                            </p>
+                            <div class="nav__detail-quote">
                                 <p>
-                                    Đơn giản nhưng với những phối màu đầy tinh tế, không quá cầu kỳ, giày Nike AF1 luôn phù hợp với mọi khách hàng và không hề bị lỗi mốt theo thời gian. Đặc biệt, chính điều này cũng giúp người dùng dễ dàng vệ sinh, bảo quản giày tốt hơn.
-                                </p>
-                                <h2>Đa dạng phối màu và kiểu dáng</h2>
-                                <p>
-                                    Hiện nay giày thể thao Nike AF1 gồm 3 kiểu dáng:
-                                    <em><strong>High-Mid-Low</strong></em>
-                                    (cao-vừa-thấp cổ). Hãng đã có hơn 1860 bản phối màu được tung ra, trong đó có cả những phiên bản giới hạn hoặc bản collab.
-                                </p>
-                                <div>
-                                    <img src="~/Content/img/NIKE/giay-nike-air-force-1-chinh-hang-2.jpg" alt="">
-                                </div>
-                                <p>
-                                    Có thể kể đến đôi đình đám hiện nay như Nike Air Foce 1 Paranoise “tróc sơn”- phiên bản collab với biểu tượng thời trang Hàn Quốc G-Dragon. Hay sự kết hợp giữa Nike và anh chàng rapper da màu Travis Scott tạo nên đôi giày Air Force 1 x Travis Scott đang làm mưa làm gió trong ngành giày sneaker.
-                                </p>
-                                <h2>Giá giày Nike Air Force 1</h2>
-                                <p>
-                                    Là một mẫu giày “quốc dân” và là một trong những mẫu sneaker bán chạy nhất trên thế giới, thế nhưng giá 1 đôi Air Force 1 chính hãng có vẻ “khiêm tốn” hơn một chút so với những dòng giày cao cấp khác.
-                                </p>
-                                <p>
-                                    Mức giá cho một đôi AF1 chính hãng thường thường nằm ở phân khúc tầm trung, dao động từ 2.000.000 – 4.000.000 đồng, sự chênh lệch sẽ tuỳ vào từng bản phối hoặc mẫu mã. Bạn cũng cần lưu ý rằng, khi mua 1 đôi Air Force real tại store của hãng ở Việt Nam, thì giá có thể sẽ đắt hơn bởi nhiều chi phí phát sinh.
-                                </p>
-                                <p>
-                                    Với mức độ phổ biến của AF1, cộng thêm mức giá khá hợp lý thì nếu bạn đã có tài chính, sẽ rất dễ để sở hữu một đôi chỉ với giá từ 2 triệu đồng. Tuy nhiên, con số này đối với các bạn học sinh, sinh viên thì cũng đáng để suy ngẫm.
-                                </p>
-                                <h2>So sánh Nike Air Force 1 chính hãng với replica 1:1</h2>
-                                <p>
-                                    Từ khi ra mắt cho đến nay, Nike Air Force 1 vẫn duy trì tôn chỉ về việc giữ nguyên kiểu dáng và chỉ thay đổi về màu sắc. Cũng chính bởi thiết kế trường tồn đó mà Air Force 1 đã trở thành một biểu tượng kinh điển của hãng Nike và chiếm được sự yêu thích cực lớn của các tín đồ sneaker.
-                                </p>
-                                <p>
-                                    Để so sánh đôi Nike Air Force 1 real với replica 1:1 thì thực sự khó. Bởi bản chất hàng rep 1:1 là sản phẩm sao y bản chính đến 95%, từ chất da cho đến form dáng, nhưng lại có mức giá thành rẻ hơn rất nhiều so với hàng auth. Vì vậy, nếu muốn sắm cho mình một đôi Nike Air Force real thì hãy đến những store của hãng để bảo đảm độ uy tín. Thế nhưng khi bạn chưa có đủ tài chính, thì giày AF1 rep 1:1 chính là sự lựa chọn tốt nhất.
-                                </p>
-                                <p>
-                                    Đi vào chi tiết khi so sánh AF1 chính hãng và rep 1:1, khi nhìn qua thì chúng ta sẽ không thể phân biệt được vì như đã nói, chất da giày và vẻ ngoài của bản rep 1:1 không thua kém gì bản real. Tuy nhiên, nếu soi kỹ từng chi tiết, bạn sẽ thấy một số ít sự khác nhau.
-                                </p>
-                                <h3>Đối với Nike AF1 chính hãng</h3>
-                                <div>
-                                    <img src="~/Content/img/NIKE/giay-nike-af1-dragon-paranoise.png" alt="">
-                                    <div>
-                                        <em>Giày Chính Hãng Nike AF1</em>
-                                    </div>
-                                </div>
-                                <p>
-                                    Đầu tiên,
-                                    <em><strong>chất da cao cấp rất bóng mịn</strong></em>
-                                    khi sờ vào. Đồng thời, giày sẽ có những chi tiết nổi bật để nhận diện như: chữ “AIR” được in nổi ở phần đế, những hãng lỗ thoáng khí trên bề mặt upper, miếng cao su có hoạ tiết sao được gắn ở phần mũi giày, dấu swoosh huyền thoại hay là phần tem mác được in trong miếng lót giày. Nói chung, đã là bản chính hãng thì sẽ luôn hoàn hảo, công phu và được gia công cẩn thận. Và Nike Air Force 1 cũng không ngoại lệ, đặc biệt là khi nó còn là sản phẩm bán chạy nhất của nhà mốt Nike.
-                                </p>
-                                <h3>Đối với Nike AF1 rep 1:1</h3>
-                                <p>
-                                    Khi sờ vào phần da giày, chất da của nó cũng ngang ngửa bản chính. Nếu hàng real được 10 điểm về chất da cao cấp, thì AF1 rep 1:1 cũng phải được ít nhất 9 điểm. Tất cả những chi tiết như đường kim, mũi chỉ cũng được gia công rất tỉ mỉ. Hơn thế, nếu là hàng chuẩn replica 1:1, logo Nike được thuê phía sau gót giày cũng vô cùng hoàn hảo, giống hệt so với giày auth. Điểm khác nhau ở đây chính là Nike Air Force rep 1:1 sẽ không có phần tem và mác giống với giày real ở phần miếng lót giày. Tuy nhiên điều này thực sự không ảnh hưởng đến chất liệu của đôi giày, khi mà bản AF1 rep 1:1 vẫn áp dụng miếng đệm khí “Air” bên trong đế giày.
-                                </p>
-                                <div>
-                                    <img src="~/Content/img/NIKE/nike-air-force-1-low-replica-7.jpg" alt="">
-                                    <div>
-                                        <em>Nike AF1 full trắng loại chuẩn replica 1:1 có thể thấy từng đường kim khâu mũi chỉ rất hoàn thiện.</em>
-                                    </div>
-                                </div>
-                                <p>
-                                    Bạn cũng cần lưu ý rằng, kể cả Nike AF1 chính hãng thì không phải đôi nào cũng sẽ hoàn hảo 100%. Vậy nên, dù là real hay rep 1:1, chúng ta nên check kỹ giày trước khi mua nhé.
-                                </p>
-                                <h2>Địa chỉ mua giày Nike Air Force 1 Rep 1:1 uy tín</h2>
-                                <p>
-                                    Với độ phủ sóng dày đặc của Nike thì không thể tránh khỏi tình trạng xuất hiện hàng kém chất lượng nhưng bán với mức giá trên trời.
-                                </p>
-                                <p>
-                                    Vậy nên khi có nhu cầu mua cho mình một đôi Air Force 1, bạn cần tìm hiểu rõ ràng các thông tin trên Website hoặc đến tận nơi để kiểm chứng.
-                                </p>
-                                <p>
-                                    Với cam kết bảo hành và uy tín trên thị trường, Shopgiayreplica.com chuyên cung cấp những mẫu giày Nike Air Force chuẩn Replica 1:1 full size nam nữ, đầy đủ phụ kiện như hàng chính hãng và đa dạng các phối màu, từ những mẫu Nike White Air Force 1, Just Do It,… cho đến những bản mới nhất, thời trang nhất như AF1 Shadow Spruce Aura, hay Af1 G-Dragon Korea Exclusive,…
-                                </p>
-                                <p>
-                                    Liên hệ ngay với cửa hàng để được tư vấn, phục vụ tận tình và nhận được những ưu đãi hấp dẫn nhất!<br>
-                                    ----------------------
+                                    Bạn đang thắc mắc <strong>Giày Mcqueen auth giá bao nhiêu?</strong>
                                 </p>
                             </div>
-                            break;
-                        case 3:
-                            <div class="nav__detail-descript">
-                                <h2>1. Adidas Yeezy – “cú hit” cực mạnh của hãng giày 3 sọc.</h2>
+                            <p>
+                                Tổng thể đôi sneaker là một màu trắng được gia công từ chất liệu da cao cấp. Trên lưỡi gà và gót giày, dòng chữ Alexander McQueen được in nổi bật, tạo ấn tượng phong cách rõ rệt cho người mang. Đặc biệt, phần gót được làm bởi chất liệu da lộn, hoàn toàn khác so với phần thân.
+                            </p>
+                            <p>
+                                Hơn nữa, mỗi bản phối lại mang đến những màu sắc khác nhau ở phần gót giày; còn tất cả những chi tiết khác, từ upper cho đến từng đường kim mũi chỉ, vẫn luôn giữ màu trắng tinh tế và đặc trưng của hãng.
+                            </p>
+                            <div><img src="~/Content/img/Luxury/mcqueen-like-auth.jpg" alt=""></div>
+                            <h3><strong>Bộ đế “bánh mì” giúp ăn gian chiều cao</strong></h3>
+                            <p>
+                                Phần <strong>đế của  McQ shoes khá dày và tính trendy</strong> cực cao với thiết kế mang tính xu hướng “<strong>giày bánh mì</strong>. <strong>Bộ đế của đôi sneaker này cao đến 5cm</strong>, giúp bạn tăng chiều cao biết bao nhiêu đấy.
+                            </p>
+                            <div><img src="~/Content/img/Luxury/mcqueen-de-cao.jpg" alt=""></div>
+                            <p>Hơn thế, nó còn được gia công từ chất liệu cao su cao cấp, giúp chống trơn trượt và di chuyển một cách dễ dàng, thoải mái.</p>
+                            <h3><strong>Tính ứng dụng cao</strong></h3>
+                            <p>
+                                Nhìn chung, <strong>Mcqueen sneaker mang hướng unisex</strong>, phù hợp cho cả nam và nữ.
+                            </p>
+                            <p>
+                                Và cũng chẳng cần giải thích quá nhiều tính ứng dụng của những đôi sneaker trắng hiện nay như thế nào thì bạn cũng sẽ tự quan sát được sự lan toả của chúng.
+                            </p>
+                            <p>
+                                Mcqueen sneaker trở thành con cưng của các tín đồ thời trang, khi nó có mặt từ thời trang High-end cho đến thời trang đường phố. Thậm chí, cũng không quá khó để bắt gặp các ngôi sao đình đám diện Mcqueen sneaker tại những sự kiện lớn.
+                            </p>
+                            <p>
+                                Tính phối đồ của mẫu sneaker này thực sự quá cao, bạn có thể phối với áo phông, áo sơ mi, quần jeans, quần short,…hay ngay cả những bộ suit lịch lãm
+                            </p>
+                            <div><img src="~/Content/img/Luxury/outfit-mcqueen-nam.jpg" alt=""></div>
+                            <h2><strong>Mua giày Alexander Mcqueen ở đâu?</strong></h2>
+                            <p>
+                                Với chất lượng và danh tiếng như vậy, chắc chắn <strong>giá của một đôi Alexander Mcqueen sneaker chính hãng sẽ không bao giờ là rẻ. Giá của một đôi Mcqueen real dao động vào khoảng trên dưới 10 triệu đồng</strong>, nhưng đó là với những bản Classic.
+                            </p>
+                            <p>
+                                Còn với một số bản thiết kế cầu kỳ hoặc giới hạn, giá của chúng sẽ đắt gấp đôi, thậm chí là gấp ba, khoảng 20 triệu đồng trở lên. <em>Bạn có thể đặt mua đôi Mcqueen auth tại trang chủ của Alexander Mcqueen hoặc trong các trung tâm thương mại lớn trên thế giới</em>.
+                            </p>
+                            <p>
+                                Tuy nhiên, đối với những ai chưa đáp ứng được về mặt giá tiền thì những mẫu Mcqueen siêu cấp và hàng replica 1:1 chính là sự lựa chọn không thể bỏ qua, đặc biệt là với những bạn học sinh, sinh viên.
+                            </p>
+                            <div class="nav__detail-quote">
                                 <p>
-                                    Giày Adidas Yeezy ngay khi trình làng đã tạo ra một cơn sốt làm điên đảo các tín đồ thời trang trên thế giới và “làm mưa làm gió” suốt những năm qua.<br>Trong nhiều thập kỷ, thương hiệu Nike được coi là biểu tượng hàng đầu của giới sneaker. Thế nhưng Kanye West ngay khi đầu quân cho Adidas đã bùng nổ cuộc chiến “ngang tài ngang sức” giữa 2 thương hiệu với cái tên Yeezy.
+                                    Vậy có lẽ bạn cần biết <strong>cách phân biệt giày Mcqueen siêu cấp và rep 1:1?</strong>
                                 </p>
-                                <h2>2. Vì sao giày Yeezy lại HOT đến thế?</h2>
-                                <p>
-                                    Còn nhớ là vào tháng 4/2018, khi Yeezy vừa về Việt Nam, các tín đồ sneaker đã ráo riết xếp hàng dài ở Bitexco để chờ rinh “em nó” về. Vậy những lý do nào khiến Yeezy lại được săn lùng đến như vậy?
-                                </p>
+                            </div>
+                            <p>
+                                Ghé thăm shop để rinh ngay một đôi Alexander Mcqueen chuẩn Replica 1:1 hoặc siêu cấp với độ hoàn thiện chuẩn đến 99% so với bản chính hãng. Toàn bộ sản phẩm có tại cửa hàng cam kết chất lượng với đầy đủ phụ kiện, hóa đơn như hàng auth và có mức giá tốt nhất hiện nay.
+                            </p>
+                            <p>
+                                Hy vọng bài viết trên đã thỏa mãn sự tò mò của bạn, và đã trả lời được câu hỏi <strong>giày Mcqueen là gì, sản xuất ở đâu</strong> của các bạn!<br>
+                                Cảm ơn các bạn đã dành thời gian đọc bài viết này, hãy để ý bởi vì chúng mình sẽ còn tiếp tục cung cấp thêm nhiều <em>thông tin về đôi sneaker </em>siêu trendy này nữa nhé!
+                            </p>
+                        </div>
+                    }
+                    else if (idCur == IDTypeMLB)
+                    {
+                        <div class="nav__detail-descript">
+                            <p>
+                                <strong>Giày MLB – Chunky Sneaker</strong> “bánh mỳ” chính là mẫu vẫn luôn HOT TREND từ khá lâu với form rất HOT-HIT, nổi bật, cool ngầu. Không chỉ những tín đồ mê giày mà giới trẻ trên toàn thế giới đã phải chao đảo với những siêu phẩm của MLB. Vậy điều gì đã khiến chúng được yêu thích đến thế. Cùng Shopgiayreplica điểm qua những mẫu sneaker Mlb đình đám suốt 2 năm gần đây như Mlb Ny, La hay Boston
+                            </p>
+                            <h2>1. Lịch sử cho tên gọi MLB</h2>
+                            <p>
+                                MLB, thương hiệu giày nổi tiếng, không hề xuất phát từ yếu tố thời trang. Đây thực chất là từ viết tắt của Major League Baseball, một tổ chức bóng chày chuyên nghiệp. Tổ chức này nằm trong top có lịch sử lâu đời nhất với gần 30 đội bóng đến từ nhiều bang khác nhau của Mỹ và Canada.<br>
+                                Thương hiệu MLB được truyền cảm hứng từ đó.
+                            </p>
+                            <p>
+                                Những đôi giày mang đậm tinh thần thể thao đã chinh phục hoàn toàn những tín đồ đam mê bóng chày. Không chỉ thế, những dòng sản phẩm này ngay lập tức tạo nên trendy, ảnh hưởng lớn trong làng thời trang thế giới.
+                            </p>
+
+                            <h2>2. Giày MLB đến từ đâu?</h2>
+                            <p>
+                                Mọi người biết đến thương hiệu MLB được phổ biến mạnh mẽ ở Hàn Quốc, Mỹ và Canada. Tuy nhiên, không phải ai cũng biết thương hiệu này đến từ đâu.
+                            </p>
+                            <p>
+                                Những đôi chunky MLB luôn biết tạo điểm nhấn, đậm chất đường phố với logo của 4 đội bóng chày danh tiếng. Các biểu tượng đặc trưng mà giới trẻ thường gặp ở MLB là NY (New York Yankees), LA Dodgers, Boston Red Sox và St. Louis Cardinal. Chính điều này đã khiến mọi người liên tưởng tới Mỹ hay một quốc gia phương Tây nào đó. Thực chất MLB được sản xuất ở Hàn Quốc.
+                            </p>
+                            <h2>3. Đôi nét về sneaker MLB</h2>
+                            <p>
+                                Thương hiệu MLB vẫn liên tục cho ra đời những dòng sản phẩm mới. Bên cạnh những phiên bản new thì một số dòng vẫn giữ vững phong độ siêu phẩm huyền thoại. Hiện tại về cơ bản, MLB có 2 dòng sneaker chính là: MLB Big Ball Chunky P Boston và MLB Big Ball Chunky A.
+                            </p>
+                            <div>
+                                <img src="~/Content/img/MLB/1.jpg" alt="">
+                            </div>
+                            <p>
+                                Nếu bạn thắc mắc
+                                <em><strong>giày MLB cao bao nhiêu cm</strong></em>
+                                thì đây là đôi lý tưởng cho ai muốn ăn gian chiều cao (hack dáng đối ta với phần đế độn thêm 5 cm). Với thiết kế độc đáo, cá tính, MLB khiến bản trở nên năng động, tự tin trong từng bước sải chân. Chắc chắn đây là đôi không thể thiếu trong tủ giày.
+                            </p>
+                            <h2>4. So sánh giá Mlb auth và rep 1:1</h2>
+                            <p>
+                                Hiện nay, trên thị trường giá giày sneaker MLB chính hãng rơi vào khoảng từ 2.100.000đ đến 2.600.000đ, dao động tùy thuộc nhà cung cấp. Chi tiết có thể tham khảo:
                                 <ul>
-                                    <li><p>Bởi sự ảnh hưởng của người thiết kế ra siêu phẩm này. Không chỉ vậy, mẫu giày còn được những ngôi sao hạng A cho đến những fashionista nhiệt tình săn lùng.</p></li>
-                                    <li><p>Bởi mẫu giày Yeezy không được hãng sản xuất nhiều và tung ra ồ ạt, mà mỗi lần release chỉ nhỏ giọt khoảng vài trăm đôi. Vì vậy, mỗi store thường sẽ cháy hàng chỉ trong vòng vài giờ.</p></li>
-                                    <li><p>Cũng chính bởi sự khan hiếm khi mua trực tiếp, mà giá resell thậm chí lên đến 15-20 triệu đồng. Điều này lại càng làm tăng thêm giá trị của đôi giày, khiến cho những tay chơi giày phải sở hữu cho bằng được nhằm thỏa mãn niềm đam mê.</p></li>
-                                    <li><p>Sự mới lạ trong thiết kế:</p></li>
+                                    <li>MLB Mickey : 2.590.000 VND</li>
+                                    <li>MLB NY : 2.190.000 VND</li>
+                                    <li>MLB Boston: 2.190.000 VND</li>
+                                    <li>MLB LA : 2.190.000 VND</li>
+                                    <li>MLB Dodger : 2.150.000 VND</li>
                                 </ul>
-                                <p>
-                                    Giữa thị trường giày sneaker đang ngày càng bão hoà với những thiết kế không mấy nổi bật. Kanye West đã khoác lên cho Yeezy một diện mạo hết sức độc đáo như chính phong cách cá tính, phóng khoáng của anh.
-                                </p>
-                                <p>
-                                    Điểm nổi bật nhất đó là các dòng giày Yeezy của Adidas đều được sử dụng công nghệ Boost nén, đem lại độ êm ái và độ đàn hồi cực tốt.
-                                </p>
-                                <p>
-                                    Hơn nữa, việc áp dụng công nghệ dệt cao cấp kết hợp với những chất liệu khác nhau và cấu trúc cũng khác nhau đã tạo nên sự thu hút và đa dạng cho dòng giày này.
-                                </p>
-
-
-                                <h2>3. Những mẫu giày nổi bật của Adidas Yeezy</h2>
-                                <ul>
-                                    <li><strong>Giày Yeezy 350</strong></li>
-                                </ul>
-                                <p>
-                                    Thiết kế của dòng Yeezy 350 được coi là sự phá vỡ mọi khuôn khổ của một đôi sneaker thông thường và đây là sản phẩm thành công nhất của Adidas.
-                                </p>
-                                <p>
-                                    Chất liệu vải Primeknit được sử dụng chủ đạo trên thân giày. Đặc trưng của loại vải này là có độ co giãn tối đa và độ thoáng khí cực tốt. Vì thế, bạn có thể thoải mái hoạt động mà không lo bí bách. Ngoại hình giày được phủ bởi những gam màu trung tính, không quá sặc sỡ nên phù hợp với mọi đối tượng.<br>
-                                    Nổi bật nhất trong dòng này là phiên bản giày Adidas Yeezy 350 V2. Bạn có thể tham khảo những bản phối màu hot nhất của Yeezy 350 v2.
-                                </p>
-                                <ul><li><strong>Giày Yeezy 500</strong></li></ul>
-                                <p>
-                                    Thiết kế của giày Yeezy 500 đậm chất của những đôi chunky cồng kềnh với phần đế khá to, pha trộn giữa phong cách retro và hiện đại. Toàn bộ đôi giày là một thể thống nhất liền mạch với 2 phần cơ bản đó là Midsole và Upper. Phần thân phía trên của giày sử dụng chất liệu vải mesh khá dày, có độ cứng thích hợp. Vì thế tạo nên form giày tốt nhất dù sử dụng lâu dài. Còn nửa thân phía dưới được cấu tạo từ cao su cứng với các đường cong lồi lõm, uốn lượn tạo hiệu ứng thị giác mạnh mẽ.
-                                </p>
-                                <p>
-                                    Đặc biệt, dù không có nhiều phối màu như “người anh em” trước đó, nhưng lại có màu phối đơn giản, tinh tế. Yeezy 500 hấp dẫn hơn bao giờ hết bởi nó có thể dễ dàng phối với mọi phong cách thời trang khác nhau.
-                                </p>
-                                <ul><li><strong>Giày Yeezy 700</strong></li></ul>
-                                <p>
-                                    Như phiên bản V2 nổi bật ở phần thân giày với biểu tượng 3 sọc phản quang nằm trên vải dệt có độ co dãn (cải tiến hơn vải Mesh ở bản V1). Những phiên bản: Yeezy 700 Mauve, Yy 700 V2 Static, Vanta, Inertia hay Yeezy 700 V3 Azael, Alvah… đều được khách hàng ưa chuộng bởi thiết kế mạnh mẽ, bụi bặm và độc đáo.
-                                </p>
-                                <h3>Thăng trầm của thương hiệu giày Adidas</h3>
-                                <p>
-                                    Sau khi Adi – người cha đời, Adidas được tiếp tục tiếp quản bởi con trai của ông và đã đạt được các thành công đáng kể, vượt qua Puma của người bác.
-                                </p>
-                                <p>
-                                    Tuy nhiên, sau khi người con qua đời, CEO của Adidas đã có những bước đi sai lầm khiến cho công ty bị đối thủ lớn nhất là Nike vượt mặt.
-                                </p>
-                                <p>
-                                    Tình hình chỉ khấm khá hơn khi CEO mới – Rene Jaggi, đã đặt mục tiêu tìm lại giá trị cốt lõi của Adidas, không chạy đua theo thị trường và đem văn hóa làm việc mới vào công ty.
-                                </p>
-                                <p>
-                                    Cũng trong quãng thời gian này, hãng giày Adidas cũng tìm ra được biểu tượng riêng cho thương hiệu của mình. Đó là logo 3 sọc chéo nhau, song song và cỏ 3 lá.
-                                </p>
-                                <p>
-                                    Không còn nữa triết lý “Chỉ mang đến những gì tốt nhất cho vận động viên”, mà là luôn mang lại những đôi giày với trải nghiệm tốt nhất cho tất cả mọi người.
-                                </p>
-                                <p>
-                                    Từ đó, Adidas không chỉ sản xuất giày dành riêng cho mục đích luyện tập, mà sản xuất cả các mẫu giày thể thao dòng Lifewear nữa. Ví dụ đó là các mẫu giày Stan Smith, Adidas Super star, Yeezy ...
-                                </p>
-                                <div>
-                                    <img src="~/Content/img/Adidas/1.jpg" alt="">
-                                </div>
-                                <div>
-                                    <img src="~/Content/img/Adidas/2.jpg" alt="">
-                                </div>
-                                <div>
-                                    <img src="~/Content/img/Adidas/3.jpg" alt="">
-                                </div>
-                                <div>
-                                    <img src="~/Content/img/Adidas/4.jpg" alt="">
-                                </div>
-                                <p>
-                                    Dần dần, <strong>thương hiệu Adidas đã lấy lại vị thế trong thị trường giày thể thao của mình</strong>. Không chỉ thế, hãng thời trang 3 sọc còn có các hợp đồng quảng cáo với các vận động viên hàng đầu thế giới để khẳng định lại tên tuổi của mình và lần lượt tung ra các bản Collab Sneaker hết sức mỹ mãn cho fan lác mắt chơi.
-                                </p>
-                                <h3>Tạo ra thị trường quần áo Adidas</h3>
-                                <p>
-                                    Theo thời gian, không chỉ dừng lại ở thị trường giày sneaker, Adidas biết rằng mình phải nhảy vào cả thị trường quần áo và phụ kiện thể thao nữa. Và không ai bất ngờ, Adidas lại nhanh chóng trở thành số 1 trong lĩnh vực quần áo thể thao.
-                                </p>
-                            </div>
-                            break;
-                        case 4:
-                            break;
-                        case 5:
-                            <div class="nav__detail-descript">
-                                <p>
-                                    <strong>Giày Alexander Mcqueen</strong> luôn được săn đón nhiệt tình trên khắp thế giới bởi thiết kế tinh tế, chủ đạo là màu trắng cực dễ phối đồ.
-                                </p>
-                                <p>
-                                    Có lẽ khi đam mê nền văn hoá “sát mặt đất”, không ai là không quen với cái tên Alexander McQ. Thương hiệu này có độ phủ sóng dày đặc ở hơn 50 quốc gia, tọa lạc ở những kinh đô thời trang hàng đầu thế giới.
-                                </p>
-                                <p>
-                                    Alexander Mcqueen có thể coi là một trong những huyền thoại của sneaker trắng, bên cạnh những cái tên đình đám như Adidas Stan Smith, Superstar, Nike Air Force 1,… dù “sinh sau đẻ muộn”. Vậy lý do nào khiến Mcqueen lại vụt sáng và chiếm lĩnh được sân chơi thời trang nhanh đến như vậy? Hãy cùng khám phá ngay trong bài viết dưới đây nhé!
-                                </p>
-                                <h2>1. <strong>Lịch sử của thương hiệu cao cấp Alexander Mcqueen</strong></h2>
-                                <p>
-                                    <strong>Alexander Mcqueen đang là một trong những thương hiệu cao cấp bậc nhất</strong>, đi đầu mọi xu hướng. Dù được thành lập khá muộn, từ năm 1992 bởi nhà thiết kế “Lee Alexander McQueen” (1969 – 2010), nhưng hãng để lại dấu ấn sâu sắc trong làng thời trang thế giới.
-                                </p>
-                                <p>
-                                    Nhắc đến thương hiệu này, người ta chắc hẳn sẽ nhớ ngay tới những chiếc áo mang sự sáng tạo vượt bậc của nhà thiết kế người Anh lừng lẫy. Thế nhưng, thật sự là một điều thiếu sót khi không nhắc đến những ngôi sao mới của đế chế này.
-                                </p>
-                                <p>
-                                    Đó là sự ra đời của những dòng giày dép, từ giày cao gót cho đến sneaker. Mỗi khi một phiên bản của McQ sneakertrình làng đều khiến người ta mê mệt mà săn lùng cho bằng được bằng thiết kế tinh tế và sang trọng.
-                                </p>
-                                <p>
-                                    Trong đó, chúng ta không thể phủ nhận được dòng Alexander Mcqueen sneaker (gọi tắt là giày Mcqueen) đến từ Anh Quốc đã trở thành item footwear phổ biến và có sức lôi cuốn mạnh mẽ nhất hiện nay. Có thể nói, nếu là giới trẻ, không ai là không muốn sở hữu cho mình một đôi trong tủ shoes của mình.
-                                </p>
-                                <div>
-                                    <img src="~/Content/img/Luxury/mcqueen-got-den.jpg" alt="">
-                                </div>
-
-                                <h2>2. <strong>Những điểm nổi bật trong thiết kế của giày Alexander Mcqueen</strong></h2>
-                                <h3><strong>Đánh giá tổng thể</strong></h3>
-                                <p>
-                                    Khi vừa ra mắt, <strong>giày Mcqueen</strong> đã dấy lên một cuộc tranh cãi khi có vẻ ngoài rất giống với Adidas Stan Smith. Tuy nhiên, nếu bạn ngắm nghía em nó kỹ hơn một chút, thì những điểm khác biệt của sneaker McQ sẽ khiến bạn vô cùng thích thú đấy.
-                                </p>
-                                <div class="nav__detail-quote">
-                                    <p>
-                                        Bạn đang thắc mắc <strong>Giày Mcqueen auth giá bao nhiêu?</strong>
-                                    </p>
-                                </div>
-                                <p>
-                                    Tổng thể đôi sneaker là một màu trắng được gia công từ chất liệu da cao cấp. Trên lưỡi gà và gót giày, dòng chữ Alexander McQueen được in nổi bật, tạo ấn tượng phong cách rõ rệt cho người mang. Đặc biệt, phần gót được làm bởi chất liệu da lộn, hoàn toàn khác so với phần thân.
-                                </p>
-                                <p>
-                                    Hơn nữa, mỗi bản phối lại mang đến những màu sắc khác nhau ở phần gót giày; còn tất cả những chi tiết khác, từ upper cho đến từng đường kim mũi chỉ, vẫn luôn giữ màu trắng tinh tế và đặc trưng của hãng.
-                                </p>
-                                <div><img src="~/Content/img/Luxury/mcqueen-like-auth.jpg" alt=""></div>
-                                <h3><strong>Bộ đế “bánh mì” giúp ăn gian chiều cao</strong></h3>
-                                <p>
-                                    Phần <strong>đế của  McQ shoes khá dày và tính trendy</strong> cực cao với thiết kế mang tính xu hướng “<strong>giày bánh mì</strong>. <strong>Bộ đế của đôi sneaker này cao đến 5cm</strong>, giúp bạn tăng chiều cao biết bao nhiêu đấy.
-                                </p>
-                                <div><img src="~/Content/img/Luxury/mcqueen-de-cao.jpg" alt=""></div>
-                                <p>Hơn thế, nó còn được gia công từ chất liệu cao su cao cấp, giúp chống trơn trượt và di chuyển một cách dễ dàng, thoải mái.</p>
-                                <h3><strong>Tính ứng dụng cao</strong></h3>
-                                <p>
-                                    Nhìn chung, <strong>Mcqueen sneaker mang hướng unisex</strong>, phù hợp cho cả nam và nữ.
-                                </p>
-                                <p>
-                                    Và cũng chẳng cần giải thích quá nhiều tính ứng dụng của những đôi sneaker trắng hiện nay như thế nào thì bạn cũng sẽ tự quan sát được sự lan toả của chúng.
-                                </p>
-                                <p>
-                                    Mcqueen sneaker trở thành con cưng của các tín đồ thời trang, khi nó có mặt từ thời trang High-end cho đến thời trang đường phố. Thậm chí, cũng không quá khó để bắt gặp các ngôi sao đình đám diện Mcqueen sneaker tại những sự kiện lớn.
-                                </p>
-                                <p>
-                                    Tính phối đồ của mẫu sneaker này thực sự quá cao, bạn có thể phối với áo phông, áo sơ mi, quần jeans, quần short,…hay ngay cả những bộ suit lịch lãm
-                                </p>
-                                <div><img src="~/Content/img/Luxury/outfit-mcqueen-nam.jpg" alt=""></div>
-                                <h2><strong>Mua giày Alexander Mcqueen ở đâu?</strong></h2>
-                                <p>
-                                    Với chất lượng và danh tiếng như vậy, chắc chắn <strong>giá của một đôi Alexander Mcqueen sneaker chính hãng sẽ không bao giờ là rẻ. Giá của một đôi Mcqueen real dao động vào khoảng trên dưới 10 triệu đồng</strong>, nhưng đó là với những bản Classic.
-                                </p>
-                                <p>
-                                    Còn với một số bản thiết kế cầu kỳ hoặc giới hạn, giá của chúng sẽ đắt gấp đôi, thậm chí là gấp ba, khoảng 20 triệu đồng trở lên. <em>Bạn có thể đặt mua đôi Mcqueen auth tại trang chủ của Alexander Mcqueen hoặc trong các trung tâm thương mại lớn trên thế giới</em>.
-                                </p>
-                                <p>
-                                    Tuy nhiên, đối với những ai chưa đáp ứng được về mặt giá tiền thì những mẫu Mcqueen siêu cấp và hàng replica 1:1 chính là sự lựa chọn không thể bỏ qua, đặc biệt là với những bạn học sinh, sinh viên.
-                                </p>
-                                <div class="nav__detail-quote">
-                                    <p>
-                                        Vậy có lẽ bạn cần biết <strong>cách phân biệt giày Mcqueen siêu cấp và rep 1:1?</strong>
-                                    </p>
-                                </div>
-                                <p>
-                                    Ghé thăm shop để rinh ngay một đôi Alexander Mcqueen chuẩn Replica 1:1 hoặc siêu cấp với độ hoàn thiện chuẩn đến 99% so với bản chính hãng. Toàn bộ sản phẩm có tại cửa hàng cam kết chất lượng với đầy đủ phụ kiện, hóa đơn như hàng auth và có mức giá tốt nhất hiện nay.
-                                </p>
-                                <p>
-                                    Hy vọng bài viết trên đã thỏa mãn sự tò mò của bạn, và đã trả lời được câu hỏi <strong>giày Mcqueen là gì, sản xuất ở đâu</strong> của các bạn!<br>
-                                    Cảm ơn các bạn đã dành thời gian đọc bài viết này, hãy để ý bởi vì chúng mình sẽ còn tiếp tục cung cấp thêm nhiều <em>thông tin về đôi sneaker </em>siêu trendy này nữa nhé!
-                                </p>
-                            </div>
-                            break;
-                        case 6:
-                            break;
-                        case 7:
-                            <div class="nav__detail-descript">
-                                <p>
-                                    <strong>Giày MLB – Chunky Sneaker</strong> “bánh mỳ” chính là mẫu vẫn luôn HOT TREND từ khá lâu với form rất HOT-HIT, nổi bật, cool ngầu. Không chỉ những tín đồ mê giày mà giới trẻ trên toàn thế giới đã phải chao đảo với những siêu phẩm của MLB. Vậy điều gì đã khiến chúng được yêu thích đến thế. Cùng Shopgiayreplica điểm qua những mẫu sneaker Mlb đình đám suốt 2 năm gần đây như Mlb Ny, La hay Boston
-                                </p>
-                                <h2>1. Lịch sử cho tên gọi MLB</h2>
-                                <p>
-                                    MLB, thương hiệu giày nổi tiếng, không hề xuất phát từ yếu tố thời trang. Đây thực chất là từ viết tắt của Major League Baseball, một tổ chức bóng chày chuyên nghiệp. Tổ chức này nằm trong top có lịch sử lâu đời nhất với gần 30 đội bóng đến từ nhiều bang khác nhau của Mỹ và Canada.<br>
-                                    Thương hiệu MLB được truyền cảm hứng từ đó.
-                                </p>
-                                <p>
-                                    Những đôi giày mang đậm tinh thần thể thao đã chinh phục hoàn toàn những tín đồ đam mê bóng chày. Không chỉ thế, những dòng sản phẩm này ngay lập tức tạo nên trendy, ảnh hưởng lớn trong làng thời trang thế giới.
-                                </p>
-
-                                <h2>2. Giày MLB đến từ đâu?</h2>
-                                <p>
-                                    Mọi người biết đến thương hiệu MLB được phổ biến mạnh mẽ ở Hàn Quốc, Mỹ và Canada. Tuy nhiên, không phải ai cũng biết thương hiệu này đến từ đâu.
-                                </p>
-                                <p>
-                                    Những đôi chunky MLB luôn biết tạo điểm nhấn, đậm chất đường phố với logo của 4 đội bóng chày danh tiếng. Các biểu tượng đặc trưng mà giới trẻ thường gặp ở MLB là NY (New York Yankees), LA Dodgers, Boston Red Sox và St. Louis Cardinal. Chính điều này đã khiến mọi người liên tưởng tới Mỹ hay một quốc gia phương Tây nào đó. Thực chất MLB được sản xuất ở Hàn Quốc.
-                                </p>
-                                <h2>3. Đôi nét về sneaker MLB</h2>
-                                <p>
-                                    Thương hiệu MLB vẫn liên tục cho ra đời những dòng sản phẩm mới. Bên cạnh những phiên bản new thì một số dòng vẫn giữ vững phong độ siêu phẩm huyền thoại. Hiện tại về cơ bản, MLB có 2 dòng sneaker chính là: MLB Big Ball Chunky P Boston và MLB Big Ball Chunky A.
-                                </p>
-                                <div>
-                                    <img src="~/Content/img/MLB/1.jpg" alt="">
-                                </div>
-                                <p>
-                                    Nếu bạn thắc mắc
-                                    <em><strong>giày MLB cao bao nhiêu cm</strong></em>
-                                    thì đây là đôi lý tưởng cho ai muốn ăn gian chiều cao (hack dáng đối ta với phần đế độn thêm 5 cm). Với thiết kế độc đáo, cá tính, MLB khiến bản trở nên năng động, tự tin trong từng bước sải chân. Chắc chắn đây là đôi không thể thiếu trong tủ giày.
-                                </p>
-                                <h2>4. So sánh giá Mlb auth và rep 1:1</h2>
-                                <p>
-                                    Hiện nay, trên thị trường giá giày sneaker MLB chính hãng rơi vào khoảng từ 2.100.000đ đến 2.600.000đ, dao động tùy thuộc nhà cung cấp. Chi tiết có thể tham khảo:
-                                    <ul>
-                                        <li>MLB Mickey : 2.590.000 VND</li>
-                                        <li>MLB NY : 2.190.000 VND</li>
-                                        <li>MLB Boston: 2.190.000 VND</li>
-                                        <li>MLB LA : 2.190.000 VND</li>
-                                        <li>MLB Dodger : 2.150.000 VND</li>
-                                    </ul>
-                                </p>
-                            </div>
-                            break;
-                        case 8:
-                            <div class="nav__detail-descript">
-                                <p>
-                                    Dù ra đời khá muộn so với những dòng dép đến từ các nhà mốt khác như Nike, Adidas,… nhưng gần đây, <strong>dép Balenciaga</strong> lại trở nên hot hơn bao giờ hết, được đánh giá là mang lại cho người dùng những hiệu ứng vô cùng thời thượng.
-                                </p>
-                                <p>
-                                    Nhìn thoạt qua, những mẫu dép Balenciaga mang vẻ ngoài không-thể-đơn-giản-hơn, một màu với đặc điểm nhận dạng duy nhất là logo Balenciaga. Ấy thế mà sao dép Balenciaga lại trở thành một trào lưu trong giới thời trang hiện nay? Cùng shop FEP tìm hiểu ngay sau đây nhé!
-                                </p>
-                                <h2><strong>Giá trị thương hiệu</strong></h2>
-                                <p>
-                                    Balenciaga là một trong những thương hiệu danh giá nhất thế giới bên cạnh hàng loạt thương hiệu xa xỉ như Louis Vuitton, Gucci hay Hermes. Không bỗng nhiên mà những sản phẩm quần áo, giày dép của Balen lại được các ngôi sao nổi tiếng ưu ái sử dụng đến thế. Liên tục cho ra mắt các sản phẩm gây nghiện cho giới trẻ như giày <strong>Bánh Mỳ Chunky Balenciaga</strong> hay gần đây trình làng 1 số mẫu dép đẳng cấp, thời thượng.
-                                </p>
-                                <h2>Form dép basic dễ đi</h2>
-                                <p>
-                                    Dép lê quai ngang từ trước đến giờ luôn là sản phẩm được ưa chuộng nhất trong tất cả các mẫu dép, dù là thương hiệu nào thì cũng có ít nhất 1-2 mẫu dép quai ngang thịnh hành. Balenciaga cũng không phải ngoại lệ, Pool Slide Sandal được coi là dòng dép Balenciaga nam bán chạy nhất của hãng với form dáng cực đơn giản và tối ưu.
-                                </p>
-                                <div><img src="~/Content/img/Dep/Dep-Balenciaga-Pool-Slide-Black-White.jpg" alt=""></div>
-                                <p>
-                                    Chỉ sử dụng một tone màu kèm theo dòng chữ “Balenciaga” chạy ngang quai dép bản to là hoàn thiện một thiết kế “ăn khách” nhất mọi thời đại. Cũng nhờ kiểu dáng basic đó mà dép Balenciaga cực kỳ dễ đi, dễ phối, phù hợp với mọi độ tuổi. Và chắc hẳn ai cũng biết đến combo “thần thánh”: dép Balenciaga phối cùng quần short và áo phông là tự tin và thoải mái xuống phố trong những ngày hè chói chang rồi.
-                                </p>
-                                <h2>Chất liệu cao cấp</h2>
-                                <p>
-                                    Những mẫu dép Balenciaga Pool Slide đều được chế tác từ 100% cao su đúc nguyên khối, mang chất lượng hàng đầu của Ý. Bộ đế cao su có hệ thống hoa văn và các đường cắt khoét giúp chống trơn trượt khi di chuyển. Kết hợp với phần midsole dày dặn, có tính đàn hồi cao, đem lại trải nghiệm êm ái cực độ cho người dùng. Mặc dù có diện mạo trông giống một đôi dép “phòng tắm” thông thường nhưng chất liệu da của dép Balenciaga vô cùng thượng hạng, tạo cảm giác đẳng cấp vượt trội.
-                                </p>
-                                <div><img src="~/Content/img/Dep/Dep-Balenciaga-Pool-Slide-White.jpg" alt=""></div>
-                                <p>
-                                    Đặc biệt, logo Balenciaga được chạm nổi trên quai và đế tối giản nhưng rất công phu và tinh xảo. Có thể nói, từ khi phát triển xu hướng tối giản mọi chi tiết khác và sử dụng logo như một hoạ tiết nhận diện thương hiệu thì những mẫu dép Balenciaga đã thành công ngoài sức tưởng tượng. Không chỉ vậy, tất cả những sản phẩm có logo Balenciaga đều bán “chạy như tôm tươi”, từ giày dép đến áo thun, hoodie, mũ nón,…
-                                </p>
-                                <h2>Phối màu đa dạng</h2>
-                                <p>
-                                    Giữ nguyên thiết kế và những tính năng ban đầu, bộ sưu tập dép Balenciaga Pool Slide có đầy đủ những tone màu hot nhất. Từ những tone màu basic dễ đi như đen, xám, trắng đến những màu độc lạ và nổi bật như đỏ, xanh da trời, cam, vàng chanh,… tất cả đều thu hút người dùng ngay từ cái nhìn đầu tiên.
-                                </p>
-                                <h2>Dép Balenciaga – Lựa chọn ưu ái của sao Việt</h2>
-                                <p>
-                                    Dép Balenciaga hiện đang “làm mưa làm gió” trên thị trường, đến cả những ngôi sao Vbiz cũng không thể từ chối vẻ đẹp này. Sơn Tùng M-TP, Minh Tú, stylist Hoàng Ku,… đều nhanh chóng sắm sửa những mẫu dép Balenciaga basic, góp phần tạo nên cơn sốt và độ phủ sóng của thương hiệu nổi tiếng này.
-                                </p>
-                                <div><img src="~/Content/img/Dep/son-tung-mtp-dep-balenciaga.jpg" alt=""></div>
-                                <h2>Địa chỉ mua dép Balenciaga siêu cấp uy tín</h2>
-                                <p>
-                                    Những mẫu dép lê đến từ thương hiệu xa xỉ Balenciaga thì chắc chắn sẽ có một mức giá không hề “dễ thở”. Bạn phải sở hữu ít nhất từ 9 – 10 triệu đồng thì mới có thể mua được đôi dép Balenciaga chính hãng.
-                                </p>
-                                <p>
-                                    Không phải ai cũng có đủ điều kiện để sở hữu một sản phẩm chính hãng, nhất là với những bạn học sinh, sinh viên. Vì vậy, những mẫu dép Balenciaga siêu cấp hiện nay đang rất được ưa chuộng bởi chất lượng từ thiết kế đến chất liệu đều like auth đến 99% mà mức giá lại cực hợp lý.
-                                </p>
-                                <p>
-                                    <a href="/index.html" class="internal">FEP</a> là địa chỉ chuyên cung cấp những mẫu <em><strong>dép Balenciaga</strong></em> siêu cấp uy tín với mức giá tốt nhất tại Hà Nội và tp HCM. Toàn bộ các mẫu dép Balenciaga siêu cấp có tại shop đều là những mẫu hot nhất, fullbox và đầy đủ phụ kiện, mang đến cho khách hàng sự hài lòng tuyệt đối.
-                                </p>
-                            </div>
-                            break;
+                            </p>
+                        </div>
+                    }
+                    else if (idCur == IDTypeDep)
+                    {
+                        <div class="nav__detail-descript">
+                            <p>
+                                Dù ra đời khá muộn so với những dòng dép đến từ các nhà mốt khác như Nike, Adidas,… nhưng gần đây, <strong>dép Balenciaga</strong> lại trở nên hot hơn bao giờ hết, được đánh giá là mang lại cho người dùng những hiệu ứng vô cùng thời thượng.
+                            </p>
+                            <p>
+                                Nhìn thoạt qua, những mẫu dép Balenciaga mang vẻ ngoài không-thể-đơn-giản-hơn, một màu với đặc điểm nhận dạng duy nhất là logo Balenciaga. Ấy thế mà sao dép Balenciaga lại trở thành một trào lưu trong giới thời trang hiện nay? Cùng shop FEP tìm hiểu ngay sau đây nhé!
+                            </p>
+                            <h2><strong>Giá trị thương hiệu</strong></h2>
+                            <p>
+                                Balenciaga là một trong những thương hiệu danh giá nhất thế giới bên cạnh hàng loạt thương hiệu xa xỉ như Louis Vuitton, Gucci hay Hermes. Không bỗng nhiên mà những sản phẩm quần áo, giày dép của Balen lại được các ngôi sao nổi tiếng ưu ái sử dụng đến thế. Liên tục cho ra mắt các sản phẩm gây nghiện cho giới trẻ như giày <strong>Bánh Mỳ Chunky Balenciaga</strong> hay gần đây trình làng 1 số mẫu dép đẳng cấp, thời thượng.
+                            </p>
+                            <h2>Form dép basic dễ đi</h2>
+                            <p>
+                                Dép lê quai ngang từ trước đến giờ luôn là sản phẩm được ưa chuộng nhất trong tất cả các mẫu dép, dù là thương hiệu nào thì cũng có ít nhất 1-2 mẫu dép quai ngang thịnh hành. Balenciaga cũng không phải ngoại lệ, Pool Slide Sandal được coi là dòng dép Balenciaga nam bán chạy nhất của hãng với form dáng cực đơn giản và tối ưu.
+                            </p>
+                            <div><img src="~/Content/img/Dep/Dep-Balenciaga-Pool-Slide-Black-White.jpg" alt=""></div>
+                            <p>
+                                Chỉ sử dụng một tone màu kèm theo dòng chữ “Balenciaga” chạy ngang quai dép bản to là hoàn thiện một thiết kế “ăn khách” nhất mọi thời đại. Cũng nhờ kiểu dáng basic đó mà dép Balenciaga cực kỳ dễ đi, dễ phối, phù hợp với mọi độ tuổi. Và chắc hẳn ai cũng biết đến combo “thần thánh”: dép Balenciaga phối cùng quần short và áo phông là tự tin và thoải mái xuống phố trong những ngày hè chói chang rồi.
+                            </p>
+                            <h2>Chất liệu cao cấp</h2>
+                            <p>
+                                Những mẫu dép Balenciaga Pool Slide đều được chế tác từ 100% cao su đúc nguyên khối, mang chất lượng hàng đầu của Ý. Bộ đế cao su có hệ thống hoa văn và các đường cắt khoét giúp chống trơn trượt khi di chuyển. Kết hợp với phần midsole dày dặn, có tính đàn hồi cao, đem lại trải nghiệm êm ái cực độ cho người dùng. Mặc dù có diện mạo trông giống một đôi dép “phòng tắm” thông thường nhưng chất liệu da của dép Balenciaga vô cùng thượng hạng, tạo cảm giác đẳng cấp vượt trội.
+                            </p>
+                            <div><img src="~/Content/img/Dep/Dep-Balenciaga-Pool-Slide-White.jpg" alt=""></div>
+                            <p>
+                                Đặc biệt, logo Balenciaga được chạm nổi trên quai và đế tối giản nhưng rất công phu và tinh xảo. Có thể nói, từ khi phát triển xu hướng tối giản mọi chi tiết khác và sử dụng logo như một hoạ tiết nhận diện thương hiệu thì những mẫu dép Balenciaga đã thành công ngoài sức tưởng tượng. Không chỉ vậy, tất cả những sản phẩm có logo Balenciaga đều bán “chạy như tôm tươi”, từ giày dép đến áo thun, hoodie, mũ nón,…
+                            </p>
+                            <h2>Phối màu đa dạng</h2>
+                            <p>
+                                Giữ nguyên thiết kế và những tính năng ban đầu, bộ sưu tập dép Balenciaga Pool Slide có đầy đủ những tone màu hot nhất. Từ những tone màu basic dễ đi như đen, xám, trắng đến những màu độc lạ và nổi bật như đỏ, xanh da trời, cam, vàng chanh,… tất cả đều thu hút người dùng ngay từ cái nhìn đầu tiên.
+                            </p>
+                            <h2>Dép Balenciaga – Lựa chọn ưu ái của sao Việt</h2>
+                            <p>
+                                Dép Balenciaga hiện đang “làm mưa làm gió” trên thị trường, đến cả những ngôi sao Vbiz cũng không thể từ chối vẻ đẹp này. Sơn Tùng M-TP, Minh Tú, stylist Hoàng Ku,… đều nhanh chóng sắm sửa những mẫu dép Balenciaga basic, góp phần tạo nên cơn sốt và độ phủ sóng của thương hiệu nổi tiếng này.
+                            </p>
+                            <div><img src="~/Content/img/Dep/son-tung-mtp-dep-balenciaga.jpg" alt=""></div>
+                            <h2>Địa chỉ mua dép Balenciaga siêu cấp uy tín</h2>
+                            <p>
+                                Những mẫu dép lê đến từ thương hiệu xa xỉ Balenciaga thì chắc chắn sẽ có một mức giá không hề “dễ thở”. Bạn phải sở hữu ít nhất từ 9 – 10 triệu đồng thì mới có thể mua được đôi dép Balenciaga chính hãng.
+                            </p>
+                            <p>
+                                Không phải ai cũng có đủ điều kiện để sở hữu một sản phẩm chính hãng, nhất là với những bạn học sinh, sinh viên. Vì vậy, những mẫu dép Balenciaga siêu cấp hiện nay đang rất được ưa chuộng bởi chất lượng từ thiết kế đến chất liệu đều like auth đến 99% mà mức giá lại cực hợp lý.
+                            </p>
+                            <p>
+                                <a href="/index.html" class="internal">FEP</a> là địa chỉ chuyên cung cấp những mẫu <em><strong>dép Balenciaga</strong></em> siêu cấp uy tín với mức giá tốt nhất tại Hà Nội và tp HCM. Toàn bộ các mẫu dép Balenciaga siêu cấp có tại shop đều là những mẫu hot nhất, fullbox và đầy đủ phụ kiện, mang đến cho khách hàng sự hài lòng tuyệt đối.
+                            </p>
+                        </div>
                     }
                 </nav>
             </div>

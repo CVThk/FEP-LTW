@@ -1,4 +1,12 @@
 ﻿<!DOCTYPE html>
+@{ 
+
+    var IDTypeNike = Session["IDTypeNike"];
+    var IDTypeAdidas = Session["IDTypeAdidas"];
+    var IDTypeLuxury = Session["IDTypeLuxury"];
+    var IDTypeMLB = Session["IDTypeMLB"];
+    var IDTypeDep = Session["IDTypeDep"];
+}
 
 <html>
 <head>
@@ -49,12 +57,12 @@
                             <div class="no-product">Chưa có sản phẩm</div>
                         </div>
                         <div class="cart__btn">
-                            <div class="cart__watchP">
-                                <a href="/cart/cart.html"><button><h6>XEM GIỎ HÀNG</h6></button></a>
-                            </div>
-                            <div class="cart__payP">
-                                <a href="/pay/pay.html"><button><h6>THANH TOÁN</h6></button></a>
-                            </div>
+                            @*<div class="cart__watchP">
+                                    <a href="/cart/cart.html"><button><h6>XEM GIỎ HÀNG</h6></button></a>
+                                </div>
+                                <div class="cart__payP">
+                                    <a href="/pay/pay.html"><button><h6>THANH TOÁN</h6></button></a>
+                                </div>*@
                         </div>
                     </div>
                 </div>
@@ -70,7 +78,7 @@
                 <ul>
                     <li><a href="#">JORDAN</a></li>
                     <li>
-                        <a href="~/Home/Products?idSneakerType=2">
+                        <a href="~/Home/Products?idSneakerType=@IDTypeNike">
                             GIÀY NIKE
                             <i class="fas fa-angle-down"></i>
                         </a>
@@ -107,7 +115,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="~/Home/Products?idSneakerType=3">
+                        <a href="~/Home/Products?idSneakerType=@IDTypeAdidas">
                             ADIDAS
                             <i class="fas fa-angle-down"></i>
                         </a>
@@ -162,7 +170,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="~/Home/Products?idSneakerType=5">GIÀY LUXURY<i class="fas fa-angle-down"></i></a>
+                        <a href="~/Home/Products?idSneakerType=@IDTypeLuxury">GIÀY LUXURY<i class="fas fa-angle-down"></i></a>
                         <ul>
                             <li><a href=""> MCQUEEN</a></li>
                             <li><a href=""> GUCCI</a></li>
@@ -200,10 +208,10 @@
 
                     </li>
                     <li><a href="">VANS</a></li>
-                    <li><a href="~/Home/Products?idSneakerType=7">MLB</a></li>
+                    <li><a href="~/Home/Products?idSneakerType=@IDTypeMLB">MLB</a></li>
 
                     <li>
-                        <a href="~/Home/Products?idSneakerType=8">DÉP SIÊU CẤP <i class="fas fa-angle-down"></i></a>
+                        <a href="~/Home/Products?idSneakerType=@IDTypeDep">DÉP SIÊU CẤP <i class="fas fa-angle-down"></i></a>
                         <ul>
                             <li><a href="">DÉP GUUCI</a></li>
                             <li><a href="">DÉP BALENCIAGA</a></li>
@@ -221,7 +229,7 @@
                     <li><a href="#">JORDAN</a></li>
                     <li>
                         <div class="cover-sub-nav-icon">
-                            <a href="~/Home/Products?idSneakerType=2">GIÀY Nike</a>
+                            <a href="~/Home/Products?idSneakerType=@IDTypeNike">GIÀY Nike</a>
                             <div class="cover-icon">
                                 <i class="fas fa-angle-down"></i>
                                 <i class="ti-close"></i>
@@ -259,7 +267,7 @@
                     </li>
                     <li>
                         <div class="cover-sub-nav-icon">
-                            <a href="~/Home/Products?idSneakerType=3">ADIDAS</a>
+                            <a href="~/Home/Products?idSneakerType=@IDTypeAdidas">ADIDAS</a>
                             <div class="cover-icon">
                                 <i class="fas fa-angle-down"></i>
                                 <i class="ti-close"></i>
@@ -322,7 +330,7 @@
                     </li>
                     <li>
                         <div class="cover-sub-nav-icon">
-                            <a href="~/Home/Products?idSneakerType=5">GIÀY LUXURY</a>
+                            <a href="~/Home/Products?idSneakerType=@IDTypeLuxury">GIÀY LUXURY</a>
                             <div class="cover-icon">
                                 <i class="fas fa-angle-down"></i>
                                 <i class="ti-close"></i>
@@ -366,7 +374,7 @@
 
                     <li>
                         <div class="cover-sub-nav-icon">
-                            <a href="~/Home/Products?idSneakerType=8">DÉP SIÊU CẤP</a>
+                            <a href="~/Home/Products?idSneakerType=@IDTypeDep">DÉP SIÊU CẤP</a>
                             <div class="cover-icon">
                                 <i class="fas fa-angle-down"></i>
                                 <i class="ti-close"></i>
