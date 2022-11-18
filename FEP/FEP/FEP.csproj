@@ -2481,6 +2481,8 @@
     <Content Include="Views\Shared\_LayoutPageMain.cshtml" />
     <Content Include="Views\Home\FEP.cshtml" />
     <Content Include="Views\Home\Products.cshtml" />
+    <Content Include="Views\Home\ProductDetails.cshtml" />
+    <Content Include="Views\Home\ErrInventory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

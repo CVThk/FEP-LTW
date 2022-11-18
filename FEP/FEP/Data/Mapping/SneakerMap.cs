@@ -11,12 +11,12 @@ namespace FEP.Data.Mapping
     {
         public SneakerMap()
         {
-            Table("tbl_Sneaker");
             Id(x => x.ID);
             Map(x => x.Name);
             Map(x => x.Price);
             Map(x => x.Discount);
             Map(x => x.IDSneakerType);
+            Table("tbl_Sneaker");
         }    
     }
 }

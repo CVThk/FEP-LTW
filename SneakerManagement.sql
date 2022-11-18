@@ -4,6 +4,8 @@ GO
 USE SneakerManagement
 GO
 
+-- ============================================================================= CREATE TABLE =============================================================================
+
 CREATE TABLE City(
 	ID int not null,
 	Name nvarchar(max) not null,
@@ -198,7 +200,7 @@ CREATE TABLE tbl_ImportInvoiceDetails(
 )
 GO
 
--- ================= insert data =================
+-- ============================================================================= INSERT DATA =============================================================================
 INSERT INTO tbl_SneakerType
 VALUES (N'Jordan'),
 		(N'Giày Nike'),
@@ -440,7 +442,7 @@ VALUES ('GNAF1LWB', '1.jpg'),
 		('GMLBBCLLDGR', '1.jpg'),
 		('GMLBBCLLDGR', '2.jpg'),
 
-		('MLBBCMLNY', '1.jpg'),
+		('MLBBCMLNY', '1.png'),
 		('MLBBCMLNY', '2.jpg'),
 
 		('MLBNTCVR', '1.jpg'),
@@ -760,7 +762,7 @@ INSERT INTO tbl_Account_Staff
 VALUES (1, 1)
 GO
 
-
+-- ============================================================================= STORE PROCEDURE =============================================================================
 
 -- Procedure lấy mã loại bằng tên gần giống
 CREATE PROC sp_GetIDSneaker
@@ -769,7 +771,34 @@ AS
 	select ID from tbl_SneakerType where Name like '%' + @name + '%'
 go
 
-exec sp_GetIDSneaker 'NIKE'
+--exec sp_GetIDSneaker 'NIKE'
+
+
+CREATE PROC sp_GetAmountInventorySneaker
+@idSneaker varchar(20)
+AS
+	declare @amount int = 0
+	if (select count(*) from tbl_Inventory where IDSneaker = @idSneaker) > 0
+		select @amount = SUM(Amount) from tbl_Inventory where IDSneaker = @idSneaker
+	return @amount
+go
+
+--declare @sl int
+--exec @sl = sp_GetAmountInventorySneaker 'GNAF1LWB'
+--select @sl
+
+CREATE PROC sp_GetSizeInventory
+@idSneaker varchar(20)
+AS
+	declare @amount int = 0
+	if (select count(*) from tbl_Inventory where IDSneaker = @idSneaker) > 0
+		select Size from tbl_Size, tbl_Inventory where tbl_Inventory.IDSize = tbl_Size.ID and IDSneaker = @idSneaker
+	else select @amount
+go
+
+--exec sp_GetSizeInventory 'GNAF1LWB'
+
+-- ============================================================================= QUERY TEST =============================================================================
 
 --Select * from tbl_Sneaker, tbl_SizeDetails, tbl_Size where tbl_Sneaker.ID = tbl_SizeDetails.IDSneaker and tbl_SizeDetails.IDSize = tbl_Size.ID
 
@@ -780,6 +809,12 @@ select * from tbl_Account
 select * from tbl_Staff
 select * from tbl_Account_Staff
 
-select * from tbl_Sneaker, tbl_SneakerType where tbl_SneakerType.Name like '%Luxury%' and LinkPictureDetails != ''
+--select * from tbl_Sneaker, tbl_SneakerType where tbl_SneakerType.Name like '%Luxury%' and LinkPictureDetails != ''
 
-select Link from tbl_CoverImage where tbl_CoverImage.IDSneaker = 'NAF1TFWLA'
+--select Link from tbl_CoverImage where tbl_CoverImage.IDSneaker = 'NAF1TFWLA'
+--select Link from tbl_DetailsImage where tbl_DetailsImage.IDSneaker = 'NAF1TFWLA'
+
+--select Size from tbl_Size
+--select Size from tbl_Size, tbl_Inventory where tbl_Inventory.IDSize = tbl_Size.ID and IDSneaker = 'GNAF1LPSR'
+
+select * from tbl_Sneaker where ID = 'GNAF1LWB'

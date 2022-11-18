@@ -59,7 +59,7 @@
                     {
                         List<string> AnhBia = _SneakerService.GetCoverPicture(item.ID);
                         <div class="product col-lg-3 col-md-6 col-sm-6 col-6">
-                            <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__link" title="@item.Name">
+                            <a href="@Url.Action("ProductDetails", "Home", new { idSneaker=item.ID })" class="product__link" title="@item.Name">
                                 @if (item.Discount != 0)
                                 {
                                     <span class="sale">- @item.Discount%</span>
@@ -77,9 +77,13 @@
                                         <img class="product__hover-img" src="~/Content/img/Link/@item.ID/@AnhBia[0]" alt="@item.Name">
                                     </div>
                                 }
+                                @if (_SneakerService.GetAmountInventorySneaker(item.ID) == 0)
+                                {
+                                    <div class="run-out"><span>hết hàng</span></div>
+                                }
                             </a>
                             <div class="product__caption">
-                                <h3><a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
+                                <h3><a href="@Url.Action("ProductDetails", "Home", new { idSneaker=item.ID })" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
                             </div>
                             <div class="product__price">
                                 <div class="product__price-current">@string.Format("{0:0,0}", item.PriceAfterDiscount)<span class="product__price-current--symbol">₫</span></div>
@@ -105,7 +109,7 @@
                         {
                             List<string> AnhBia = _SneakerService.GetCoverPicture(item.ID);
                             <div class="product col-lg-3 col-md-6 col-sm-6 col-6">
-                                <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__link" title="@item.Name">
+                                <a href="@Url.Action("ProductDetails", "Home", new { idSneaker=item.ID })" class="product__link" title="@item.Name">
                                     @if (item.Discount != 0)
                                     {
                                         <span class="sale">- @item.Discount%</span>
@@ -123,9 +127,13 @@
                                             <img class="product__hover-img" src="~/Content/img/Link/@item.ID/@AnhBia[0]" alt="@item.Name">
                                         </div>
                                     }
+                                    @if (_SneakerService.GetAmountInventorySneaker(item.ID) == 0)
+                                    {
+                                        <div class="run-out"><span>hết hàng</span></div>
+                                    }
                                 </a>
                                 <div class="product__caption">
-                                    <h3><a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
+                                    <h3><a href="@Url.Action("ProductDetails", "Home", new { idSneaker=item.ID })" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
                                 </div>
                                 <div class="product__price">
                                     <div class="product__price-current">@string.Format("{0:0,0}", item.PriceAfterDiscount)<span class="product__price-current--symbol">₫</span></div>
@@ -152,7 +160,7 @@
                         {
                             List<string> AnhBia = _SneakerService.GetCoverPicture(item.ID);
                             <div class="product col-lg-3 col-md-6 col-sm-6 col-6">
-                                <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__link" title="@item.Name">
+                                <a href="@Url.Action("ProductDetails", "Home", new { idSneaker=item.ID })" class="product__link" title="@item.Name">
                                     @if (item.Discount != 0)
                                     {
                                         <span class="sale">- @item.Discount%</span>
@@ -170,9 +178,13 @@
                                             <img class="product__hover-img" src="~/Content/img/Link/@item.ID/@AnhBia[0]" alt="@item.Name">
                                         </div>
                                     }
+                                    @if (_SneakerService.GetAmountInventorySneaker(item.ID) == 0)
+                                    {
+                                        <div class="run-out"><span>hết hàng</span></div>
+                                    }
                                 </a>
                                 <div class="product__caption">
-                                    <h3><a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
+                                    <h3><a href="@Url.Action("ProductDetails", "Home", new { idSneaker=item.ID })" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
                                 </div>
                                 <div class="product__price">
                                     <div class="product__price-current">@string.Format("{0:0,0}", item.PriceAfterDiscount)<span class="product__price-current--symbol">₫</span></div>
@@ -200,7 +212,7 @@
 
                             List<string> AnhBia = _SneakerService.GetCoverPicture(item.ID);
                             <div class="product col-lg-3 col-md-6 col-sm-6 col-6">
-                                <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__link" title="@item.Name">
+                                <a href="@Url.Action("ProductDetails", "Home", new { idSneaker=item.ID })" class="product__link" title="@item.Name">
                                     @if (item.Discount != 0)
                                     {
                                         <span class="sale">- @item.Discount%</span>
@@ -218,9 +230,13 @@
                                             <img class="product__hover-img" src="~/Content/img/Link/@item.ID/@AnhBia[0]" alt="@item.Name">
                                         </div>
                                     }
+                                    @if (_SneakerService.GetAmountInventorySneaker(item.ID) == 0)
+                                    {
+                                        <div class="run-out"><span>hết hàng</span></div>
+                                    }
                                 </a>
                                 <div class="product__caption">
-                                    <h3><a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
+                                    <h3><a href="@Url.Action("ProductDetails", "Home", new { idSneaker=item.ID })" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
                                 </div>
                                 <div class="product__price">
                                     <div class="product__price-current">@string.Format("{0:0,0}", item.PriceAfterDiscount)<span class="product__price-current--symbol">₫</span></div>
@@ -248,7 +264,7 @@
 
                             List<string> AnhBia = _SneakerService.GetCoverPicture(item.ID);
                             <div class="product col-lg-3 col-md-6 col-sm-6 col-6">
-                                <a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__link" title="@item.Name">
+                                <a href="@Url.Action("ProductDetails", "Home", new { idSneaker=item.ID })" class="product__link" title="@item.Name">
                                     @if (item.Discount != 0)
                                     {
                                         <span class="sale">- @item.Discount%</span>
@@ -266,9 +282,13 @@
                                             <img class="product__hover-img" src="~/Content/img/Link/@item.ID/@AnhBia[0]" alt="@item.Name">
                                         </div>
                                     }
+                                    @if (_SneakerService.GetAmountInventorySneaker(item.ID) == 0)
+                                    {
+                                        <div class="run-out"><span>hết hàng</span></div>
+                                    }
                                 </a>
                                 <div class="product__caption">
-                                    <h3><a href="/assets/products_html/giay_air_nike_force_1_low_white_brown/giay_air_nike_force_1_low_white_brown.html" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
+                                    <h3><a href="@Url.Action("ProductDetails", "Home", new { idSneaker=item.ID })" class="product__caption-link" title="@item.Name">@item.Name</a></h3>
                                 </div>
                                 <div class="product__price">
                                     <div class="product__price-current">@string.Format("{0:0,0}", item.PriceAfterDiscount)<span class="product__price-current--symbol">₫</span></div>

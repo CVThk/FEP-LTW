@@ -52,5 +52,27 @@ namespace FEP.Controllers
             ViewBag.idSneakerType = idSneakerType;
             return View(sneaker.ToPagedList((int)pageNumber, (int)ViewBag.pageSize));
         }
+
+        public ActionResult ProductDetails(string idSneaker)
+        {
+            List<int> inventory = _SneakerService.GetSizeInventory(idSneaker);
+            Sneaker s = _Sneakers.Find(x => x.ID == idSneaker);
+            if(!_SneakerService.CheckInventory(inventory))
+            {
+                return RedirectToAction("ErrInventory", "Home", new { sneaker = s });
+            }    
+            ViewBag.Sneaker = s;
+            ViewBag.SPTT = _Sneakers.FindAll(x => x.IDSneakerType == s.IDSneakerType).Take(8).ToList();
+            ViewBag.DetailsImage = _SneakerService.GetDetailsPicture(idSneaker);
+            ViewBag.Sizes = _SneakerService.GetSizes();
+            ViewBag.InventorySize = inventory;
+            ViewBag.SneakerService = _SneakerService;
+            return View();
+        }
+
+        public ActionResult ErrInventory(Sneaker sneaker)
+        {
+            return View(sneaker);
+        }
     }
 }
