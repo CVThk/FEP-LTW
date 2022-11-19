@@ -798,6 +798,28 @@ go
 
 --exec sp_GetSizeInventory 'GNAF1LWB'
 
+
+CREATE PROC sp_AddAccountClient
+@username varchar(100), @password varchar(30), @name nvarchar(max), @phoneClient varchar(11)
+AS
+	if(select count(*) from tbl_Client where Phone = @phoneClient) > 0
+		return 0
+	if (select count(*) from tbl_Account where Username = @username) > 0
+		return 0
+	insert into tbl_Client (Name, Phone)
+	values (@name, @phoneClient)
+	insert into tbl_Account
+	values (@username, @password)
+	declare @idClient int, @idAccount int
+	select @idClient = ID from tbl_Client where Phone = @phoneClient
+	select @idAccount = ID from tbl_Account where Username = @username
+	insert into tbl_Account_Client (IDAccount, IDClient)
+	values (@idAccount, @idClient)
+	return 1
+go
+
+
+
 -- ============================================================================= QUERY TEST =============================================================================
 
 --Select * from tbl_Sneaker, tbl_SizeDetails, tbl_Size where tbl_Sneaker.ID = tbl_SizeDetails.IDSneaker and tbl_SizeDetails.IDSize = tbl_Size.ID

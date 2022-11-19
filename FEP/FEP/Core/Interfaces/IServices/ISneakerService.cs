@@ -9,10 +9,11 @@ namespace FEP.Core.Interfaces.IServices
 {
     public interface ISneakerService:IBasicService<Sneaker>
     {
-        int GetIDSneaker(string nameSneaker);
+        int GetIDSneakerType(string nameSneaker);
         List<string> GetCoverPicture(string idSneaker);
         List<string> GetDetailsPicture(string idSneaker);
         int GetAmountInventorySneaker(string idSneaker);
+        Sneaker GetSneaker(string IDSneaker);
 
         List<int> GetSizes();
         List<int> GetSizeInventory(string idSneaker);

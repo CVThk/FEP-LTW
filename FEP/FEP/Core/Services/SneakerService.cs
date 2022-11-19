@@ -98,7 +98,7 @@ namespace FEP.Core.Services
             return list;
         }
 
-        public int GetIDSneaker(string nameSneaker)
+        public int GetIDSneakerType(string nameSneaker)
         {
             int row;
             using (var session = NHibernateHelper.OpenSession())
@@ -126,6 +126,11 @@ namespace FEP.Core.Services
                 list = (List<int>)session.CreateSQLQuery("select Size from tbl_Size").List<int>();
             }
             return list;
+        }
+
+        public Sneaker GetSneaker(string IDSneaker)
+        {
+            throw new NotImplementedException();
         }
     }
 }

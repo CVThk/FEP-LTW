@@ -1,0 +1,23 @@
+﻿@{
+    List<FEP.Models.Cart> list = Session["ListCart"] as List<FEP.Models.Cart>;
+}
+<div id="Cart-main">
+    <a id="Cart-main-icon"><i class="fas fa-shopping-cart"></i><span id="amount">@ViewBag.TotalAmount</span></a>
+    <div class="main-cart-product">
+        @if (list == null || list.Count == 0)
+        {
+            <div id="no_product">
+                <div>Chưa có sản phẩm</div>
+                <div style="display:flex; justify-content:center;"><img src="~/Content/img/no-product.png" /></div>
+            </div>
+        }
+        else
+        {
+            foreach (var item in list)
+            {
+                
+            }
+        }
+    </div>
+</div>
+

@@ -406,3 +406,4 @@ C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\Do
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\obj\Debug\FEP.csproj.CopyComplete
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\obj\Debug\FEP.dll
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\obj\Debug\FEP.pdb
+C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\obj\Debug\FEP.csproj.AssemblyReference.cache

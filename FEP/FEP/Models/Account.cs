@@ -7,10 +7,8 @@ namespace FEP.Models
 {
     public class Account
     {
-        public int ID { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string AccountType { get; set; }
-        public int IDClient { get; set; }
+        public virtual int ID { get; set; }
+        public virtual string Username { get; set; }
+        public virtual string Password { get; set; }
     }
 }

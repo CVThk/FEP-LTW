@@ -32,6 +32,7 @@ namespace FEP.Data
 
              .Mappings(m => m.FluentMappings
                  .AddFromAssemblyOf<Sneaker>()
+                 .AddFromAssemblyOf<Account>()
              )
              .ExposeConfiguration(cfg => new SchemaExport(cfg)
              .Create(false, false))

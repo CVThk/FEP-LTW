@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
+@using FEP.Models
 @{ 
-
+    User user = Session["User"] as User;
     var IDTypeNike = Session["IDTypeNike"];
     var IDTypeAdidas = Session["IDTypeAdidas"];
     var IDTypeLuxury = Session["IDTypeLuxury"];
@@ -25,7 +26,6 @@
     <link rel="stylesheet" href="/Content/fonts/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="/Content/fonts/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
-    <link rel="icon" href="./Content/logo/logo.png" type="image/png" sizes="286x286">
     <link rel="stylesheet" href="~/Content/PagedList.css" />
 
     <title>@ViewBag.Title</title>
@@ -51,25 +51,17 @@
                     </div>
                     <div id="overplay-search"></div>
                 </div>
-                <div class="header__web-cart">
-                    <a id="cart"><i class="fas fa-shopping-cart"></i></a>
-                    <div class="product__cart" id="showcart">
-                        <div class="cart-list-product">
-                            <div class="no-product">Chưa có sản phẩm</div>
-                        </div>
-                        <div class="cart__btn">
-                            @*<div class="cart__watchP">
-                                    <a href="/cart/cart.html"><button><h6>XEM GIỎ HÀNG</h6></button></a>
-                                </div>
-                                <div class="cart__payP">
-                                    <a href="/pay/pay.html"><button><h6>THANH TOÁN</h6></button></a>
-                                </div>*@
-                        </div>
-                    </div>
-                </div>
+                @Html.Action("CartPartial", "Cart")
                 <div class="User d-flex align-items-center ml-4">
-                    <div style="font-size:15px; min-width:100px; text-align:right; font-weight:bold;">Châu Thịnh</div>
-                    <div><img style="width:40px; height:40px; margin-left:8px;" src="~/Content/img/user.png" /></div>
+                    @if (user != null)
+                    {
+                        <div style="font-size:15px; min-width:100px; text-align:right; font-weight:bold;">@user.Name</div>
+                        <div><img style="width:40px; height:40px; margin-left:8px;" src="~/Content/img/user.png" /></div>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login", "Account")">Đăng nhập</a>       
+                    }
                 </div>
                 <div class="header__web-menu-tablet">
                     <i class="ti-menu"></i>
@@ -412,7 +404,7 @@
                     <div class="title__heading">
                         <h4 class="footer-heading">Giới thiệu</h4>
                     </div>
-                    <p class="footer-description footer-color-text">FRONT-END PROFESSIONAL ® là thương hiệu thời trang Streetwear được xây dựng và thành lập cũng như chính thức ra mắt lần đầu tại Sài Gòn, Việt Nam vào mùa xuân tháng 3 năm 2021</p>
+                    <p class="footer-description footer-color-text">FEP ® là thương hiệu thời trang Streetwear được xây dựng và thành lập cũng như chính thức ra mắt lần đầu tại Sài Gòn, Việt Nam vào mùa xuân tháng 3 năm 2021</p>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12 col-12">
                     <div class="link">

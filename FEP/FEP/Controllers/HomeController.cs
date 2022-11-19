@@ -16,11 +16,11 @@ namespace FEP.Controllers
         static ISneakerData _NHibernateData = new NHibernateData();
         static SneakerService _SneakerService = new SneakerService(_NHibernateData);
         static List<Sneaker> _Sneakers = _SneakerService.getAll();
-        static int IDTypeNike = _SneakerService.GetIDSneaker("Nike");
-        static int IDTypeAdidas = _SneakerService.GetIDSneaker("Adidas");
-        static int IDTypeLuxury = _SneakerService.GetIDSneaker("Luxury");
-        static int IDTypeMLB = _SneakerService.GetIDSneaker("MLB");
-        static int IDTypeDep = _SneakerService.GetIDSneaker("Dép");
+        static int IDTypeNike = _SneakerService.GetIDSneakerType("Nike");
+        static int IDTypeAdidas = _SneakerService.GetIDSneakerType("Adidas");
+        static int IDTypeLuxury = _SneakerService.GetIDSneakerType("Luxury");
+        static int IDTypeMLB = _SneakerService.GetIDSneakerType("MLB");
+        static int IDTypeDep = _SneakerService.GetIDSneakerType("Dép");
         // GET: Home
         public ActionResult FEP()
         {
