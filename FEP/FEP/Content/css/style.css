@@ -518,7 +518,7 @@ hr{
 
 
 
-.product__cart{
+.product__cart, .main-cart-product {
     z-index: 1;
     width: 350px;
     position: absolute;

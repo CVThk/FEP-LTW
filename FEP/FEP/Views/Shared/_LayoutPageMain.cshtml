@@ -27,15 +27,16 @@
     <link rel="stylesheet" href="/Content/fonts/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
     <link rel="stylesheet" href="~/Content/PagedList.css" />
-
+    <link href="~/Content/vendors/mdi/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/Content/vendors/css/vendor.bundle.base.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
     <!-- Header -->
     <div class="header">
-        <div class="header__web-logo mobile">
-            <a href="/Home/FEP"><img id="logo-img" src="/Content/logo/logo.png"></a>
-        </div>
+        @*<div class="header__web-logo mobile">
+                <a href="/Home/FEP"><img id="logo-img" src="/Content/logo/logo.png"></a>
+            </div>*@
         <div class="container-xl">
             <div class="header__web">
                 <div class="header__web-logo">
@@ -47,12 +48,10 @@
                         <button class="search__btn">
                             <a href=""><i class="fas fa-search"></i></a>
                         </button>
-                        <div class="result-search"></div>
                     </div>
-                    <div id="overplay-search"></div>
                 </div>
                 @Html.Action("CartPartial", "Cart")
-                <div class="User d-flex align-items-center ml-4">
+                <div class="d-flex align-items-center ml-4" id="User">
                     @if (user != null)
                     {
                         <div style="font-size:15px; min-width:100px; text-align:right; font-weight:bold;">@user.Name</div>
@@ -60,7 +59,7 @@
                     }
                     else
                     {
-                        <a href="@Url.Action("Login", "Account")">Đăng nhập</a>       
+                        <a href="@Url.Action("Login", "Account")">Đăng nhập</a>
                     }
                 </div>
                 <div class="header__web-menu-tablet">
@@ -463,13 +462,21 @@
                 </div>
             </div>
         </div>
+        <div id="nav-footer">
+            <a href="" class="nav-footer-item">
+                <i class="mdi mdi-home"></i><span>Home</span>
+            </a>
+            <a href="" class="nav-footer-item">
+                <i class="mdi mdi-account"></i><span>Tôi</span>
+            </a>
+        </div>
     </div>
 
     <script src="~/Content/js/main.js"></script>
     <script src="/Content/js/jquery.js"></script>
     <script src="/Content/js/menu-tab-mobi.js"></script>
-    <script src="/Content/js/search.js"></script>
     <script src="/Content/bootstrap5/js/bootstrap.js"></script>
     <script src="/Content/js/slideshow.js"></script>
+    <script src="~/Content/vendors/js/vendor.bundle.base.js"></script>
 </body>
 </html>

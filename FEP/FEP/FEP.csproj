@@ -2304,7 +2304,6 @@
     <Content Include="Content\js\js-login.js" />
     <Content Include="Content\js\main.js" />
     <Content Include="Content\js\menu-tab-mobi.js" />
-    <Content Include="Content\js\search.js" />
     <Content Include="Content\js\slideshow.js" />
     <Content Include="Content\Login\style.css" />
     <Content Include="Content\logo\logo.png" />

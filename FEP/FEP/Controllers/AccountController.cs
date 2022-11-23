@@ -33,21 +33,21 @@ namespace FEP.Controllers
         {
             if (fc.Count == 0)
                 return View();
+            string username, name, password;
+            username = fc["Username"];
+            name = fc["Name"];
+            password = fc["Password"];
+            if (username.Length == 0 || name.Length == 0 || password.Length == 0)
+            {
+                ViewBag.Err = "Vui lòng nhập đầy đủ thông tin!";
+                return View();
+            }
             string phone = fc["Phone"];
             if(!Utilities.Instance.CheckPhone(phone))
             {
                 ViewBag.Err = "Số điện thoại chỉ được nhập số!";
                 return View();
             }
-            string username, name, password;
-            username = fc["Username"];
-            name = fc["Name"];
-            password = fc["Password"];
-            if(username.Length == 0 || name.Length == 0 || password.Length == 0)
-            {
-                ViewBag.Err = "Vui lòng nhập đầy đủ thông tin!";
-                return View();
-            }    
             if(!accountService.SignUp(username, password, name, phone))
             {
                 ViewBag.Err = "Tên đăng nhập hoặc số điện thoại đã tồn tại!";
