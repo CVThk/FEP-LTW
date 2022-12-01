@@ -16,6 +16,7 @@ namespace FEP.Core.Interfaces.IServices
         Sneaker GetSneaker(string IDSneaker);
 
         List<int> GetSizes();
+        List<int> GetInventory(string idSneaker);
         List<int> GetSizeInventory(string idSneaker);
         bool CheckInventory(string idSneaker);
         bool CheckInventory(List<int> sizeOfSneaker);

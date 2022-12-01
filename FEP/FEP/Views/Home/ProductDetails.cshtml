@@ -6,7 +6,9 @@
     List<string> detailsPic = ViewBag.DetailsImage;
     List<int> sizes = ViewBag.Sizes;
     List<int> inventorySize = ViewBag.InventorySize;
+    List<int> inventory = ViewBag.Inventory;
     SneakerService _SneakerService = ViewBag.SneakerService;
+    User user = Session["User"] as User;
 }
 @{
     ViewBag.Title = sneaker.Name;
@@ -25,7 +27,7 @@
                                 <div class="col-lg-12 col-md-12">
                                     <div class="product__link page-buy">
                                         <span><a href="/index.html" title="Trang chủ"><i class="fas fa-home"></i> Trang chủ</a></span>
-                                        <span><a href="" title="Dép Balenciaga">/ Dép Balenciaga</a></span>
+                                        <span><a href="" title="@sneaker.Name">/ @sneaker.Name</a></span>
                                     </div>
                                 </div>
                             </div>
@@ -71,43 +73,59 @@
                                         <div class="product__describe-size">
                                             <p>Vui lòng chọn size:</p>
                                             <div class="cover-button">
-                                                @foreach (var item in sizes)
+                                                @{ int index = 0; }
+                                                @for (int i = 0; i < sizes.Count; i++)
                                                 {
-                                                    if (_SneakerService.CheckSizeInventory(inventorySize, item))
+                                                    if (_SneakerService.CheckSizeInventory(inventorySize, sizes[i]))
                                                     {
-                                                        <button class="button_size" id="@item"><h2>@item</h2></button>
+                                                        if (index == 0)
+                                                        {
+                                                            <button class="button_size active" id="@sizes[i]"><h2>@sizes[i]</h2></button>
+                                                            index++;
+                                                        }
+                                                        else
+                                                        {
+                                                            <button class="button_size" id="@sizes[i]"><h2>@sizes[i]</h2></button>
+                                                        }
                                                     }
-                                                    else
-                                                    {
-                                                        <button class="button_enable" id="@item"><h2>@item</h2></button>
-                                                    }
+                                                    @*else
+                                                        {
+                                                            <button class="button_enable" id="@item"><h2>@item</h2></button>
+                                                        }*@
                                                 }
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="product__describe-custom">
-                                            <!-- <button class="reduced is-form" type="button" onclick="reducedItems()">-</button> -->
                                             <input class="product__describe-custom-reduced is-form" type="button" value="-">
-                                            <input aria-label="quantity" class="product__describe-custom-input" max="100" min="1" name="" type="number" value="1">
+                                            @*<input aria-label="quantity" class="product__describe-custom-input" max="100" min="1" name="" type="number" value="1">*@
+                                            @for (int i = 0; i < inventory.Count; i++)
+                                            {
+                                                string id = "inventory" + i.ToString();
+                                                if (i == 0)
+                                                {
+                                                    <input aria-label="quantity" id="@id" class="product__describe-custom-input show" max="@inventory[i]" min="1" name="" type="number" value="1">
+                                                }
+                                                else
+                                                {
+                                                    <input aria-label="quantity" id="@id" class="product__describe-custom-input hide" max="@inventory[i]" min="1" name="" type="number" value="1">
+                                                }
+                                            }
                                             <input class="product__describe-custom-increase is-form" type="button" value="+">
-                                            <!-- <button class="increase is-form" type="button" onclick="reducedItems()">+</button> -->
                                         </div>
-                                        <div class="product__describe-choose">
-                                            <div class="product__describe-choose product__describe-choose--add">
-                                                <a title="Thêm vào giỏ hàng"><button><strong>THÊM VÀO GIỎ HÀNG</strong></button></a>
-                                            </div>
-                                            <div class="product__describe-choose product__describe-choose--buy">
-                                                <a href="#" title="Mua hàng"><button><strong>MUA NGAY</strong></button></a>
-                                            </div>
-                                        </div>
-                                        <div class="product__describe-contact">
-                                            <!-- <p>Hoặc đặt mua: <span><strong>0909300746</strong></span> (Tư vấn Miễn phí)</p> -->
-                                            <div class="product__describe-contact-social-network-icons">
-                                                <a id="sn1" title="Twitter" href="https://twitter.com/share?url=https%3A%2F%2Fkingshoes.vn%2Fair-force-1-nam-315122-111--315115-112--dd8959-100--cw2288-111.html&text=Nike%20%20Sneaker%20AIR%20FORCE%201%20-%20315122%20111%20%40%20KingShoes.vn%20B%C3%A1n%20Gi%C3%A0y%20Sneaker%20Ch%C3%ADnh%20H%C3%A3ng%20T%E1%BA%A1i%20Tphcm%20%E2%9C%9315%20Ng%C3%A0y%20%C4%90%E1%BB%95i%20H%C3%A0ng%20%E2%9C%93Giao%20H%C3%A0ng%20Mi%E1%BB%85n%20Ph%C3%AD%20%E2%9C%93Thanh%20To%C3%A1n%20Khi%20Nh%E1%BA%ADn%20H%C3%A0ng%20%E2%9C%93B%E1%BA%A3o%20H%C3%A0nh%20H%C3%A0ng%20Ch%C3%ADnh%20H%C3%A3ng%20Tr%E1%BB%8Dn%20%C4%90%E1%BB%9Di." target="_blank"><i class="fab fa-twitter"></i></i></a>
-                                                <a id="sn2" title="Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fkingshoes.vn%2Fair-force-1-nam-315122-111--315115-112--dd8959-100--cw2288-111.html" target="_blank"><i class="fab fa-facebook"></i></a>
-                                                <a id="sn3" title="Pinterest" href="https://www.pinterest.com/pin/create/bookmarklet/?&url=https%3A%2F%2Fkingshoes.vn%2Fair-force-1-nam-315122-111--315115-112--dd8959-100--cw2288-111.html&description=Nike%20%20Sneaker%20AIR%20FORCE%201%20-%20315122%20111%20%40%20KingShoes.vn%20B%C3%A1n%20Gi%C3%A0y%20Sneaker%20Ch%C3%ADnh%20H%C3%A3ng%20T%E1%BA%A1i%20Tphcm%20%E2%9C%9315%20Ng%C3%A0y%20%C4%90%E1%BB%95i%20H%C3%A0ng%20%E2%9C%93Giao%20H%C3%A0ng%20Mi%E1%BB%85n%20Ph%C3%AD%20%E2%9C%93Thanh%20To%C3%A1n%20Khi%20Nh%E1%BA%ADn%20H%C3%A0ng%20%E2%9C%93B%E1%BA%A3o%20H%C3%A0nh%20H%C3%A0ng%20Ch%C3%ADnh%20H%C3%A3ng%20Tr%E1%BB%8Dn%20%C4%90%E1%BB%9Di." target="_blank"><i class="fab fa-pinterest"></i></a>
-                                                <a id="sn4" title="Messenger" href="#" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
-                                            </div>
+                                        <div id="btn-choose">
+                                            @using (Html.BeginForm("AddCart", "Cart"))
+                                            {
+                                                <input type="text" name="size" id="Size" style="display:none;" />
+                                                <input type="text" name="amount" id="Amount" style="display:none;" />
+                                                <input type="text" name="idsneaker" id="IdSneaker" style="display:none;" />
+                                                <input type="text" name="idclient" id="IdClient" style="display:none;" />
+                                                <button id="add-cart" class="btn-primary" type="submit">THÊM VÀO GIỎ HÀNG</button>
+                                            }
+                                            @using (Html.BeginForm())
+                                            {
+                                                <button id="buy-now" class="btn-danger" type="submit">THÊM VÀO GIỎ HÀNG</button>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -209,9 +227,16 @@
 
 </div>
 
-
+@if (user != null)
+{
+    <script>
+    sessionStorage.idclient = @user.ID;
+    sessionStorage.idSneaker = '@sneaker.ID';
+    </script>
+}
 <script src="~/Content/js/menu-tab-mobi.js"></script>
 <script src="~/Content/bootstrap5/js/bootstrap.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="~/Content/js/main.js"></script>
 

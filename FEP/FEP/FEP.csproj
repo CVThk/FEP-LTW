@@ -3472,8 +3472,10 @@
     <Compile Include="Core\Interfaces\IData\ISneakerData.cs" />
     <Compile Include="Core\Interfaces\IServices\IAccountService.cs" />
     <Compile Include="Core\Interfaces\IServices\IBasicService.cs" />
+    <Compile Include="Core\Interfaces\IServices\ICartService.cs" />
     <Compile Include="Core\Interfaces\IServices\ISneakerService.cs" />
     <Compile Include="Core\Services\AccountService.cs" />
+    <Compile Include="Core\Services\CartService.cs" />
     <Compile Include="Core\Services\SneakerService.cs" />
     <Compile Include="Data\ADOHelper.cs" />
     <Compile Include="Data\HelperData.cs" />

@@ -118,6 +118,16 @@ namespace FEP.Core.Services
             return list;
         }
 
+        public List<int> GetInventory(string idSneaker)
+        {
+            List<int> list = new List<int>();
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                list = (List<int>)session.CreateSQLQuery("select Amount from tbl_Inventory where IDSneaker = :id").SetParameter("id", idSneaker).List<int>();
+            }
+            return list;
+        }
+
         public List<int> GetSizes()
         {
             List<int> list = new List<int>();

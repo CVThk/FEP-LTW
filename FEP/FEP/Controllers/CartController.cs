@@ -16,6 +16,9 @@ namespace FEP.Controllers
         static ISneakerData _NHibernateData = new NHibernateData();
         static SneakerService _SneakerService = new SneakerService(_NHibernateData);
         static List<Sneaker> _Sneakers = _SneakerService.getAll();
+
+        static CartService _CartService = new CartService();
+        static List<Cart> carts = _CartService.GetCarts();
         public int TotalAmount()
         {
             int sl = 0;
@@ -39,7 +42,11 @@ namespace FEP.Controllers
         }
         public ActionResult CartPartial()
         {
-            ViewBag.TotalAmount = TotalAmount();
+            //ViewBag.TotalAmount = TotalAmount();
+            User user = Session["User"] as User;
+            if (user == null)
+                ViewBag.TotalAmount = 0;
+            else ViewBag.TotalAmount = carts.Count(x => x.IDClient == user.ID);
             return PartialView();
         }
 
@@ -47,6 +54,11 @@ namespace FEP.Controllers
         {
             var listCart = Session["ListCart"] as List<Cart>;
             return View(listCart);
+        }
+
+        public ActionResult AddCart(FormCollection fc)
+        {
+            return View();
         }
     }
 }

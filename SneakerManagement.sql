@@ -913,3 +913,8 @@ select * from tbl_Account_Staff
 select * from tbl_Sneaker where ID = 'GNAF1LWB'
 
 select * from City, District, Ward where City.ID = District.IDCity and District.ID = Ward.IDDistrict and Ward.ID = 26773
+
+
+select tbl_Size.Size, tbl_Inventory.Amount from tbl_Size, tbl_Inventory where IDSneaker = 'GNAF1LWB' and tbl_Size.ID = tbl_Inventory.IDSize
+
+select Amount from tbl_Inventory where IDSneaker = 'GNAF1LWB'

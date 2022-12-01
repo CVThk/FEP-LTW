@@ -55,17 +55,20 @@ namespace FEP.Controllers
 
         public ActionResult ProductDetails(string idSneaker)
         {
-            List<int> inventory = _SneakerService.GetSizeInventory(idSneaker);
+            List<int> sizeInventory = _SneakerService.GetSizeInventory(idSneaker);
             Sneaker s = _Sneakers.Find(x => x.ID == idSneaker);
-            if(!_SneakerService.CheckInventory(inventory))
+            if(!_SneakerService.CheckInventory(sizeInventory))
             {
                 return RedirectToAction("ErrInventory", "Home", new { sneaker = s });
-            }    
+            }
+            List<int> inventory = _SneakerService.GetInventory(idSneaker);
+
             ViewBag.Sneaker = s;
             ViewBag.SPTT = _Sneakers.FindAll(x => x.IDSneakerType == s.IDSneakerType).Take(8).ToList();
             ViewBag.DetailsImage = _SneakerService.GetDetailsPicture(idSneaker);
             ViewBag.Sizes = _SneakerService.GetSizes();
-            ViewBag.InventorySize = inventory;
+            ViewBag.InventorySize = sizeInventory;
+            ViewBag.Inventory = inventory;
             ViewBag.SneakerService = _SneakerService;
             return View();
         }

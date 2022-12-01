@@ -759,3 +759,11 @@ input[name="rSlide"] {position: absolute; visibility: hidden;}
     font-size: 26px;
     height:50%;
 }
+
+
+.product__describe-custom-input.show {
+    display:block;
+}
+.product__describe-custom-input.hide {
+    display: none;
+}

@@ -2,6 +2,7 @@
 @using FEP.Models
 @{ 
     User user = Session["User"] as User;
+    //Session["User"] = user;
     var IDTypeNike = Session["IDTypeNike"];
     var IDTypeAdidas = Session["IDTypeAdidas"];
     var IDTypeLuxury = Session["IDTypeLuxury"];
@@ -11,6 +12,7 @@
 
 <html>
 <head>
+    <link rel="stylesheet" href="~/Content/Admin/assets/css/style.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,17 +53,43 @@
                     </div>
                 </div>
                 @Html.Action("CartPartial", "Cart")
-                <div class="d-flex align-items-center ml-4" id="User">
-                    @if (user != null)
-                    {
-                        <div style="font-size:15px; min-width:100px; text-align:right; font-weight:bold;">@user.Name</div>
-                        <div><img style="width:40px; height:40px; margin-left:8px;" src="~/Content/img/user.png" /></div>
-                    }
-                    else
-                    {
-                        <a href="@Url.Action("Login", "Account")">Đăng nhập</a>
-                    }
-                </div>
+            <div class="d-flex align-items-center ml-4" id="User">
+                @if (user != null)
+                {
+                    <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
+                        <div class="navbar-profile d-flex align-items-center">
+                            <img class="img-xs rounded-circle" src="~/Content/img/user.png" alt="">
+                            <p class="mb-0 d-none d-sm-block navbar-profile-name">@user.Name</p>
+                            <i class="mdi mdi-menu-down d-none d-sm-block"></i>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
+                        <h6 class="mb-0" style="padding:2px 6px;">Profile</h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item preview-item user-item">
+                            <div class="preview-thumbnail">
+                                <i class="mdi mdi-settings text-success"></i>
+                            </div>
+                            <div class="preview-item-content">
+                                <p class="preview-subject mb-1">Settings</p>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="@Url.Action("Login", "Account")" class="dropdown-item preview-item user-item">
+                            <div class="preview-thumbnail">
+                                <i class="mdi mdi-logout text-danger"></i>
+                            </div>
+                            <div class="preview-item-content">
+                                <p class="preview-subject mb-1">Log out</p>
+                            </div>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <a href="@Url.Action("Login", "Account")">Đăng nhập</a>
+                }
+            </div>
                 <div class="header__web-menu-tablet">
                     <i class="ti-menu"></i>
                 </div>
