@@ -9,6 +9,7 @@ namespace FEP.Core.Interfaces.IServices
 {
     public interface IAccountService:IBasicService<Account>
     {
-        bool SignUp(string username, string password, string name, string phone);
+        bool SignUp(string name, string username, string password, string phone, DateTime dateOfBirth, string gender, int idWard);
+        string Login(string username, string password);
     }
 }

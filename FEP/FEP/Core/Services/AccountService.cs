@@ -21,16 +21,24 @@ namespace FEP.Core.Services
             return _data.GetAccounts();
         }
 
-        public bool SignUp(string username, string password, string name, string phone)
+        public string Login(string username, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SignUp(string name, string username, string password, string phone, DateTime dateOfBirth, string gender, int idWard)
         {
             int result = 0;
             using(var session = NHibernateHelper.OpenSession())
             {
-                result = session.CreateSQLQuery(@"declare @result int exec sp_AddAccountClient :username, :password, :name, :phone select @result")
+                result = session.CreateSQLQuery(@"declare @result int exec sp_AddAccountClient :name, :username, :password, :phone, :dateOfBirth, :gender, :idWard select @result")
+                    .SetParameter("name", name)
                     .SetParameter("username", username)
                     .SetParameter("password", password)
-                    .SetParameter("name", name)
                     .SetParameter("phone", phone)
+                    .SetParameter("dateOfBirth", dateOfBirth)
+                    .SetParameter("gender", gender)
+                    .SetParameter("idWard", idWard)
                     .UniqueResult<int>();
             }
             return result > 0;

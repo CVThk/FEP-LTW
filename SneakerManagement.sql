@@ -799,17 +799,19 @@ go
 --exec sp_GetSizeInventory 'GNAF1LWB'
 
 
-CREATE PROC sp_AddAccountClient
-@username varchar(100), @password varchar(30), @name nvarchar(max), @phoneClient varchar(11)
+alter PROC sp_AddAccountClient
+@name nvarchar(max), @username varchar(100), @password varchar(30), @phoneClient varchar(11), @dateOfBirth date, @gender nvarchar(3), @idWard int
 AS
 	if(select count(*) from tbl_Client where Phone = @phoneClient) > 0
 		return 0
 	if (select count(*) from tbl_Account where Username = @username) > 0
 		return 0
-	insert into tbl_Client (Name, Phone)
-	values (@name, @phoneClient)
+	insert into tbl_Client (Name, DateOfBirth, Gender, Phone, IDWard)
+	values (@name, @dateOfBirth, @gender, @phoneClient, @idWard)
+
 	insert into tbl_Account
 	values (@username, @password)
+
 	declare @idClient int, @idAccount int
 	select @idClient = ID from tbl_Client where Phone = @phoneClient
 	select @idAccount = ID from tbl_Account where Username = @username
@@ -822,6 +824,72 @@ go
 --exec sp_AddAccountClient '', '', '', ''
 --select @result
 
+CREATE PROC sp_AccountLogin
+@username varchar(max), @password varchar(30)
+AS
+	declare @idAccount int
+	select @idAccount = ID from tbl_Account where Username = @username and Password = @password
+	if @idAccount is null
+		return 0
+	declare @id int
+	if (select count(*) from tbl_Account_Client where IDAccount = @idAccount) > 0
+		select @id = IDClient from tbl_Account_Client where IDAccount = @idAccount
+	else if (select count(*) from tbl_Account_Staff where IDAccount = @idAccount) > 0
+			select @id = IDStaff from tbl_Account_Staff where IDAccount = @idAccount
+	return @id
+GO
+
+--declare @id int
+--exec @id = sp_AccountLogin 'cvt', 'cvtadmin'
+--print convert(varchar(max), @id)
+
+CREATE PROC sp_GetIDAccount
+@username varchar(max), @password varchar(30)
+AS
+	declare @idAccount int
+	select @idAccount = ID from tbl_Account where Username = @username and Password = @password
+	if @idAccount is null
+		return 0
+	return @idAccount
+GO
+
+--declare @idAccount int
+--exec @idAccount = sp_GetIDAccount 'cvt','cvtadmin'
+--print @idAccount
+
+CREATE PROC sp_GetIDClientByIDAccount
+@idAccount int
+AS
+	declare @id int
+	select @id = IDClient from tbl_Account_Client where IDAccount = @idAccount
+	if @id is null
+		return 0
+	return @id
+GO
+
+--declare @id int
+--exec @id = sp_GetIDClientByIDAccount 4
+--print convert(varchar(max), @id)
+CREATE PROC sp_GetIDStaffByIDAccount
+@idAccount int
+AS
+	declare @id int
+	select @id = IDStaff from tbl_Account_Staff where IDAccount = @idAccount
+	if @id is null
+		return 0
+	return @id
+GO
+--declare @id int
+--exec @id = sp_GetIDStaffByIDAccount 1
+--print convert(varchar(max), @id)
+
+
+
+--declare @idAccount int
+--select @idAccount = ID from tbl_Account where Username = '' and Password = ''
+--if @idAccount is null
+--	print 'true'
+--print convert(varchar(max), @idAccount)
 
 -- ============================================================================= QUERY TEST =============================================================================
 
@@ -843,3 +911,5 @@ select * from tbl_Account_Staff
 --select Size from tbl_Size, tbl_Inventory where tbl_Inventory.IDSize = tbl_Size.ID and IDSneaker = 'GNAF1LPSR'
 
 select * from tbl_Sneaker where ID = 'GNAF1LWB'
+
+select * from City, District, Ward where City.ID = District.IDCity and District.ID = Ward.IDDistrict and Ward.ID = 26773

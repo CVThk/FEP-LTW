@@ -744,23 +744,18 @@ input[name="rSlide"] {position: absolute; visibility: hidden;}
     left: 0;
     right: 0;
     box-shadow: 0px 0px 3px 2px rgb(0, 0, 0, 0.08);
-    display:flex;
-    justify-content:space-between;
-    padding-left:10px;
-    padding-right:10px;
+    /*display:flex;*/
+    display:none;
 }
 .nav-footer-item {
-    display:flex;
+    width:calc(100% / 4);
     height:100%;
-    align-items:center;
-    justify-content:center;
+    text-align:center;
 }
-.nav-footer-item > i {
-    font-size: 22px;
+.nf-describe {
+    font-size:13px;
 }
-.nav-footer-item > span {
-    font-size: 10px;
-    position: relative;
-    top: 25%;
-    left: -50%;
+.nf-icon {
+    font-size: 26px;
+    height:50%;
 }
