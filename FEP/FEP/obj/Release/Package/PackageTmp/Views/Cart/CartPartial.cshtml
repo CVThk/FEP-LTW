@@ -1,0 +1,57 @@
+﻿@using FEP.Models
+@using FEP.Core.Services
+@using FEP.Core.Interfaces.IData
+@using FEP.Data
+@{
+    List<Cart> list = Session["ListCart"] as List<Cart>;
+    ISneakerData _NHibernateData = new NHibernateData();
+    SneakerService _SneakerService = new SneakerService(_NHibernateData);
+    List<Sneaker> sneakers = Session["ListSneaker"] as List<Sneaker>;
+}
+<div id="Cart-main">
+    <a id="Cart-main-icon"><i class="fas fa-shopping-cart"></i><span id="amount">@ViewBag.TotalAmount</span></a>
+    <div class="main-cart-product">
+        @if (list == null || list.Count == 0)
+        {
+            <div id="no_product">
+                <div>Chưa có sản phẩm</div>
+                <div style="display:flex; justify-content:center;"><img src="~/Content/img/no-product.png" /></div>
+            </div>
+        }
+        else
+        {
+            foreach (var item in list)
+            {
+                List<string> AnhBia = _SneakerService.GetCoverPicture(item.IDSneaker);
+                Sneaker sitem = sneakers.Find(x => x.ID == item.IDSneaker);
+                <div class="cart__box">
+                    <div class="cart__img">
+                        <img src="~/Content/img/Link/@item.IDSneaker/@AnhBia[0]" alt="">
+                    </div>
+                    <div class="cart__info">
+                        <div class="cart__title">
+                            <h6>@sitem.Name</h6>
+                        </div>
+                        <div class="cart__int text-muted">
+                            <div class="cart-size">
+                                <h6>@_SneakerService.GetSize(item.IDSize)</h6>
+                            </div>
+                            <div class="cart__number">
+                                <h6>@item.AmountBuy</h6>
+                            </div>
+                            <h6>x</h6>
+                            <div class="cart__price">
+                                <h6>@string.Format("{0:0,0} ₫", sitem.PriceAfterDiscount)</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div style="display:flex; align-items:center; justify-content:space-between; line-height:normal;">
+                <a href="@Url.Action("Cart", "Cart")" class="btn-cart">Xem giỏ</a>
+                <a class="btn-cart">Thanh toán</a>
+            </div>
+        }
+    </div>
+</div>
+

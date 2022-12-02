@@ -1,0 +1,219 @@
+﻿@using FEP.Models
+@using FEP.Utility
+@{
+    Layout = null;
+    <link rel="icon" href="~/Content/logo/logo.png" type="image/png" sizes="286x286">
+    <link rel="stylesheet" href="/Content/bootstrap5/css/bootstrap.css">
+    <link rel="stylesheet" href="~/Content/Login/style.css" type="text/css">
+    <link href="~/Content/vendors/mdi/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/Content/vendors/css/vendor.bundle.base.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive.css" rel="stylesheet" />
+    var listCity = ViewBag.City;
+    var listDistrict = ViewBag.District;
+    var listWard = ViewBag.Ward;
+    string jsonCity = Utilities.Instance.JsonString<City>(listCity);
+    string jsonDistrict = Utilities.Instance.JsonString<District>(listDistrict);
+    string jsonWard = Utilities.Instance.JsonString<Ward>(listWard);
+    }
+
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Sign Up</title>
+        <style>
+            /* Chrome, Safari, Edge, Opera */
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            /* Firefox */
+            input[type=number] {
+                -moz-appearance: textfield;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Normal Breadcrumb Begin -->
+        <section class="normal-breadcrumb set-bg" style="background-image: url(/Content/img/anh-dep-thien-nhien-5.jpg); opacity: 0.8;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="normal__breadcrumb__text">
+                            <h2>Sign Up</h2>
+                            <p>Welcome to the FEP.</p>
+                        </div>
+                        <a href="@Url.Action("FEP", "Home")"><img width="20%" src="~/Content/logo/logo.png" /></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Normal Breadcrumb End -->
+        <!-- Signup Section Begin -->
+        <section class="signup spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="login__form">
+                            <h3>Sign Up</h3>
+                            @using (Html.BeginForm("SignUp", "Account"))
+                            {
+                                <div class="input__item">
+                                    <input id="iName" type="text" name="Name" placeholder="Your Name">
+                                    <span><i class="mdi mdi-information-variant"></i></span>
+                                    @if (ViewData["LoiName"] != null)
+                                    {
+                                        <div class="err-form">@ViewData["LoiName"]</div>
+                                    }
+                                </div>
+
+                                <div class="input__item">
+                                    <input id="iUsername" type="text" name="Username" placeholder="Username">
+                                    <span><i class="mdi mdi-account"></i></span>
+                                    @if (ViewData["LoiUsername"] != null)
+                                    {
+                                        <div class="err-form">@ViewData["LoiUsername"]</div>
+                                    }
+                                </div>
+
+                                <div class="input__item d-flex align-items-center">
+                                    <input id="iPassword" type="password" name="Password" placeholder="Password" maxlength="30" oninput="checkPasscode();">
+                                    <span><i class="mdi mdi-lock"></i></span>
+                                    <div class="eye-pass"><i class="mdi mdi-eye"></i></div>
+                                    @if (ViewData["LoiPassword"] != null)
+                                    {
+                                        <div class="err-form">@ViewData["LoiPassword"]</div>
+                                    }
+                                </div>
+
+                                <div class="input__item">
+                                    <input id="iPhone" type="number" name="Phone" placeholder="Phone" maxlength="11">
+                                    <span><i class="mdi mdi-cellphone"></i></span>
+                                    @if (ViewData["LoiPhone"] != null)
+                                    {
+                                        <div class="err-form">@ViewData["LoiPhone"]</div>
+                                    }
+                                </div>
+
+                                <div class="input__item">
+                                    <input id="iDateOfBirth" type="date" name="DateOfBirth" placeholder="Date Of Birth" style="padding-right:7%;">
+                                    <span><i class="mdi mdi-calendar-today"></i></span>
+                                    @if (ViewData["LoiDateOfBirth"] != null)
+                                    {
+                                        <div class="err-form">@ViewData["LoiDateOfBirth"]</div>
+                                    }
+                                </div>
+
+                                <div class="input__item">
+                                    @{
+                                        var listItem = new List<SelectListItem>();
+
+                                        listItem.Add(new SelectListItem() { Value = "Nam", Text = "Nam" });
+                                        listItem.Add(new SelectListItem() { Value = "Nữ", Text = "Nữ" });
+                                    }
+                                    @Html.DropDownList("Gender", listItem, "Select gender")
+                                    <span><i class="mdi mdi-gender-male-female"></i></span>
+                                    @if (ViewData["LoiGender"] != null)
+                                    {
+                                        <div class="err-form">@ViewData["LoiGender"]</div>
+                                    }
+                                </div>
+
+                                <div class="input__item">
+                                    <select name="City" id="City" onchange="fDistrict(), fWard()"></select>
+                                    <span><i class="mdi mdi-city"></i></span>
+                                </div>
+
+                                <div class="input__item">
+                                    <select name="District" id="District" onchange="fWard()"><option value="null" selected>Chọn Quận / Huyện</option></select>
+                                    <span><i class="mdi mdi-map-marker-multiple"></i></span>
+                                </div>
+
+                                <div class="input__item">
+                                    <select name="Ward" id="Ward"><option value="null" selected="">Chọn Phường / Xã</option></select>
+                                    <span><i class="mdi mdi-map-marker"></i></span>
+                                    @if (ViewData["LoiWard"] != null)
+                                    {
+                                        <div class="err-form">@ViewData["LoiWard"]</div>
+                                    }
+                                </div>
+                                <button id="loginNow" type="submit" class="site-btn">Login Now</button>
+                            }
+                            <h5>Already have an account? <a href="@Url.Action("Login", "Account")">Log In!</a></h5>
+                        </div>
+                        @if (ViewData["LoiSignUp"] != null)
+                        {
+                            <div class="err-form ms-auto" style="width:75%;">@ViewData["LoiLogin"]</div>
+                        }
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="login__social__links">
+                            <h3>Login With:</h3>
+                            <ul>
+                                <li>
+                                    <a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With Facebook</a>
+                                </li>
+                                <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Signup Section End -->
+        <script src="~/Content/vendors/js/vendor.bundle.base.js"></script>
+        <script src="~/Content/js/js-login.js"></script>
+        <script type="text/javascript">
+            var arrayCity = JSON.parse('@Html.Raw(jsonCity)');
+            var selectCity = document.querySelector('#City');
+            function fCity() {
+                var str = '<option value="null" selected>Chọn tỉnh / thành</option>';
+                for (let i = 0; i < arrayCity.length; i++) {
+                    str += '<option value="'+ arrayCity[i].ID +'">' + arrayCity[i].Name + '</option>';
+                }
+                selectCity.innerHTML = str;
+            }
+            fCity();
+            var arrayDistrict = JSON.parse('@Html.Raw(jsonDistrict)');
+            var selectDis = document.querySelector('#District');
+            function fDistrict() {
+                if (selectCity.value == null) {
+                    selectDis.disabled = true;
+                    selectDis.innerHTML = '<option value="null" selected>Chọn Quận / Huyện<option>';
+                }
+                else {
+                    selectDis.disabled = false;
+                    var str = '<option value="null" selected>Chọn Quận / Huyện<option>';
+                    for (let i = 0; i < arrayDistrict.length; i++) {
+                        if (selectCity.value == arrayDistrict[i].IDCity) {
+                            str += '<option value="' + arrayDistrict[i].ID + '">' + arrayDistrict[i].Name + '</option>';
+                        }
+                    }
+                    selectDis.innerHTML = str;
+                }
+            }
+            var arrayWard = JSON.parse('@Html.Raw(jsonWard)');
+            function fWard() {
+                var selectWard = document.querySelector('#Ward');
+                if (selectDis.value == null || selectCity.value == null) {
+                    selectWard.disabled = true;
+                    selectWard.innerHTML = '<option value="null" selected="">Chọn Phường / Xã</option>';
+                }
+                else {
+                    selectWard.disabled = false;
+                    var str = '<option value="null" selected="">Chọn Phường / Xã</option>';
+                    for (let i = 0; i < arrayWard.length; i++) {
+                        if (selectDis.value == arrayWard[i].IDDistrict) {
+                            str += '<option value="' + arrayWard[i].ID + '">' + arrayWard[i].Name + '</option>';
+                        }
+                    }
+                    selectWard.innerHTML = str;
+                }
+            }
+        </script>
+    </body>
+</html>

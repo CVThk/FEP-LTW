@@ -1,0 +1,99 @@
+﻿
+@{
+    Layout = null;
+    <link rel="icon" href="~/Content/logo/logo.png" type="image/png" sizes="286x286">
+    <link rel="stylesheet" href="/Content/bootstrap5/css/bootstrap.css">
+    <link rel="stylesheet" href="~/Content/Login/style.css" type="text/css">
+    <link href="~/Content/vendors/mdi/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/Content/vendors/css/vendor.bundle.base.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive.css" rel="stylesheet" />
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    <!-- Normal Breadcrumb Begin -->
+    <section class="normal-breadcrumb set-bg" style="background-image: url(/Content/img/anh-dep-thien-nhien-41.jpg); opacity: 0.8;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="normal__breadcrumb__text">
+                        <h2>Login</h2>
+                        <p>Welcome to the FEP.</p>
+                    </div>
+                    <a href="@Url.Action("FEP", "Home")"><img width="20%" src="~/Content/logo/logo.png" /></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Normal Breadcrumb End -->
+
+    <section class="login spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="login__form">
+                        <h3>Login</h3>
+                        @using (Html.BeginForm("Login", "Account"))
+                        {
+                            <div class="input__item">
+                                <input type="text" name="Username" placeholder="Username">
+                                <span><i class="mdi mdi-account"></i></span>
+                            </div>
+                            <div class="input__item d-flex align-items-center">
+                                <input id="iPassword" type="password" name="Password" placeholder="Password" maxlength="30" oninput="checkPasscode();">
+                                <span><i class="mdi mdi-lock"></i></span>
+                                <div class="eye-pass"><i class="mdi mdi-eye"></i></div>
+                            </div>
+                            <button type="submit" class="site-btn">Login Now</button>
+                        }
+                        <a href="@Url.Action("Forgot", "Account")" class="forget_pass">Forgot Your Password?</a>
+                    </div>
+                    @if (ViewData["LoiLogin"] != null)
+                    {
+                        <div class="err-form ms-auto" style="width:75%;">@ViewData["LoiLogin"]</div>
+                    }
+                </div>
+                <div class="col-lg-6">
+                    <div class="login__register">
+                        <h3>Dont’t Have An Account?</h3>
+                        <a href="@Url.Action("SignUp", "Account")" class="primary-btn">Register Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="login__social">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="login__social__links">
+                            <span>or</span>
+                            <ul>
+                                <li>
+                                    <a href="#" class="facebook">
+                                        <i class="fa fa-facebook"></i> Sign in With
+                                        Facebook
+                                    </a>
+                                </li>
+                                <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="~/Content/vendors/js/vendor.bundle.base.js"></script>
+    <script src="~/Content/js/js-login.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        sessionStorage.login = '@ViewData["Login"]';
+        sessionStorage.typeLogin = '@ViewData["TypeAccount"]';
+    </script>
+    <script src="~/Content/js/SweetAlert.js"></script>
+</body>
+</html>

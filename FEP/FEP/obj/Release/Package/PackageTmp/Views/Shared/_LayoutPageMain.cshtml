@@ -1,0 +1,531 @@
+﻿<!DOCTYPE html>
+@using FEP.Models
+@{ 
+    User user = Session["User"] as User;
+    //Session["User"] = user;
+    var IDTypeNike = Session["IDTypeNike"];
+    var IDTypeAdidas = Session["IDTypeAdidas"];
+    var IDTypeLuxury = Session["IDTypeLuxury"];
+    var IDTypeMLB = Session["IDTypeMLB"];
+    var IDTypeDep = Session["IDTypeDep"];
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/Admin/assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="~/Content/logo/logo.png" type="image/png" sizes="286x286">
+
+    <link rel="stylesheet" href="~/Content/css/detail.css">
+    <link rel="stylesheet" href="/Content/bootstrap5/css/bootstrap.css">
+    <link rel="stylesheet" href="/Content/css/base.css">
+    <link rel="stylesheet" href="/Content/css/style.css">
+    <link rel="stylesheet" href="/Content/css/style_main.css">
+    <link rel="stylesheet" href="/Content/css/responsive.css">
+    <link rel="stylesheet" href="/Content/fonts/fontawesome-free-5.15.4-web/css/all.css">
+    <link rel="stylesheet" href="/Content/fonts/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/Content/fonts/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="~/Content/PagedList.css" />
+    <link href="~/Content/vendors/mdi/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/Content/vendors/css/vendor.bundle.base.css" rel="stylesheet" />
+    <link href="~/Content/css/loading.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+
+    <div class="loading">
+        <div class="loader">
+            <div class="inner one"></div>
+            <div class="inner two"></div>
+            <div class="inner three"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        @*<div class="header__web-logo mobile">
+                <a href="/Home/FEP"><img id="logo-img" src="/Content/logo/logo.png"></a>
+            </div>*@
+        <div class="container-xl">
+            <div class="header__web">
+                <div class="header__web-logo">
+                    <a href="/Home/FEP"><img id="logo-img" src="/Content/logo/logo.png"></a>
+                </div>
+                <div class="header__web-search">
+                    <div class="header__web-search-border">
+                        <input id="search__input" class="search__input" type="text" placeholder="Nhập tìm kiếm của bạn..." title="Nhập tìm kiếm">
+                        <button class="search__btn">
+                            <a href=""><i class="fas fa-search"></i></a>
+                        </button>
+                    </div>
+                </div>
+                @Html.Action("CartPartial", "Cart")
+                <div class="d-flex align-items-center ml-4" id="User">
+                    @if (user != null)
+                    {
+                        <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
+                            <div class="navbar-profile d-flex align-items-center">
+                                <img class="img-xs rounded-circle" src="~/Content/img/user.png" alt="">
+                                <p class="mb-0 d-none d-sm-block navbar-profile-name" style="margin-left:4px;">@user.Name</p>
+                                <i class="mdi mdi-menu-down d-none d-sm-block"></i>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
+                            <h6 class="mb-0" style="padding:2px 6px;">Profile</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item user-item">
+                                <div class="preview-thumbnail">
+                                    <i class="mdi mdi-settings text-success"></i>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject mb-1">Settings</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="@Url.Action("Login", "Account")" id="log-out" class="dropdown-item preview-item user-item">
+                                <div class="preview-thumbnail">
+                                    <i class="mdi mdi-logout text-danger"></i>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject mb-1">Log out</p>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login", "Account")">Đăng nhập</a>
+                    }
+                </div>
+                <div class="header__web-menu-tablet">
+                    <i class="ti-menu"></i>
+                </div>
+            </div>
+            <div id="menu">
+                <ul>
+                    <li><a href="#">JORDAN</a></li>
+                    <li>
+                        <a href="~/Home/Products?idSneakerType=@IDTypeNike">
+                            GIÀY NIKE
+                            <i class="fas fa-angle-down"></i>
+                        </a>
+                        <ul>
+                            <li><a href="">NIKE AIR FORCE 1</a></li>
+                            <li><a href="">NIKE SB DUNK</a></li>
+                            <li><a href="">NIKE BLAZER</a></li>
+                            <li><a href="">NIKE AIR FEAR OF GOD</a></li>
+                            <li>
+                                <a href="#">
+                                    NIKE AIR MAX
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="">
+                                            <!-- <i class="fas fa-plus"></i> -->
+                                            NIKE AIR MAX 97
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            <!-- <i class="fas fa-plus"></i> -->
+                                            NIKE AIR MAX 270
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="">NIKE M2K</a></li>
+                            <li><a href="">NIKE AIR UPTEMPO</a></li>
+                            <li>
+                                <a href="">NIKE AIR ZOOM PEGASUS</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="~/Home/Products?idSneakerType=@IDTypeAdidas">
+                            ADIDAS
+                            <i class="fas fa-angle-down"></i>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    YEEZY
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="">
+                                            <!-- <i class="fas fa-plus"></i> -->
+                                            YEEZY 350 V2
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            <!-- <i class="fas fa-plus"></i> -->
+                                            YEEZY 700
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="">SUPERSTAR</a></li>
+                            <li><a href="">ULTRA BOOST</a></li>
+                            <li>
+                                <a href="#">ALPHABOUNCE<i class="fas fa-angle-right"></i></a>
+                                <ul>
+                                    <li>
+                                        <a href="">
+                                            <!-- <i class="fas fa-plus"></i> -->
+                                            INSTINCT M
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            <!-- <i class="fas fa-plus"></i> -->
+                                            BEYOND
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="">STAN SMITH</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">CONVERSE<i class="fas fa-angle-down"></i></a>
+                        <ul>
+                            <li><a href="">CONVERSE 1970s</a></li>
+                            <li><a href="">CONVERSE CDG</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="~/Home/Products?idSneakerType=@IDTypeLuxury">GIÀY LUXURY<i class="fas fa-angle-down"></i></a>
+                        <ul>
+                            <li><a href=""> MCQUEEN</a></li>
+                            <li><a href=""> GUCCI</a></li>
+                            <li><a href=""> DIOR</a></li>
+                            <li>
+                                <a href="#">BALENCIAGA<i class="fas fa-angle-right"></i></a>
+                                <ul>
+                                    <li>
+                                        <a href="">
+                                            <!-- <i class="fas fa-plus"></i> -->
+                                            BALENCIAGA SPEED TRAINER
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            <!-- <i class="fas fa-plus"></i> -->
+                                            BALENCIAGA TRACK 3.0
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            <!-- <i class="fas fa-plus"></i> -->
+                                            BALENCIAGA TRIPLE S
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </li>
+                            <li><a href=""> NEW BALANCE</a></li>
+                            <li><a href=""> XVESSEL</a></li>
+                            <li><a href=""> RICK OWENS</a></li>
+                            <li><a href=""> SANIT LAURENT </a></li>
+                            <li><a href=""> GIVENCHY</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="">VANS</a></li>
+                    <li><a href="~/Home/Products?idSneakerType=@IDTypeMLB">MLB</a></li>
+
+                    <li>
+                        <a href="~/Home/Products?idSneakerType=@IDTypeDep">DÉP SIÊU CẤP <i class="fas fa-angle-down"></i></a>
+                        <ul>
+                            <li><a href="">DÉP GUUCI</a></li>
+                            <li><a href="">DÉP BALENCIAGA</a></li>
+                            <li><a href="">DÉP HERMES</a></li>
+                            <li><a href="">DÉP LOUIS VUITTON</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="">DEAL SỐC</a></li>
+                </ul>
+            </div>
+            <div id="overplay-menu"></div>
+            <nav id="menu-tab-mobi" class="hideMenuTabMobi">
+                <ul>
+                    <li><a href="#">JORDAN</a></li>
+                    <li>
+                        <div class="cover-sub-nav-icon">
+                            <a href="~/Home/Products?idSneakerType=@IDTypeNike">GIÀY Nike</a>
+                            <div class="cover-icon">
+                                <i class="fas fa-angle-down"></i>
+                                <i class="ti-close"></i>
+                            </div>
+                        </div>
+                        <div class="sub-menu-dropdown">
+                            <ul>
+                                <li><a href="">NIKE AIR FORCE 1</a></li>
+                                <li><a href="">NIKE SB DUNK</a></li>
+                                <li><a href="">NIKE BLAZER</a></li>
+                                <li><a href="">NIKE AIR FEAR OF GOD</a></li>
+                                <li>
+                                    <div class="cover-sub-nav-icon">
+                                        <a href="#">NIKE AIR MAX</a>
+                                        <div class="cover-icon">
+                                            <i class="fas fa-angle-down"></i>
+                                            <i class="ti-close"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="sub-menu-dropdown">
+                                        <ul>
+                                            <li><a href="">NIKE AIR MAX 97</a></li>
+                                            <li><a href="">NIKE AIR MAX 270</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li><a href="">NIKE M2K</a></li>
+                                <li><a href="">NIKE AIR UPTEMPO</a></li>
+                                <li>
+                                    <a href="">NIKE AIR ZOOM PEGASUS</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="cover-sub-nav-icon">
+                            <a href="~/Home/Products?idSneakerType=@IDTypeAdidas">ADIDAS</a>
+                            <div class="cover-icon">
+                                <i class="fas fa-angle-down"></i>
+                                <i class="ti-close"></i>
+                            </div>
+                        </div>
+                        <div class="sub-menu-dropdown">
+                            <ul>
+                                <li>
+                                    <div class="cover-sub-nav-icon">
+                                        <a href="#">YEEZY</a>
+                                        <div class="cover-icon">
+                                            <i class="fas fa-angle-down"></i>
+                                            <i class="ti-close"></i>
+                                        </div>
+                                    </div>
+                                    <div class="sub-menu-dropdown">
+                                        <ul>
+                                            <li><a href="">YEEZY 350 V2</a></li>
+                                            <li><a href="">YEEZY 700</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li><a href="">SUPERSTAR</a></li>
+                                <li><a href="">ULTRA BOOST</a></li>
+                                <li>
+                                    <div class="cover-sub-nav-icon">
+                                        <a href="#">ALPHABOUNCE</a>
+                                        <div class="cover-icon">
+                                            <i class="fas fa-angle-down"></i>
+                                            <i class="ti-close"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="sub-menu-dropdown">
+                                        <ul>
+                                            <li><a href="">INSTINCT M</a></li>
+                                            <li><a href="">BEYOND</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li><a href="">STAN SMITH</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="cover-sub-nav-icon">
+                            <a href="#">CONVERSE</a>
+                            <div class="cover-icon">
+                                <i class="fas fa-angle-down"></i>
+                                <i class="ti-close"></i>
+                            </div>
+                        </div>
+
+                        <div class="sub-menu-dropdown">
+                            <ul>
+                                <li><a href="">CONVERSE 1970s</a></li>
+                                <li><a href="">CONVERSE CDG</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="cover-sub-nav-icon">
+                            <a href="~/Home/Products?idSneakerType=@IDTypeLuxury">GIÀY LUXURY</a>
+                            <div class="cover-icon">
+                                <i class="fas fa-angle-down"></i>
+                                <i class="ti-close"></i>
+                            </div>
+                        </div>
+
+                        <div class="sub-menu-dropdown">
+                            <ul>
+                                <li><a href=""> MCQUEEN</a></li>
+                                <li><a href=""> GUCCI</a></li>
+                                <li><a href=""> DIOR</a></li>
+                                <li>
+                                    <div class="cover-sub-nav-icon">
+                                        <a href="#">BALENCIAGA</a>
+                                        <div class="cover-icon">
+                                            <i class="fas fa-angle-down"></i>
+                                            <i class="ti-close"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="sub-menu-dropdown">
+                                        <ul>
+                                            <li><a href="">BALENCIAGA SPEED TRAINER</a></li>
+                                            <li><a href="">BALENCIAGA TRACK 3.0</a></li>
+                                            <li><a href="">BALENCIAGA TRIPLE S</a></li>
+                                        </ul>
+                                    </div>
+
+                                </li>
+                                <li><a href=""> NEW BALANCE</a></li>
+                                <li><a href=""> XVESSEL</a></li>
+                                <li><a href=""> RICK OWENS</a></li>
+                                <li><a href=""> SANIT LAURENT </a></li>
+                                <li><a href=""> GIVENCHY</a></li>
+                            </ul>
+                        </div>
+
+                    </li>
+                    <li><a href="">VANS</a></li>
+                    <li><a href="~/Home/Products?idSneakerType=7">MLB</a></li>
+
+                    <li>
+                        <div class="cover-sub-nav-icon">
+                            <a href="~/Home/Products?idSneakerType=@IDTypeDep">DÉP SIÊU CẤP</a>
+                            <div class="cover-icon">
+                                <i class="fas fa-angle-down"></i>
+                                <i class="ti-close"></i>
+                            </div>
+                        </div>
+
+                        <div class="sub-menu-dropdown">
+                            <ul>
+                                <li><a href="">DÉP GUUCI</a></li>
+                                <li><a href="">DÉP BALENCIAGA</a></li>
+                                <li><a href="">DÉP HERMES</a></li>
+                                <li><a href="">DÉP LOUIS VUITTON</a></li>
+                            </ul>
+                        </div>
+
+                    </li>
+                    <li><a href="">DEAL SỐC</a></li>
+                </ul>
+
+            </nav>
+        </div>
+
+
+    </div>
+    <div id="body">
+        @RenderBody()
+    </div>
+
+    <!-- Footer -->
+    <div class="main-footer">
+        <div class="container-xl cover-footer">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                    <div class="title__heading">
+                        <h4 class="footer-heading">Giới thiệu</h4>
+                    </div>
+                    <p class="footer-description footer-color-text">FEP ® là thương hiệu thời trang Streetwear được xây dựng và thành lập cũng như chính thức ra mắt lần đầu tại Sài Gòn, Việt Nam vào mùa xuân tháng 3 năm 2021</p>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                    <div class="link">
+                        <div class="title__heading">
+                            <h4>Liên kết</h4>
+                        </div>
+                        <ul class="footer-color-text">
+                            <li><a href="#">Tìm kiếm</a></li>
+                            <li><a href="#">Giới thiệu</a></li>
+                            <li><a href="#">Chính sách đổi trả</a></li>
+                            <li><a href="#">Chính sách bảo mật</a></li>
+                            <li><a href="#">Điều khoản dịch vụ</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                    <div class="contact">
+                        <div class="title__heading">
+                            <h4>Thông tin liên hệ</h4>
+                        </div>
+                        <div class="contact__list footer-color-text">
+                            <div class="contact__item">
+                                <div class="contact__icon-cover">
+                                    <i class="ti-location-pin"></i>
+                                </div>
+                                <span class="contact__description">TP.HCM</span>
+                            </div>
+                            <div class="contact__item">
+                                <div class="contact__icon-cover">
+                                    <i class="ti-tablet"></i>
+                                </div>
+                                <span class="contact__description">0909090909</span>
+                            </div>
+                            <div class="contact__item">
+                                <div class="contact__icon-cover">
+                                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                </div>
+                                <span class="contact__description">1233455@gmail.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                    <div class="socialnetwork">
+                        <div class="socialnetwork__tiltle">
+                            <div class="title__heading">
+                                <h4>Youtube</h4>
+                            </div>
+                        </div>
+
+                        <div class="socicalnetwork__iframe">
+                            <iframe name="youtube" src="https://www.youtube.com/embed/-8BxdAiyLJU" width="100%"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="nav-footer">
+            <a href="" class="nav-footer-item">
+                <div class="nf-icon"><i class="mdi mdi-home"></i></div>
+                <div class="nf-describe">Home</div>
+            </a>
+            <a href="" class="nav-footer-item">
+                <div class="nf-icon"><i class="mdi mdi-video"></i></div>
+                <div class="nf-describe">Live</div>
+            </a>
+            <a href="" class="nav-footer-item">
+                <div class="nf-icon"><i class="mdi mdi-bell"></i></div>
+                <div class="nf-describe">Thông báo</div>
+            </a>
+            <a href="" class="nav-footer-item">
+                <div class="nf-icon"><i class="mdi mdi-account"></i></div>
+                <div class="nf-describe">Tôi</div>
+            </a>
+        </div>
+    </div>
+
+    @*<script src="~/Content/js/main.js"></script>*@
+    <script src="/Content/js/jquery.js"></script>
+    <script src="/Content/js/menu-tab-mobi.js"></script>
+    <script src="/Content/bootstrap5/js/bootstrap.js"></script>
+    <script src="/Content/js/slideshow.js"></script>
+    <script src="~/Content/vendors/js/vendor.bundle.base.js"></script>
+    <script src="~/Content/js/loading.js"></script>
+</body>
+</html>
