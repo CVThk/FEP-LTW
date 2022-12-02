@@ -562,7 +562,11 @@ hr{
     padding: 0px 10px;
     display: flex;
     width: 100%;
-    border-bottom: 1px solid  var(--red);
+    /*border-bottom: 1px solid  var(--red);*/
+}
+
+.cart__box:hover {
+    box-shadow:0px 1px 1px 1px rgba(0,0,0,0.3);
 }
 
 .cart__img img{

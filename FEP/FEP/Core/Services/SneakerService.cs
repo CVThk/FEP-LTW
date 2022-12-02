@@ -154,5 +154,11 @@ namespace FEP.Core.Services
         {
             return ADOHelper.Instance.ExecuteScalar("select Size from tbl_Size where ID = @para_0", new object[] { idSize });
         }
+
+        public int GetMaxInventory(string idSneaker, int idSize)
+        {
+            return ADOHelper.Instance.ExecuteScalar("select Amount from tbl_Inventory where IDSneaker = @para_0 and IDSize = @para_1",
+                new object[] { idSneaker, idSize });
+        }
     }
 }

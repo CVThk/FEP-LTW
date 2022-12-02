@@ -375,6 +375,7 @@ C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\Do
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\Iesi.Collections.dll
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\Newtonsoft.Json.dll
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\NHibernate.dll
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\PagedList.dll
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\PagedList.Mvc.dll
@@ -390,6 +391,7 @@ C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\Do
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\FluentNHibernate.pdb
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\FluentNHibernate.xml
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\Iesi.Collections.xml
+C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\Newtonsoft.Json.xml
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\NHibernate.xml
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\PagedList.xml
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\PagedList.Mvc.xml
@@ -406,6 +408,4 @@ C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\Do
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\obj\Debug\FEP.csproj.CopyComplete
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\obj\Debug\FEP.dll
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\obj\Debug\FEP.pdb
-C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\Newtonsoft.Json.dll
-C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\bin\Newtonsoft.Json.xml
 C:\Users\HP\Documents\Workspace\UpOnedrive\Nam_Ba\HK1_2022_2023\Lap_Trinh_Web\DoAn\FEP\FEP\obj\Debug\FEP.csproj.AssemblyReference.cache

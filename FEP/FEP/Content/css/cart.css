@@ -4,7 +4,7 @@
 }
 
 .shopping-cart {
-    width: 50%;
+    width: 70%;
     background: #FFFFFF;
     box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.10);
     border-radius: 6px;
@@ -74,12 +74,13 @@
 
 .image {
     width: 20%;
+    text-align:center;
 }
 
-    .image img {
-        width: 100%;
-        object-fit: cover;
-    }
+.image img {
+   width: 50%;
+   object-fit: cover;     
+}    
 
 .description.cart {
     width: 40%;
@@ -146,7 +147,6 @@ input:focus {
     text-align: center;
     color: #43484D;
     font-weight: 300;
-    margin-right: 10px;
 }
 
     .total-price h6 {
@@ -219,4 +219,60 @@ input:focus {
     text-shadow: 1px 1px 1px #fff;
     border: 1px solid #ddd;
     cursor: pointer;
+}
+
+.btn-size {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:6px;
+}
+.btn-size-cart {
+    border: 1px solid grey;
+    padding: 2px 4px;
+    margin-left:4px;
+    border-radius:2px;
+}
+.btn-size-cart:hover {
+    cursor:pointer;
+    background-color: red;
+    color:white;
+}
+
+.btn-size-cart.active {
+    background-color: red;
+    color:white;
+}
+.cover-button {
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+    width: 20%;
+}
+.btn-delete, .btn-update {
+    width: 40% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border-radius: 4px !important;
+    line-height: 30px !important;
+    color:white !important;
+}
+
+.btn-delete > i, .btn-update > i {
+    margin-right: 4px;
+}
+
+.btn-update {
+    background-color: #28a745 !important;
+}
+
+.btn-delete {
+    background-color: #dc3545 !important;
+    padding:0;
+}
+
+.btn-delete:hover, .btn-update:hover {
+    opacity:0.8;
 }

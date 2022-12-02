@@ -897,7 +897,11 @@ CREATE PROC sp_InsertCart @idClient int, @idSneaker varchar(max), @size int, @am
 AS
 	declare @idSize int
 	select @idSize = ID from tbl_Size where Size = @size
-	insert into tbl_Cart(IDClient, IDSneaker, IDSize, AmountBuy) values(@idClient, @idSneaker, @idSize, @amountBuy)
+	if(select count(*) from tbl_Cart where IDClient = @idClient and IDSneaker = @idSneaker and IDSize = @idSize) > 0
+	begin
+		update tbl_Cart set AmountBuy += @amountBuy where IDClient = @idClient and IDSneaker = @idSneaker and IDSize = @idSize
+	end
+	else insert into tbl_Cart(IDClient, IDSneaker, IDSize, AmountBuy) values(@idClient, @idSneaker, @idSize, @amountBuy)
 GO
 
 --exec sp_InsertCart '', '', '', ''
@@ -938,3 +942,11 @@ select * from City, District, Ward where City.ID = District.IDCity and District.
 select tbl_Size.Size, tbl_Inventory.Amount from tbl_Size, tbl_Inventory where IDSneaker = 'GNAF1LWB' and tbl_Size.ID = tbl_Inventory.IDSize
 
 select Amount from tbl_Inventory where IDSneaker = 'GNAF1LWB'
+
+--delete tbl_Cart where IDClient = '' and IDSneaker = '' and IDSize = ''
+
+--select Amount from tbl_Inventory where IDSneaker = '' and IDSize = ''
+
+select * from tbl_Inventory
+
+--update tbl_Cart set AmountBuy = '' where IDClient = '' and IDSneaker = '' and IDSize = ''

@@ -1,8 +1,16 @@
-﻿
+﻿@using FEP.Models
+@using FEP.Core.Services
+@using FEP.Core.Interfaces.IData
+@using FEP.Data
 @{
     ViewBag.Title = "Cart";
     Layout = "~/Views/Shared/_LayoutPageMain.cshtml";
     <link href="~/Content/css/cart.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive.css" rel="stylesheet" />
+    List<Cart> carts = Session["CartsDetails"] as List<Cart>;
+    ISneakerData _NHibernateData = new NHibernateData();
+    SneakerService _SneakerService = new SneakerService(_NHibernateData);
+    List<Sneaker> sneakers = Session["ListSneaker"] as List<Sneaker>;
 }
 
 <div class="body">
@@ -16,23 +24,43 @@
                     </div>
 
                     <div class="list">
-                    </div>
-                    <div class="item">
-                        <div class="image">
-                            <img src="/assets/img/san_pham_ban_chay/giay_nike_air_force_1_trang_full_white_sieu_cap/1.jpeg" alt="" />
-                        </div>
-                        <div class="description cart">
-                            <span>DÉP BALENCIAGA POOL SLIDE BLACK WHITE (ĐEN)</span>
-                        </div>
-                        <div class="product__describe-custom cart">
-                            <input class="product__describe-custom-reduced is-form" type="button" value="-">
-                            <input aria-label="quantity" class="product__describe-custom-input" max="100" min="1" name="" type="number" value="1">
-                            <input class="product__describe-custom-increase is-form" type="button" value="+">
-                        </div>
-                        <div class="info">
-                            <div class="total-price"><h6 class="text-muted">698.000 ₫</h6></div>
-                            <div class="size">38</div>
-                        </div>
+                        @foreach (var item in carts)
+                        {
+                            List<string> AnhBia = _SneakerService.GetCoverPicture(item.IDSneaker);
+                            Sneaker sitem = sneakers.Find(x => x.ID == item.IDSneaker);
+                            int sizeSneaker = _SneakerService.GetSize(item.IDSize);
+                            int max = _SneakerService.GetMaxInventory(item.IDSneaker, item.IDSize);
+                            using (Html.BeginForm("UpdateCart", "Cart", new { idClient = item.IDClient, idSneaker = item.IDSneaker, idSize = item.IDSize, url = Request.Url }))
+                            {
+                                <div class="item" style="margin: 0 10px;">
+                                    <a href="@Url.Action("ProductDetails", "Home", new { idSneaker = item.IDSneaker })" style="display: flex; align-items: center; width: 60%;">
+                                        <div class="image">
+                                            <img src="~/Content/img/Link/@item.IDSneaker/@AnhBia[0]" alt="" />
+                                        </div>
+                                        <div class="description cart" style="flex:1;">
+                                            <span>@sitem.Name</span>
+                                        </div>
+                                    </a>
+                                    <div class="info">
+                                        <div style="display:flex; align-items:center;">
+                                            <input type="number" min="1" max="@max" name="amountUpdate" style="font-weight:bold; color:red; width:30%;" value="@item.AmountBuy" />
+                                            <div class="total-price" style="display:flex; align-items:center; font-weight:bold; flex:1; text-align:right;"><span style="margin-left:10px;">x</span><span class="text-muted" style="width:100%;">@string.Format("{0:0,0} ₫", sitem.PriceAfterDiscount)</span></div>
+                                        </div>
+                                        <div class="btn-size">
+                                            <span style="color:grey; user-select:none;">SL tồn: <span style="font-weight:bold;">@max</span></span>
+                                            <span class="btn-size-cart active">@sizeSneaker</span>
+                                        </div>
+                                    </div>
+                                    <div class="cover-button">
+                                        <button class="btn-update"><i class="mdi mdi-check"></i>Lưu</button>
+                                        <a class="btn-delete" href="@Url.Action("DeleteCart", "Cart", new { idClient=item.IDClient, idSneaker=item.IDSneaker, idSize=item.IDSize, url=Request.Url })">
+                                            <i class="mdi mdi-delete-forever"></i>
+                                            <span>Xóa</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        }
                     </div>
                 </div>
             </div>
@@ -40,3 +68,16 @@
     </div>
 </div>
 
+
+@if (Session["DeleteCart"] != "")
+{
+    <script>sessionStorage.DeleteCart = '@Session["DeleteCart"]'</script>
+    Session["DeleteCart"] = null;
+}
+@if (Session["UpdateCart"] != "")
+{
+    <script>sessionStorage.UpdateCart = '@Session["UpdateCart"]'</script>
+    Session["UpdateCart"] = null;
+}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/Content/js/cart.js"></script>

@@ -2912,6 +2912,7 @@
     <Content Include="Content\img\slider\s1.jpg" />
     <Content Include="Content\img\slider\s2.jpg" />
     <Content Include="Content\img\slider\s3.jpg" />
+    <Content Include="Content\js\cart.js" />
     <Content Include="Content\js\fontawesome.js" />
     <Content Include="Content\js\jquery.js" />
     <Content Include="Content\js\js-login.js" />
@@ -3764,6 +3765,7 @@
     <Content Include="Views\Shared\_LayoutPageAdmin.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Cart\Cart.cshtml" />
+    <Content Include="Views\Cart\CartDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -11,5 +11,7 @@ namespace FEP.Core.Interfaces.IServices
     {
         List<Cart> GetCarts();
         void InsertCart(Cart cart);
+        void DeleteCart(int idClient, string idSneaker, int idSize);
+        void UpdateCart(int idClient, string idSneaker, int idSize, int amount);
     }
 }

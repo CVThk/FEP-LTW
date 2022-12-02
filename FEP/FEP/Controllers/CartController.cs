@@ -46,11 +46,14 @@ namespace FEP.Controllers
             //ViewBag.TotalAmount = TotalAmount();
             User user = Session["User"] as User;
             if (user == null)
+            {
                 ViewBag.TotalAmount = 0;
+                Session["ListCart"] = null;
+            }    
             else
             {
                 ViewBag.TotalAmount = carts.Count(x => x.IDClient == user.ID);
-                Session["ListCart"] = carts;
+                Session["ListCart"] = carts.FindAll(x => x.IDClient == user.ID);
                 Session["ListSneaker"] = _Sneakers;
             }
             return PartialView();
@@ -58,6 +61,12 @@ namespace FEP.Controllers
 
         public ActionResult Cart()
         {
+            User user = Session["User"] as User;
+            if (user == null)
+                return RedirectToAction("Error", "Home");
+
+            carts = _CartService.GetCarts();
+            Session["CartsDetails"] = carts.FindAll(x => x.IDClient == user.ID);
             return View();
         }
 
@@ -80,6 +89,41 @@ namespace FEP.Controllers
             else
             {
                 Session["ErrAmount"] = "true";
+            }
+            return Redirect(url);
+        }
+        public ActionResult DeleteCart(int idClient, string idSneaker, int idSize, string url)
+        {
+            if(!string.IsNullOrEmpty(idSneaker) && idClient > 0 && idSize > 0)
+            {
+                _CartService.DeleteCart(idClient, idSneaker, idSize);
+                Session["DeleteCart"] = "true";
+            }
+            else
+            {
+                Session["DeleteCart"] = "false";
+            }
+            return Redirect(url);
+        }
+        public ActionResult UpdateCart(int idClient, string idSneaker, int idSize, FormCollection fc, string url)
+        {
+            int amountBuy;
+            bool kt = int.TryParse(fc["amountUpdate"], out amountBuy);
+            if(kt)
+            {
+                if (!string.IsNullOrEmpty(idSneaker) && idClient > 0 && idSize > 0 && _SneakerService.GetMaxInventory(idSneaker, idSize) >= amountBuy)
+                {
+                    _CartService.UpdateCart(idClient, idSneaker, idSize, amountBuy);
+                    Session["UpdateCart"] = "true";
+                }
+                else
+                {
+                    Session["UpdateCart"] = "false";
+                }
+            }
+            else
+            {
+                Session["UpdateCart"] = "false";
             }
             return Redirect(url);
         }

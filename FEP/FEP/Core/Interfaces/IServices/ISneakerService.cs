@@ -24,5 +24,6 @@ namespace FEP.Core.Interfaces.IServices
         bool CheckInventory(List<int> sizeOfSneaker);
         bool CheckSizeInventory(string idSneaker, int size);
         bool CheckSizeInventory(List<int> sizeOfSneaker, int size);
+        int GetMaxInventory(string idSneaker, int idSize);
     }
 }
