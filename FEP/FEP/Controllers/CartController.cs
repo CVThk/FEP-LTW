@@ -18,7 +18,7 @@ namespace FEP.Controllers
         static List<Sneaker> _Sneakers = _SneakerService.getAll();
 
         static CartService _CartService = new CartService();
-        static List<Cart> carts = _CartService.GetCarts();
+        static List<Cart> carts;
         public int TotalAmount()
         {
             int sl = 0;
@@ -42,23 +42,46 @@ namespace FEP.Controllers
         }
         public ActionResult CartPartial()
         {
+            carts = _CartService.GetCarts();
             //ViewBag.TotalAmount = TotalAmount();
             User user = Session["User"] as User;
             if (user == null)
                 ViewBag.TotalAmount = 0;
-            else ViewBag.TotalAmount = carts.Count(x => x.IDClient == user.ID);
+            else
+            {
+                ViewBag.TotalAmount = carts.Count(x => x.IDClient == user.ID);
+                Session["ListCart"] = carts;
+                Session["ListSneaker"] = _Sneakers;
+            }
             return PartialView();
         }
 
         public ActionResult Cart()
         {
-            var listCart = Session["ListCart"] as List<Cart>;
-            return View(listCart);
+            return View();
         }
 
-        public ActionResult AddCart(FormCollection fc)
+        public ActionResult AddCart(FormCollection fc, string url)
         {
-            return View();
+            string idUser = fc["idclient"];
+            string idSneaker = fc["idsneaker"];
+            string size = fc["size"];
+            string amount = fc["amount"];
+            if (string.IsNullOrEmpty(idUser))
+            {
+                Session["idsneaker"] = idSneaker;
+                return RedirectToAction("Login", "Account");
+            }
+            if(_SneakerService.CheckAmountInventory(idSneaker, int.Parse(size), int.Parse(amount)))
+            {
+                Cart cart = new Cart(int.Parse(idUser), idSneaker, int.Parse(size), int.Parse(amount));
+                _CartService.InsertCart(cart);
+            }
+            else
+            {
+                Session["ErrAmount"] = "true";
+            }
+            return Redirect(url);
         }
     }
 }

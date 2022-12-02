@@ -1,0 +1,222 @@
+﻿
+.body {
+    min-height: 200px;
+}
+
+.shopping-cart {
+    width: 50%;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.10);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+}
+
+.title {
+    text-align: center;
+    height: 60px;
+    border-bottom: 1px solid #E1E8EE;
+    padding: 10px 30px;
+    color: #5E6977;
+    font-size: 30px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.item {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E1E8EE;
+}
+
+    .item:last-child {
+        border-bottom: none;
+    }
+
+.buttons {
+    position: relative;
+    padding-top: 30px;
+    margin-right: 60px;
+}
+
+.delete-btn,
+.like-btn {
+    display: inline-block;
+    Cursor: pointer;
+}
+
+.delete-btn {
+    width: 18px;
+    height: 17px;
+}
+
+.like-btn {
+    position: absolute;
+    top: 9px;
+    left: 15px;
+    background: url('twitter-heart.png');
+    width: 60px;
+    height: 60px;
+    background-size: 2900%;
+    background-repeat: no-repeat;
+}
+
+.is-active {
+    animation-name: animate;
+    animation-duration: .8s;
+    animation-iteration-count: 1;
+    animation-timing-function: steps(28);
+    animation-fill-mode: forwards;
+}
+
+.image {
+    width: 20%;
+}
+
+    .image img {
+        width: 100%;
+        object-fit: cover;
+    }
+
+.description.cart {
+    width: 40%;
+}
+
+    .description.cart span {
+        display: block;
+        --height: 16px;
+        font-size: 16px;
+        color: #43484D;
+        font-weight: 500;
+        line-height: var(--height);
+        height: calc(var(--height) * 2);
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+
+
+.quantity {
+    padding-top: 20px;
+    margin-right: 60px;
+}
+
+    .quantity input {
+        -webkit-appearance: none;
+        border: none;
+        text-align: center;
+        width: 32px;
+        font-size: 16px;
+        color: #43484D;
+        font-weight: 300;
+    }
+
+button[class*=btn] {
+    width: 30px;
+    height: 30px;
+    background-color: #E1E8EE;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.minus-btn img {
+    margin-bottom: 3px;
+}
+
+.plus-btn img {
+    margin-top: 2px;
+}
+
+button:focus,
+input:focus {
+    outline: 0;
+}
+
+.info {
+    width: 15%;
+    text-align: center;
+}
+
+.total-price {
+    text-align: center;
+    color: #43484D;
+    font-weight: 300;
+    margin-right: 10px;
+}
+
+    .total-price h6 {
+        font-size: 16px;
+    }
+
+.size {
+    color: var(--danger);
+    font-weight: 500;
+}
+
+.product__describe-custom.cart {
+    margin: 0;
+    width: 20%;
+    display: flex;
+    opacity: 1;
+    display: inline-block;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    white-space: nowrap;
+    vertical-align: top;
+}
+
+    .product__describe-custom.cart .product__describe-custom-reduced {
+        height: 50px;
+        width: 25%;
+        background-color: #F5F5F5;
+        color: #808080;
+        border: 2px solid #E1E1E1;
+        font-size: 35px;
+        overflow: hidden;
+        position: relative;
+        padding: 0;
+        text-shadow: 1px 1px 1px #fff;
+        border: 1px solid #ddd;
+        cursor: pointer;
+    }
+
+    .product__describe-custom.cart .product__describe-custom-input {
+        height: 50px;
+        width: 50%;
+        background-color: transparent;
+        color: #808080;
+        font-size: 35px;
+        text-align: center;
+        vertical-align: top;
+        margin: 0;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        border-left: 0;
+        border-right: 0;
+        padding: 0;
+    }
+
+.product__describe-custom-input::-webkit-outer-spin-button, .product__describe-custom-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.product__describe-custom.cart .product__describe-custom-increase {
+    height: 50px;
+    width: 25%;
+    background-color: #F5F5F5;
+    color: #808080;
+    border: 1px solid #E1E1E1;
+    font-size: 35px;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+    text-shadow: 1px 1px 1px #fff;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}

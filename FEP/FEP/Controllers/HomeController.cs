@@ -59,7 +59,7 @@ namespace FEP.Controllers
             Sneaker s = _Sneakers.Find(x => x.ID == idSneaker);
             if(!_SneakerService.CheckInventory(sizeInventory))
             {
-                return RedirectToAction("ErrInventory", "Home", new { sneaker = s });
+                return RedirectToAction("Error", "Home", new { sneaker = s });
             }
             List<int> inventory = _SneakerService.GetInventory(idSneaker);
 
@@ -73,7 +73,7 @@ namespace FEP.Controllers
             return View();
         }
 
-        public ActionResult ErrInventory(Sneaker sneaker)
+        public ActionResult Error(Sneaker sneaker)
         {
             return View(sneaker);
         }

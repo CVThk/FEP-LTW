@@ -10,5 +10,6 @@ namespace FEP.Core.Interfaces.IServices
     public interface ICartService
     {
         List<Cart> GetCarts();
+        void InsertCart(Cart cart);
     }
 }

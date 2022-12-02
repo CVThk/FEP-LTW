@@ -12,5 +12,14 @@ namespace FEP.Models
         public int IDSize { get; set; }
         public string IDSneaker { get; set; }
         public int AmountBuy { get; set; }
+
+        public Cart() { }
+        public Cart(int idClient, string idSneaker, int idSize, int amount)
+        {
+            this.IDClient = idClient;
+            this.IDSneaker = idSneaker;
+            this.IDSize = idSize;
+            this.AmountBuy = amount;
+        }
     }
 }

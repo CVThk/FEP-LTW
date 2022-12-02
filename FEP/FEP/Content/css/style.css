@@ -657,10 +657,13 @@ hr{
     display:flex;
     justify-content:space-between;
 }
-
+#btn-choose > form {
+   min-width: 40%;
+}
 #add-cart, #buy-now {
    text-transform:uppercase;
    font-weight:bold;
    padding:10px;
    border-radius:4px;
+   width: 100%;
 }

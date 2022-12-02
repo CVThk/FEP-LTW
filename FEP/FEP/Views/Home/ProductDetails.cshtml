@@ -112,19 +112,23 @@
                                                 }
                                             }
                                             <input class="product__describe-custom-increase is-form" type="button" value="+">
+                                            @if (inventory.Count > 0)
+                                            {
+                                                <span style="display:flex; align-items:center; margin-left:10px; color:#999999; user-select:none;">SL tồn: <span id="Amount-inventory" style="font-weight:bold; margin-left:4px;">@inventory[0]</span></span>
+                                            }
                                         </div>
                                         <div id="btn-choose">
-                                            @using (Html.BeginForm("AddCart", "Cart"))
+                                            @using (Html.BeginForm("AddCart", "Cart", new { url = Request.Url }))
                                             {
                                                 <input type="text" name="size" id="Size" style="display:none;" />
                                                 <input type="text" name="amount" id="Amount" style="display:none;" />
                                                 <input type="text" name="idsneaker" id="IdSneaker" style="display:none;" />
                                                 <input type="text" name="idclient" id="IdClient" style="display:none;" />
-                                                <button id="add-cart" class="btn-primary" type="submit">THÊM VÀO GIỎ HÀNG</button>
+                                                <button id="add-cart" class="btn-primary" type="submit">Thêm vào giỏ hàng</button>
                                             }
                                             @using (Html.BeginForm())
                                             {
-                                                <button id="buy-now" class="btn-danger" type="submit">THÊM VÀO GIỎ HÀNG</button>
+                                                <button id="buy-now" class="btn-danger" type="submit">Mua ngay</button>
                                             }
                                         </div>
                                     </div>
@@ -230,10 +234,14 @@
 @if (user != null)
 {
     <script>
-    sessionStorage.idclient = @user.ID;
-    sessionStorage.idSneaker = '@sneaker.ID';
+        sessionStorage.idclient = @user.ID;
     </script>
 }
+@if (Session["ErrAmount"] != null)
+{
+    <script>sessionStorage.errAmount = '@Session["ErrAmount"].ToString()'</script>
+}
+<script>sessionStorage.idSneaker = '@sneaker.ID';</script>
 <script src="~/Content/js/menu-tab-mobi.js"></script>
 <script src="~/Content/bootstrap5/js/bootstrap.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

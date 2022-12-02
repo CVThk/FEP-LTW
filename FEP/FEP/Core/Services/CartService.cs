@@ -16,5 +16,11 @@ namespace FEP.Core.Services
             carts = ADOHelper.Instance.ExecuteReader<Cart>("select * from tbl_Cart");
             return carts;
         }
+
+        public void InsertCart(Cart cart)
+        {
+            ADOHelper.Instance.ExecuteNonQuery(@"exec sp_InsertCart @para_0, @para_1, @para_2, @para_3",
+                    new object[] { cart.IDClient, cart.IDSneaker, cart.IDSize, cart.AmountBuy });
+        }
     }
 }

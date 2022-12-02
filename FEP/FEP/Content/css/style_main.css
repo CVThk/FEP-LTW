@@ -26,11 +26,11 @@ a {
 
 /* <!-- Header --> */
 
-ul, h1, h2, h3, h4, h5, h6 {
+/*ul, h1, h2, h3, h4, h5, h6 {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-}
+}*/
 .header__web-logo.mobile {display: none;}
 .header {
     width: 100%;
@@ -766,4 +766,18 @@ input[name="rSlide"] {position: absolute; visibility: hidden;}
 }
 .product__describe-custom-input.hide {
     display: none;
+}
+
+.btn-cart {
+    text-transform: uppercase;
+    border: 1px solid #888888;
+    margin-top: 10px;
+    padding: 4px 10px;
+    min-width: 40%;
+    background-color: #343a40;
+    color:white;
+}
+
+.btn-cart:hover {
+    background-color:#08b639;
 }

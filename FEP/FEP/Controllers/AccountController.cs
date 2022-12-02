@@ -18,11 +18,13 @@ namespace FEP.Controllers
         static AccountService accountService = new AccountService(_NHibernateData);
         public ActionResult Login()
         {
+            Session["User"] = null;
             return View();
         }
         [HttpPost]
         public ActionResult Login(FormCollection fc)
         {
+            bool ktlogin = false;
             string pass = string.Format("{0}", fc["Password"]);
             string username = fc["Username"];
             if(string.IsNullOrEmpty(pass) || string.IsNullOrEmpty(username))
@@ -58,11 +60,14 @@ namespace FEP.Controllers
                         ViewData["TypeAccount"] = "CL";
                         List<User> Clients = ADOHelper.Instance.ExecuteReader<User>("select * from tbl_Client");
                         Session["User"] = Clients.Find(x => x.ID == id);
+                        ktlogin = true;
                     }
                 }
             }
-            //if (ktLogin)
-            //    return RedirectToAction("FEP", "Home");
+            if(ktlogin && Session["idsneaker"] != null)
+            {
+                return RedirectToAction("ProductDetails", "Home", new { idSneaker = Session["idSneaker"] });
+            }    
             return View();
         }
         public ActionResult SignUp()

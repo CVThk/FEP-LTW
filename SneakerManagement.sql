@@ -883,6 +883,24 @@ GO
 --exec @id = sp_GetIDStaffByIDAccount 1
 --print convert(varchar(max), @id)
 
+CREATE PROC sp_CheckAmountInventory @idSneaker varchar(max), @size int, @amount int
+AS
+	if(select i.Amount from tbl_Inventory i, tbl_Size s where s.Size = @size and s.ID = i.IDSize and i.IDSneaker = @idSneaker) > @amount
+		return 1
+	return 0
+GO
+
+--declare @result int
+--exec @result = sp_CheckAmountInventory 'NAF1TFWLA', 43, 3
+--select @result
+CREATE PROC sp_InsertCart @idClient int, @idSneaker varchar(max), @size int, @amountBuy int
+AS
+	declare @idSize int
+	select @idSize = ID from tbl_Size where Size = @size
+	insert into tbl_Cart(IDClient, IDSneaker, IDSize, AmountBuy) values(@idClient, @idSneaker, @idSize, @amountBuy)
+GO
+
+--exec sp_InsertCart '', '', '', ''
 
 
 --declare @idAccount int
@@ -895,6 +913,8 @@ GO
 
 --Select * from tbl_Sneaker, tbl_SizeDetails, tbl_Size where tbl_Sneaker.ID = tbl_SizeDetails.IDSneaker and tbl_SizeDetails.IDSize = tbl_Size.ID
 
+--insert into tbl_Inventory(IDSneaker, IDSize, Amount) values()
+--insert into tbl_Cart(IDClient, IDSneaker, IDSize, AmountBuy) values()
 
 select * from Ward, City, District where Ward.IDDistrict = District.ID and District.IDCity = City.ID and City.Name like N'%Trà Vinh%'
 

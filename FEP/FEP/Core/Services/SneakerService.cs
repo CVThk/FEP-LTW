@@ -142,5 +142,17 @@ namespace FEP.Core.Services
         {
             throw new NotImplementedException();
         }
+
+        public bool CheckAmountInventory(string idSneaker, int size, int amount)
+        {
+            return ADOHelper.Instance.ExecuteScalar(@"declare @result int
+                    exec @result = sp_CheckAmountInventory @para_0, @para_1, @para_2
+                    select @result", new object[] { idSneaker, size, amount }) == 1;
+        }
+
+        public int GetSize(int idSize)
+        {
+            return ADOHelper.Instance.ExecuteScalar("select Size from tbl_Size where ID = @para_0", new object[] { idSize });
+        }
     }
 }
