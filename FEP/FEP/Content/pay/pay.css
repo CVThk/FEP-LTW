@@ -1,0 +1,277 @@
+h5 {
+    margin-bottom:0 !important;
+}
+@font-face {
+	font-family: 'SVN-Futura';
+	font-weight: 500;
+	src: url('https://file.hstatic.net/200000260587/file/svn-futura_medium_2e85fe6785d44ccfa65286bc9f675354.ttf') ;
+}
+body{
+    font-family: SVN-Futura;
+}
+.main-formcart{
+    padding: 30px 0;
+}
+.page1{
+    width: 80%;
+    height: auto;
+    margin: 0 10%;
+    font-size: 20px;
+}
+
+.page2{
+    width: 80%;
+    margin: 0 10%;
+}
+.top-page1__logo img{
+    display: block;
+    width: 90px;
+    height: auto;
+}
+.top-page1__direction{
+    padding-bottom: 10px;
+    display: flex;
+}
+.top-page1__direction a{
+    text-decoration:none ;
+    list-style: none;
+    color: black;
+}
+.direction-icon{
+    margin-left: 5px;
+}
+.direction-ShipmentDetails{
+    margin-left: 5px;
+}
+.title-page1 h4{
+    padding-bottom: 10px;
+}
+.sigin-page1{
+    display: flex;
+    padding-bottom: 20px;
+}
+.sigin-page1 a{
+    text-decoration: none;
+    color: deepskyblue;
+}
+
+.form-page1 form {
+    padding-bottom: 20px;
+}
+.form-page1 form input{
+    margin-bottom:  13px;
+}
+.cover-list {
+    display: flex;
+}
+.cover-item {
+    border: 1px silver solid;
+    border-radius: 4px;
+    width: 30%;
+    height: 60px;
+    font-size: 15px;
+    padding: 0 0.93333em;
+    margin-bottom: 13px;
+    margin-right: 5%;
+}
+.cover-item:last-child {margin-right: 0;}
+.cover-item label{
+    display: inline;
+}
+.cover-item label {
+    font-size: 16px;
+}
+.cover-item select {
+    max-width: 100%;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+.shippingmethod{
+    text-align: center;
+}
+.shippingmethod h2{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.shippingmethod i{
+    font-size:  75px;
+    margin-top: 38px;
+}
+i.fa.fa-archive {
+    margin-bottom: 10px;
+}
+.shippingmethod p{
+    font-size: 17px;
+}
+.box_paymentmethod{
+    border: 1px silver solid;
+    border-radius: 4px;
+    width: 100%;
+    height: 75px;
+    display: flex;
+    padding-left: 10px;
+    margin-bottom: 20px;
+}
+.title_paymentmethod h2{
+    margin-top: 45px;
+    margin-bottom: 10px;
+}
+.box-input_paymentmethod input{
+    width: 20px;
+    height: 30px;
+    margin-top: 1em;
+}
+.box-icon_paymentmethod i{
+    width: 23px;
+    height: 30px;
+    margin-top: 1.23em;
+}
+.box-title_paymentmethod p{
+    margin-top: 1em;
+}
+.bottom-page1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.bottom-page1 a{
+    text-decoration: none;
+    color: dodgerblue;
+    margin-top: 35px;
+}
+.bottom-page1 input{
+    border: 1px skyblue solid;
+    border-radius: 4px;
+    height: 57px;
+    font-size: 15px;
+    background-color: skyblue;
+}
+
+
+
+.products-pay  {
+    height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.product-pay {
+    
+}
+.product-pay-heading {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+.product-pay-img img{
+    /*border: 1px rgba(0,0,0,0.1) solid;*/
+    border-radius: 4px;
+}
+.product-pay-info {
+    margin-left: 40px;
+    flex: 1;
+}
+.product-pay-title {
+    flex: 1;
+}
+.product-pay-title h4 {
+    font-size: 18px;
+    font-weight: 500;
+    height: 18px;
+    line-height: 18px;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+.product-pay-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+.product-pay-size h5 {
+    color: silver;
+    font-size: 16px;
+}
+.x {
+    margin-left: 10px;
+}
+#quantity-pay {
+   
+}
+.product-pay-price {
+    display: flex;
+    align-items: center;
+}
+.product-pay-price h5{
+    font-size: 16px;
+}
+.page2-voucher{
+    display: flex;
+    margin-top: 30px;
+}
+.page2-voucher__input {
+    width: 70%;
+}
+.page2-voucher__input input{
+    flex: 1;
+    border: 1px silver solid;
+    border-radius: 4px;
+    width: 100%;
+    height: 44px;
+    margin-right: 15px;
+}
+.page2-voucher__submit {
+    width: 28%;
+    margin-left: 2%;
+}
+.page2-voucher__submit input{
+    border: 1px silver solid;
+    border-radius: 4px;
+}
+
+
+
+.div-page2__bill {
+    margin-top: 20px;
+}
+
+.page2-bill__price,
+.page2-transport__fee,
+.page2-intomoney{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.page2-bill__price h4,
+.page2-transport__fee h4,
+.page2-intomoney h4 {
+    font-size: 18px;
+}
+
+.pay-mobi {
+    display: none;
+}
+
+.submit-form > a > input {
+    text-align: center;
+    cursor: pointer;
+}
+
+
+#err {
+    color: var(--danger);
+    display: none;
+}
+#err div {
+    font-size: 18px;
+    font-weight: 600;
+}
+#err p {
+    margin: 0 0 0 20px;
+    padding: 0;
+    font-size: 16px;
+}

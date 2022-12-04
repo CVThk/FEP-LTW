@@ -24,7 +24,7 @@
             {
                 List<string> AnhBia = _SneakerService.GetCoverPicture(item.IDSneaker);
                 Sneaker sitem = sneakers.Find(x => x.ID == item.IDSneaker);
-                <div class="cart__box">
+                <a href="@Url.Action("ProductDetails", "Home", new { idSneaker = item.IDSneaker })" style="display:flex;" class="cart__box">
                     <div class="cart__img">
                         <img src="~/Content/img/Link/@item.IDSneaker/@AnhBia[0]" alt="">
                     </div>
@@ -45,11 +45,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             }
             <div style="display:flex; align-items:center; justify-content:space-between; line-height:normal;">
+                <span style="user-select:none;">@list.Count thêm hàng vào giỏ</span>
                 <a href="@Url.Action("Cart", "Cart")" class="btn-cart">Xem giỏ</a>
-                <a class="btn-cart">Thanh toán</a>
             </div>
         }
     </div>

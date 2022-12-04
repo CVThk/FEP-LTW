@@ -63,10 +63,12 @@ namespace FEP.Controllers
         {
             User user = Session["User"] as User;
             if (user == null)
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Login", "Account");
 
             carts = _CartService.GetCarts();
-            Session["CartsDetails"] = carts.FindAll(x => x.IDClient == user.ID);
+            List<Cart> cartUser = carts.FindAll(x => x.IDClient == user.ID);
+            Session["CartsDetails"] = cartUser;
+            Session["TotalMoney"] = (double)cartUser.Sum(x => x.AmountBuy * _Sneakers.Find(s => s.ID == x.IDSneaker).PriceAfterDiscount);
             return View();
         }
 
@@ -111,14 +113,24 @@ namespace FEP.Controllers
             bool kt = int.TryParse(fc["amountUpdate"], out amountBuy);
             if(kt)
             {
-                if (!string.IsNullOrEmpty(idSneaker) && idClient > 0 && idSize > 0 && _SneakerService.GetMaxInventory(idSneaker, idSize) >= amountBuy)
+                int maxInventory = _SneakerService.GetMaxInventory(idSneaker, idSize);
+                if (maxInventory >= amountBuy)
                 {
-                    _CartService.UpdateCart(idClient, idSneaker, idSize, amountBuy);
-                    Session["UpdateCart"] = "true";
+                    Session["UpdateInventoryCart"] = "true";
+                    if (!string.IsNullOrEmpty(idSneaker) && idClient > 0 && idSize > 0)
+                    {
+                        _CartService.UpdateCart(idClient, idSneaker, idSize, amountBuy);
+                        Session["UpdateCart"] = "true";
+                    }
+                    else
+                    {
+                        Session["UpdateCart"] = "false";
+                    }
                 }
                 else
                 {
-                    Session["UpdateCart"] = "false";
+                    Session["UpdateInventoryCart"] = "false";
+                    Session["MaxInventory"] = maxInventory;
                 }
             }
             else
@@ -126,6 +138,11 @@ namespace FEP.Controllers
                 Session["UpdateCart"] = "false";
             }
             return Redirect(url);
+        }
+        public ActionResult DeleteAll(int idClient)
+        {
+            _CartService.DeleteAll(idClient);
+            return RedirectToAction("FEP", "Home");
         }
     }
 }

@@ -242,6 +242,7 @@
     <script>sessionStorage.errAmount = '@Session["ErrAmount"].ToString()'</script>
 }
 <script>sessionStorage.idSneaker = '@sneaker.ID';</script>
+<script>sessionStorage.inventory = '@string.Join(",", inventory.ConvertAll(x => x.ToString()).ToArray())'</script>
 <script src="~/Content/js/menu-tab-mobi.js"></script>
 <script src="~/Content/bootstrap5/js/bootstrap.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

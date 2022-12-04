@@ -10,6 +10,11 @@ namespace FEP.Core.Services
 {
     public class CartService : ICartService
     {
+        public void DeleteAll(int idClient)
+        {
+            ADOHelper.Instance.ExecuteNonQuery("delete tbl_Cart where IDClient = @para_0", new object[] { idClient });
+        }
+
         public void DeleteCart(int idClient, string idSneaker, int idSize)
         {
             ADOHelper.Instance.ExecuteNonQuery("delete tbl_Cart where IDClient = @para_0 and IDSneaker = @para_1 and IDSize = @para_2",

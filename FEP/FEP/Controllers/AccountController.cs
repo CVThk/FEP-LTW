@@ -37,6 +37,7 @@ namespace FEP.Controllers
                 int idAccount = ADOHelper.Instance.ExecuteScalar(@"declare @idAccount int
                                                                     exec @idAccount = sp_GetIDAccount @para_0,@para_1
                                                                     select @idAccount", new object[] { username, pass });
+                Session["Account"] = accountService.getAll().Find(x => x.ID == idAccount);
                 if(idAccount == 0)
                     ViewData["Login"] = "false";
                 else

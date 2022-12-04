@@ -11,18 +11,24 @@
     ISneakerData _NHibernateData = new NHibernateData();
     SneakerService _SneakerService = new SneakerService(_NHibernateData);
     List<Sneaker> sneakers = Session["ListSneaker"] as List<Sneaker>;
+    double total;
+    bool kt = double.TryParse(Session["TotalMoney"].ToString(), out total);
+    int idClient = 0;
+    if (carts.Count > 0)
+    {
+        idClient = carts.First().IDClient;
+    }
 }
 
 <div class="body">
     <div class="container-dv">
         <div class="row">
             <div class="col-lg-12">
-                <div class="shopping-cart">
+                <div class="shopping-cart" style="min-height:300px;">
                     <!-- Title -->
                     <div class="title">
                         Giỏ hàng của bạn
                     </div>
-
                     <div class="list">
                         @foreach (var item in carts)
                         {
@@ -32,8 +38,8 @@
                             int max = _SneakerService.GetMaxInventory(item.IDSneaker, item.IDSize);
                             using (Html.BeginForm("UpdateCart", "Cart", new { idClient = item.IDClient, idSneaker = item.IDSneaker, idSize = item.IDSize, url = Request.Url }))
                             {
-                                <div class="item" style="margin: 0 10px;">
-                                    <a href="@Url.Action("ProductDetails", "Home", new { idSneaker = item.IDSneaker })" style="display: flex; align-items: center; width: 60%;">
+                                <div class="item" style="margin: 10px 0px 0 0px;">
+                                    <a href="@Url.Action("ProductDetails", "Home", new { idSneaker = item.IDSneaker })" style="display: flex; align-items: center; width: 50%;">
                                         <div class="image">
                                             <img src="~/Content/img/Link/@item.IDSneaker/@AnhBia[0]" alt="" />
                                         </div>
@@ -43,25 +49,43 @@
                                     </a>
                                     <div class="info">
                                         <div style="display:flex; align-items:center;">
-                                            <input type="number" min="1" max="@max" name="amountUpdate" style="font-weight:bold; color:red; width:30%;" value="@item.AmountBuy" />
-                                            <div class="total-price" style="display:flex; align-items:center; font-weight:bold; flex:1; text-align:right;"><span style="margin-left:10px;">x</span><span class="text-muted" style="width:100%;">@string.Format("{0:0,0} ₫", sitem.PriceAfterDiscount)</span></div>
+                                            <input type="number" min="1" max="@max" name="amountUpdate" style="font-weight:bold; width:30%;" value="@item.AmountBuy" oninvalid="this.setCustomValidity('Rất tiếc, bạn chỉ có thể mua tối đa ' + @max.ToString() +' sản phẩm của sản phẩm này')" />
+                                            <div class="total-price" style="display:flex; align-items:center; font-weight:bold; flex:1; text-align:right;"><span style="margin-left:10px;">x</span><span class="text-muted" style="width:100%;">@string.Format("{0:0,0} VNĐ", sitem.PriceAfterDiscount)</span></div>
                                         </div>
                                         <div class="btn-size">
-                                            <span style="color:grey; user-select:none;">SL tồn: <span style="font-weight:bold;">@max</span></span>
-                                            <span class="btn-size-cart active">@sizeSneaker</span>
+                                            <span style="user-select:none; font-weight:bold;">Size: @sizeSneaker</span>
                                         </div>
                                     </div>
-                                    <div class="cover-button">
-                                        <button class="btn-update"><i class="mdi mdi-check"></i>Lưu</button>
-                                        <a class="btn-delete" href="@Url.Action("DeleteCart", "Cart", new { idClient=item.IDClient, idSneaker=item.IDSneaker, idSize=item.IDSize, url=Request.Url })">
-                                            <i class="mdi mdi-delete-forever"></i>
-                                            <span>Xóa</span>
+                                    <div class="cover-button btn3">
+                                        <button class="btn-green my-btn">Lưu</button>
+                                        <a class="btn-red my-btn" href="@Url.Action("DeleteCart", "Cart", new { idClient=item.IDClient, idSneaker=item.IDSneaker, idSize=item.IDSize, url=Request.Url })">
+                                            Xóa
                                         </a>
+                                        <a class="my-btn btn-green" style="background-color:mediumblue !important;">Thanh toán</a>
                                     </div>
                                 </div>
                             }
                         }
                     </div>
+                    @if (carts.Count > 0)
+                    {
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
+                            @if (kt)
+                            {
+                                <div style="font-weight:bold; color:red; display:flex; align-items:center; justify-content:right;">
+                                    <div style="margin-right:6px;">Tổng tiền:</div><span>@string.Format(" {0:0,0} VNĐ", total)</span>
+                                </div>
+                            }
+                            <div class="cover-button btn2">
+                                <a href="@Url.Action("DeleteAll", "Cart", new { idClient = idClient })" class="my-btn btn-red">Xóa tất cả</a>
+                                <a href="@Url.Action("PaymentList", "Home", new { idClient=idClient })" class="my-btn btn-green">Mua ngay</a>
+                            </div>
+
+                        </div>
+                    }
+                    else { 
+                        <span class="alert alert-danger">Giỏ hàng hiện tại đang rỗng !!!</span>
+                    }
                 </div>
             </div>
         </div>
@@ -78,6 +102,13 @@
 {
     <script>sessionStorage.UpdateCart = '@Session["UpdateCart"]'</script>
     Session["UpdateCart"] = null;
+}
+@if(Session["UpdateInventoryCart"] == "false")
+{
+    <script>
+        sessionStorage.UpdateInventoryCart = @Session["UpdateInventoryCart"];
+        sessionStorage.MaxInventoryCart = @Session["MaxInventory"];
+    </script>
 }
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="~/Content/js/cart.js"></script>

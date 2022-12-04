@@ -1,0 +1,270 @@
+﻿@using FEP.Models
+@using FEP.Core.Services
+@using FEP.Core.Interfaces.IData
+@using FEP.Data
+@{
+    Layout = null;
+    List<Cart> carts = Session["PayList"] as List<Cart>;
+    List<Sneaker> sneakers = Session["ListSneaker"] as List<Sneaker>;
+    ISneakerData _NHibernateData = new NHibernateData();
+    SneakerService _SneakerService = new SneakerService(_NHibernateData);
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap5/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/base.css" rel="stylesheet" />
+    <link href="~/Content/css/style_main.css" rel="stylesheet" />
+    <link href="~/Content/pay/pay.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive.css" rel="stylesheet" />
+    <link href="~/Content/fonts/fontawesome-free-5.15.4-web/css/all.css" rel="stylesheet" />
+
+
+
+    <title>Payment</title>
+</head>
+<body>
+    <!-- main-formcart -->
+    <div class="row main-formcart">
+        <div class="col-lg-6 col-xs-12">
+            <div class="page1">
+                <div class="top-page1">
+                    <div class="top-page1__logo">
+                        <a href="@Url.Action("FEP", "Home")"><img src="~/Content/logo/logo.png" alt="logo"></a>
+                    </div>
+                    <div class="top-page1__direction">
+                        <div class="direction-title">
+                            <a href="@Url.Action("FEP", "Home")"><p>Trang chủ</p></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="title-page1">
+                    <h4>Thông tin giao hàng</h4>
+                </div>
+                <div class="form-page1">
+                    <form action="Nhập thông tin đặt hàng">
+                        <table>
+                            <div class="form-name">
+                                <input type="text" name="Name" placeholder="Nhập họ và tên" style="border: 1px silver solid; border-radius: 4px;width: 100%;height: 45px;font-family: SVN-Futura; padding-left: 20px;" />
+                            </div>
+                            <div class="form-email" style="display: flex;">
+                                <input type="email" name="Email" id="email" placeholder="Nhập email của bạn" style="border: 1px silver solid; border-radius: 4px;width: 60%;height: 45px;font-family: SVN-Futura; padding-left: 20px;">
+                                <input type="tel" name="Phone" id="SDT" placeholder="Số điện thoại" style="border: 1px silver solid; border-radius: 4px; width: 38%; height: 45px;font-family: SVN-Futura; padding-left: 20px; margin-left: 2%;">
+                            </div>
+
+                            <div class="cover-list">
+                                <div class="cover-item">
+                                    <label class="field-province" for="customer_shipping_province">Tỉnh / thành:  </label>
+                                    <select name="City" id="customer_shipping_province" onchange="districtF(),wardsF()">
+                                        <option value="null" selected="">Chọn tỉnh / thành </option>
+                                        <option value="HCM">Hồ Chí Minh</option>
+                                    </select>
+                                </div>
+                                <div class="cover-item">
+                                    <label class="field-district" for="customer_shipping_district"> Quận / Huyện:  </label>
+                                    <select name="District" id="customer_shipping_district" onchange="wardsF()">
+                                        <option value="null" selected="">Chọn Quận / Huyện</option>
+
+                                    </select>
+                                </div>
+                                <div class="cover-item">
+                                    <label class="field-wards" for="customer_shipping_wards"> Phường / Xã:  </label>
+                                    <select name="Ward" id="customer_shipping_wards">
+                                        <option value="null" selected="">Chọn Phường / Xã</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="address">
+                                <input type="text" name="Address" id="address" placeholder="Nhập địa chỉ của bạn" style="border: 1px silver solid; border-radius: 4px; width: 100%; height: 45px; font-family: SVN-Futura; padding-left: 20px;">
+                            </div>
+                            @*<div id="err">
+                                    <div>*Lưu ý:</div>
+                                    <p>- Tên, email, số điện thoại, tỉnh, quận và phường không được bỏ trống.</p>
+                                    <p>- Email nhập đúng chuẩn, số điện thoại phải nhập chính xác.</p>
+                                </div>*@
+                            <div class="pay-pc">
+                                <div class="shippingmethod">
+                                    <div class="title_boxshippingmethod">
+                                        <h2>Phương thức vận chuyển</h2>
+                                    </div>
+                                    <div class="box_shippingmethod" style="border: 1px silver solid; border-radius: 4px; width: 100%;height: 200px;">
+
+                                        <div class="box_shippingmethod-icon">
+                                            <i class="fa fa-archive" aria-hidden="true"></i>
+                                        </div>
+
+                                        <div class="box_shippingmethod-title">
+                                            <p>Vui lòng chọn tỉnh / thành để có danh sách phương thức vận chuyển.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="paymentmothod">
+                                    <div class="title_paymentmethod">
+                                        <h2>Phương thức thanh toán</h2>
+                                    </div>
+                                    <div class="box_paymentmethod">
+                                        <div class="box-input_paymentmethod">
+                                            <input type="radio" checked name="box-input_paymentmethod">
+                                        </div>
+                                        <div class="box-icon_paymentmethod">
+                                            <i class="fa fa-money" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="box-title_paymentmethod">
+                                            <p>Thanh toán khi giao hàng (COD)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bottom-page1">
+                                    <div class="return-cart">
+                                        <a href="@Url.Action("Cart", "Cart")">Giỏ hàng</a>
+                                    </div>
+                                    <div class="submit-form">
+                                        <a href="#"><input name="Hoàn tất" class="complete" id="submit" value="Hoàn tất đơn hàng"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="product-pay">
+            <div class="product-pay-heading">
+                <div class="product-pay-img">
+                    <img src="/assets/img/dep_sieu_cap_nam_nu/dep_balenciaga_pool_slide_black_white/1.jpg" alt="product_1" width="90px" height="auto">
+                </div>
+                <div class="product-pay-info">
+                    <div class="product-pay-title">
+                        <h4>DÉP GUCCI WEB SLIDE SANDAL BLACK LIKE AUTH</h4>
+                    </div>
+                    <div class="product-pay-body">
+                        <div class="product-pay-size">
+                            <h5>38</h5>
+                        </div>
+                        <div class="product-pay-price">
+                            <h5>898.000 ₫</h5><span class="x">x</span><span id="quantity-pay">2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-lg-6 col-xs-12">
+            <div class="page2">
+                <div class="order">
+                    <div class="products-pay" style="padding:0 10px;">
+                        @foreach (var item in carts)
+                        {
+                            List<string> AnhBia = _SneakerService.GetCoverPicture(item.IDSneaker);
+                            Sneaker sitem = sneakers.Find(x => x.ID == item.IDSneaker);
+                            <div class="product-pay">
+                                <div class="product-pay-heading">
+                                    <div class="product-pay-img">
+                                        <img src="~/Content/img/Link/@item.IDSneaker/@AnhBia[0]" alt="" width="90px" height="auto">
+                                    </div>
+                                    <div class="product-pay-info">
+                                        <div class="product-pay-title">
+                                            <h4>@sitem.Name</h4>
+                                        </div>
+                                        <div class="product-pay-body">
+                                            <div class="product-pay-size">
+                                                <h5>@_SneakerService.GetSize(item.IDSize)</h5>
+                                            </div>
+                                            <div class="product-pay-price">
+                                                <h5>@string.Format("{0:0,0} VNĐ", sitem.PriceAfterDiscount)</h5><span class="x">x</span><span id="quantity-pay" style="color:red; padding-right:10px;">@item.AmountBuy</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="page2-voucher">
+                        <div class="page2-voucher__input">
+                            <input type="text" name="voucher" id="voucher" placeholder=" MÃ GIẢM GIÁ">
+                        </div>
+                        </hr style="color: silver;">
+                        <div class="page2-voucher__submit">
+                            <input type="submit" name="submit" id="use" value="Sử Dụng" style="background-color:silver; text-align: center; width: 99px; height: 44px;">
+                        </div>
+                    </div>
+                    <div class="div-page2__bill">
+                        <div class="page2-bill__price">
+                            <div class="bill-price__title">
+                                <h4>Tạm tính</h4>
+                            </div>
+                            <div class="bill-price__money">
+                                <h4>898.000₫</h4>
+                            </div>
+                        </div>
+                        <div class="page2-transport__fee">
+                            <div class="transport-fee__title">
+                                <h4>Phí vận chuyển</h4>
+                            </div>
+                            <div class="transport-fee__money">
+                                <h4>---</h4>
+                            </div>
+                        </div>
+                        <div class="page2-intomoney">
+                            <div class="intomoney-title">
+                                <h4>Tổng cộng</h4>
+                            </div>
+                            <div class="intomoney-money">
+                                <h4>898.000₫</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pay-mobi">
+                    <div class="shippingmethod">
+                        <div class="title_boxshippingmethod">
+                            <h2>Phương thức vận chuyển</h2>
+                        </div>
+                        <div class="box_shippingmethod" style="border: 1px silver solid; border-radius: 4px; width: 100%;height: 200px;">
+
+                            <div class="box_shippingmethod-icon">
+                                <i class="fa fa-archive" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="box_shippingmethod-title">
+                                <p>Vui lòng chọn tỉnh / thành để có danh sách phương thức vận chuyển.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="paymentmothod">
+                        <div class="title_paymentmethod">
+                            <h2>Phương thức thanh toán</h2>
+                        </div>
+                        <div class="box_paymentmethod">
+                            <div class="box-input_paymentmethod">
+                                <input type="radio" name="box-input_paymentmethod">
+                            </div>
+                            <div class="box-icon_paymentmethod">
+                                <i class="fa fa-money" aria-hidden="true"></i>
+                            </div>
+                            <div class="box-title_paymentmethod">
+                                <p>Thanh toán khi giao hàng (COD)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom-page1">
+                        <div class="return-cart">
+                            <a href="#">Giỏ hàng</a>
+                        </div>
+                        <div class="submit-form">
+                            <a href="#"><input name="Hoàn tất" class="complete" id="submit" value="Hoàn tất đơn hàng"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="~/Content/bootstrap5/js/bootstrap.js"></script>
+</body>
+</html>

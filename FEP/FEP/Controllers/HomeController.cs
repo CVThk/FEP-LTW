@@ -21,6 +21,7 @@ namespace FEP.Controllers
         static int IDTypeLuxury = _SneakerService.GetIDSneakerType("Luxury");
         static int IDTypeMLB = _SneakerService.GetIDSneakerType("MLB");
         static int IDTypeDep = _SneakerService.GetIDSneakerType("Dép");
+        static CartService _CartService = new CartService();
         // GET: Home
         public ActionResult FEP()
         {
@@ -59,7 +60,7 @@ namespace FEP.Controllers
             Sneaker s = _Sneakers.Find(x => x.ID == idSneaker);
             if(!_SneakerService.CheckInventory(sizeInventory))
             {
-                return RedirectToAction("Error", "Home", new { sneaker = s });
+                return RedirectToAction("Error", "Error", new { sneaker = s });
             }
             List<int> inventory = _SneakerService.GetInventory(idSneaker);
 
@@ -73,9 +74,11 @@ namespace FEP.Controllers
             return View();
         }
 
-        public ActionResult Error(Sneaker sneaker)
+        public ActionResult PaymentList(int idClient)
         {
-            return View(sneaker);
+            Session["PayList"] = _CartService.GetCarts().Where(x => x.IDClient == idClient).ToList();
+            Session["ListSneaker"] = _Sneakers;
+            return View();
         }
     }
 }

@@ -26,7 +26,11 @@ if (sessionStorage.UpdateCart == 'true') {
 if (sessionStorage.UpdateCart == 'false') {
     Swal.fire({
         icon: 'error',
-        html: '<b style="color:red;">Vui lòng kiểm tra số lượng tồn!</b>'
+        html: '<b style="color:red;">Lỗi không thể cập nhật!</b>'
     })
     sessionStorage.UpdateCart = "";
+}
+
+if (sessionStorage.MaxInventoryCart != null) {
+    console.log(sessionStorage.MaxInventoryCart)
 }

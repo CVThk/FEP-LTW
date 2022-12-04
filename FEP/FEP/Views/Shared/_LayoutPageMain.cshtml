@@ -2,6 +2,7 @@
 @using FEP.Models
 @{ 
     User user = Session["User"] as User;
+    Account account = Session["Account"] as Account;
     //Session["User"] = user;
     var IDTypeNike = Session["IDTypeNike"];
     var IDTypeAdidas = Session["IDTypeAdidas"];
@@ -69,7 +70,7 @@
                         <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                             <div class="navbar-profile d-flex align-items-center">
                                 <img class="img-xs rounded-circle" src="~/Content/img/user.png" alt="">
-                                <p class="mb-0 d-none d-sm-block navbar-profile-name" style="margin-left:4px;">@user.Name</p>
+                                <p class="mb-0 d-none d-sm-block navbar-profile-name" style="margin-left:4px;">@account.Username.ToUpper()</p>
                                 <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                             </div>
                         </a>
