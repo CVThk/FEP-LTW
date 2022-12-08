@@ -69,20 +69,27 @@
                     {
                         <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                             <div class="navbar-profile d-flex align-items-center">
-                                <img class="img-xs rounded-circle" src="~/Content/img/user.png" alt="">
+                                <img class="img-xs rounded-circle" src="~/Content/img/Profile/@user.Image" alt="">
                                 <p class="mb-0 d-none d-sm-block navbar-profile-name" style="margin-left:4px;">@account.Username.ToUpper()</p>
                                 <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                            <h6 class="mb-0" style="padding:2px 6px;">Profile</h6>
+                            <a href="@Url.Action("Profile", "User", new { idUser=user.ID,idAccount=account.ID })" class="dropdown-item preview-item user-item">
+                                <div class="preview-thumbnail">
+                                    <i class="mdi mdi-account text-success"></i>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject mb-1">My account</p>
+                                </div>
+                            </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item preview-item user-item">
+                            <a href="@Url.Action("Profile", "User", new { idUser=user.ID })" class="dropdown-item preview-item user-item">
                                 <div class="preview-thumbnail">
                                     <i class="mdi mdi-settings text-success"></i>
                                 </div>
                                 <div class="preview-item-content">
-                                    <p class="preview-subject mb-1">Settings</p>
+                                    <p class="preview-subject mb-1">Password switch</p>
                                 </div>
                             </a>
                             <div class="dropdown-divider"></div>

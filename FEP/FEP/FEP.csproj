@@ -1468,14 +1468,15 @@
     <Content Include="Content\img\Link\NXAF1LXTARSR\1.jpg" />
     <Content Include="Content\img\Link\NXAF1LXTARSR\2.jpg" />
     <Content Include="Content\img\no-product.png" />
+    <Content Include="Content\img\Profile\user.png" />
     <Content Include="Content\img\slider\s1.jpg" />
     <Content Include="Content\img\slider\s2.jpg" />
     <Content Include="Content\img\slider\s3.jpg" />
-    <Content Include="Content\img\user.png" />
     <Content Include="Content\js\cart.js" />
     <Content Include="Content\js\fontawesome.js" />
     <Content Include="Content\js\jquery.js" />
     <Content Include="Content\js\js-login.js" />
+    <Content Include="Content\js\jsCheck.js" />
     <Content Include="Content\js\loading.js" />
     <Content Include="Content\js\main.js" />
     <Content Include="Content\js\menu-tab-mobi.js" />
@@ -2034,6 +2035,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Core\Interfaces\IData\IAccountData.cs" />
     <Compile Include="Core\Interfaces\IData\IHelperData.cs" />
     <Compile Include="Core\Interfaces\IData\ISneakerData.cs" />
@@ -2333,6 +2335,7 @@
     <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\Error\Forbidden.cshtml" />
     <Content Include="Views\Home\PaymentList.cshtml" />
+    <Content Include="Views\User\Profile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

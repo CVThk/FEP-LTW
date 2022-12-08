@@ -2,12 +2,19 @@
 @using FEP.Core.Services
 @using FEP.Core.Interfaces.IData
 @using FEP.Data
+@using FEP.Utility
 @{
     Layout = null;
     List<Cart> carts = Session["PayList"] as List<Cart>;
     List<Sneaker> sneakers = Session["ListSneaker"] as List<Sneaker>;
     ISneakerData _NHibernateData = new NHibernateData();
     SneakerService _SneakerService = new SneakerService(_NHibernateData);
+    var listCity = ViewBag.City;
+    var listDistrict = ViewBag.District;
+    var listWard = ViewBag.Ward;
+    string jsonCity = Utilities.Instance.JsonString<City>(listCity);
+    string jsonDistrict = Utilities.Instance.JsonString<District>(listDistrict);
+    string jsonWard = Utilities.Instance.JsonString<Ward>(listWard);
 }
 
 <!DOCTYPE html>
@@ -58,14 +65,13 @@
                             <div class="cover-list">
                                 <div class="cover-item">
                                     <label class="field-province" for="customer_shipping_province">Tỉnh / thành:  </label>
-                                    <select name="City" id="customer_shipping_province" onchange="districtF(),wardsF()">
+                                    <select name="City" id="customer_shipping_province" onchange="fDistrict(),fWard()">
                                         <option value="null" selected="">Chọn tỉnh / thành </option>
-                                        <option value="HCM">Hồ Chí Minh</option>
                                     </select>
                                 </div>
                                 <div class="cover-item">
                                     <label class="field-district" for="customer_shipping_district"> Quận / Huyện:  </label>
-                                    <select name="District" id="customer_shipping_district" onchange="wardsF()">
+                                    <select name="District" id="customer_shipping_district" onchange="fWard()">
                                         <option value="null" selected="">Chọn Quận / Huyện</option>
 
                                     </select>
@@ -132,26 +138,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="product-pay">
-            <div class="product-pay-heading">
-                <div class="product-pay-img">
-                    <img src="/assets/img/dep_sieu_cap_nam_nu/dep_balenciaga_pool_slide_black_white/1.jpg" alt="product_1" width="90px" height="auto">
-                </div>
-                <div class="product-pay-info">
-                    <div class="product-pay-title">
-                        <h4>DÉP GUCCI WEB SLIDE SANDAL BLACK LIKE AUTH</h4>
-                    </div>
-                    <div class="product-pay-body">
-                        <div class="product-pay-size">
-                            <h5>38</h5>
-                        </div>
-                        <div class="product-pay-price">
-                            <h5>898.000 ₫</h5><span class="x">x</span><span id="quantity-pay">2</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="col-lg-6 col-xs-12">
             <div class="page2">
                 <div class="order">
@@ -266,5 +252,53 @@
 
 
     <script src="~/Content/bootstrap5/js/bootstrap.js"></script>
+    <script type="text/javascript">
+            var arrayCity = JSON.parse('@Html.Raw(jsonCity)');
+        var selectCity = document.querySelector('#customer_shipping_province');
+            function fCity() {
+                var str = '<option value="null" selected>Chọn tỉnh / thành</option>';
+                for (let i = 0; i < arrayCity.length; i++) {
+                    str += '<option value="'+ arrayCity[i].ID +'">' + arrayCity[i].Name + '</option>';
+                }
+                selectCity.innerHTML = str;
+            }
+            fCity();
+            var arrayDistrict = JSON.parse('@Html.Raw(jsonDistrict)');
+        var selectDis = document.querySelector('#customer_shipping_district');
+            function fDistrict() {
+                if (selectCity.value == null) {
+                    selectDis.disabled = true;
+                    selectDis.innerHTML = '<option value="null" selected>Chọn Quận / Huyện</option>';
+                }
+                else {
+                    selectDis.disabled = false;
+                    var str = '<option value="null" selected>Chọn Quận / Huyện</option>';
+                    for (let i = 0; i < arrayDistrict.length; i++) {
+                        if (selectCity.value == arrayDistrict[i].IDCity) {
+                            str += '<option value="' + arrayDistrict[i].ID + '">' + arrayDistrict[i].Name + '</option>';
+                        }
+                    }
+                    selectDis.innerHTML = str;
+                }
+            }
+            var arrayWard = JSON.parse('@Html.Raw(jsonWard)');
+            function fWard() {
+                var selectWard = document.querySelector('#customer_shipping_wards');
+                if (selectDis.value == null || selectCity.value == null) {
+                    selectWard.disabled = true;
+                    selectWard.innerHTML = '<option value="null" selected="">Chọn Phường / Xã</option>';
+                }
+                else {
+                    selectWard.disabled = false;
+                    var str = '<option value="null" selected="">Chọn Phường / Xã</option>';
+                    for (let i = 0; i < arrayWard.length; i++) {
+                        if (selectDis.value == arrayWard[i].IDDistrict) {
+                            str += '<option value="' + arrayWard[i].ID + '">' + arrayWard[i].Name + '</option>';
+                        }
+                    }
+                    selectWard.innerHTML = str;
+                }
+            }
+    </script>
 </body>
 </html>

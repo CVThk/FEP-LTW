@@ -1,0 +1,229 @@
+﻿@using FEP.Models
+@using FEP.Utility
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_LayoutPageMain.cshtml";
+    User user = Session["User"] as User;
+    Account account = Session["Account"] as Account;
+    var city = ViewBag.City;
+    var district = ViewBag.District;
+    var ward = ViewBag.Ward;
+    var listCity = ViewBag.Citys;
+    var listDistrict = ViewBag.Districts;
+    var listWard = ViewBag.Wards;
+    string jsonCity = Utilities.Instance.JsonString<City>(listCity);
+    string jsonDistrict = Utilities.Instance.JsonString<District>(listDistrict);
+    string jsonWard = Utilities.Instance.JsonString<Ward>(listWard);
+}
+
+<style>
+    .row-item {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+    }
+
+        .row-item > div:first-child {
+            text-align: right;
+        }
+
+        .row-item > div:last-child {
+            width: 100%;
+        }
+
+    input, select {
+        outline: none !important;
+        border: none !important;
+    }
+</style>
+
+@using (Html.BeginForm("Profile", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="padding:10px 0;">
+        <div style="min-height:300px; width:100%; width: 60%; margin:0 auto; box-shadow:0px 0px 4px -1px rgba(0,0,0,0.4)">
+            <div class="container" style="padding:20px;">
+                <div class="row">
+                    <div class="col-12" style="border-bottom: 1px solid rgba(0,0,0,0.2); font-size: 14px; padding: 20px 40px">
+                        <h4>Hồ sơ của tôi</h4>
+                        <span style="padding-left:10px;">Quản lý thông tin hồ sơ để bảo mật tài khoản</span>
+                    </div>
+                    <div class="col-8">
+                        <div class="row-item">
+                            <div class="col-4 pe-5">Tên đăng nhập</div>
+                            <div style="user-select:none; font-weight:bold;">@account.Username</div>
+                        </div>
+                        <div class="row-item">
+                            <div class="col-4 pe-5">Tên</div>
+                            <div><input type="text" value="@user.Name" name="Name" class="w-100" /></div>
+                        </div>
+                        <div class="row-item">
+                            <div class="col-4 pe-5">Số điện thoại</div>
+                            <div><input class="w-100" id="iPhone" type="tel" name="Phone" placeholder="Phone" value="@user.Phone" minlength="10" maxlength="11"></div>
+                        </div>
+                        <div class="row-item">
+                            <div class="col-4 pe-5">Giới tính</div>
+                            <div>
+                                <select name="Gender" class="w-100">
+                                    @if (user.Gender == "Name")
+                                    {
+                                        <option value="Nam" selected>Nam</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Nam">Nam</option>
+                                    }
+                                    @if (user.Gender == "Nữ")
+                                    {
+                                        <option value="Nữ" selected>Nữ</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Nữ">Nữ</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="col-4 pe-5">Ngày sinh</div>
+                            <input class="w-100" id="iDateOfBirth" type="date" name="DateOfBirth" value="@user.DateOfBirth.ToString("yyyy-MM-dd")">
+                        </div>
+                        <div class="row-item">
+                            <div class="col-4 pe-5">Tỉnh / Thành Phố</div>
+                            <div class="input__item">
+                                <select class="w-100" name="City" id="City" onchange="fDistrict(), fWard()">
+                                    <option value="@city.ID" selected>@city.Name</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="col-4 pe-5">Quận / Huyện</div>
+                            <div class="input__item">
+                                <select class="w-100" name="District" id="District" onchange="fWard()"><option value="@district.ID" selected>@district.Name</option></select>
+                            </div>
+                        </div>
+                        <div class="row-item">
+                            <div class="col-4 pe-5">Phường / Xã</div>
+                            <div class="input__item">
+                                <select class="w-100" name="Ward" id="Ward"><option value="@ward.ID" selected="">@ward.Name</option></select>
+                            </div>
+                        </div>
+                        <div class="col-4 text-right pe-5">
+                            <button class="btn btn-success">Lưu</button>
+                        </div>
+                    </div>
+                    <div class="col-4" style="text-align: center; border-left: 1px solid rgba(0,0,0,0.2)">
+                        <img src="~/Content/img/Profile/@user.Image" style="width:60%; margin:0 auto;" />
+                        <div>
+                            <label for="picture" class="btn btn-outline-github">Chọn Ảnh</label>
+                            <input id="picture" name="Image" style="visibility:hidden;" type="file" value="user.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+            var arrayCity = JSON.parse('@Html.Raw(jsonCity)');
+            var selectCity = document.querySelector('#City');
+            function fCity() {
+                var str = '<option value="null">Chọn tỉnh / thành</option>';
+                for (let i = 0; i < arrayCity.length; i++) {
+                    str += '<option value="'+ arrayCity[i].ID +'">' + arrayCity[i].Name + '</option>';
+                }
+                selectCity.innerHTML = str;
+            }
+            fCity();
+
+
+            var arrayDistrict = JSON.parse('@Html.Raw(jsonDistrict)');
+            var selectDis = document.querySelector('#District');
+            function fDistrict() {
+                if (selectCity.value == null) {
+                    selectDis.disabled = true;
+                    selectDis.innerHTML = '<option value="null" selected>Chọn Quận / Huyện</option>';
+                }
+                else {
+                    selectDis.disabled = false;
+                    var str = '<option value="null" selected>Chọn Quận / Huyện</option>';
+                    for (let i = 0; i < arrayDistrict.length; i++) {
+                        if (selectCity.value == arrayDistrict[i].IDCity) {
+                            str += '<option value="' + arrayDistrict[i].ID + '">' + arrayDistrict[i].Name + '</option>';
+                        }
+                    }
+                    selectDis.innerHTML = str;
+                }
+            }
+            var arrayWard = JSON.parse('@Html.Raw(jsonWard)');
+            function fWard() {
+                var selectWard = document.querySelector('#Ward');
+                if (selectDis.value == null || selectCity.value == null) {
+                    selectWard.disabled = true;
+                    selectWard.innerHTML = '<option value="null" selected="">Chọn Phường / Xã</option>';
+                }
+                else {
+                    selectWard.disabled = false;
+                    var str = '<option value="null" selected="">Chọn Phường / Xã</option>';
+                    for (let i = 0; i < arrayWard.length; i++) {
+                        if (selectDis.value == arrayWard[i].IDDistrict) {
+                            str += '<option value="' + arrayWard[i].ID + '">' + arrayWard[i].Name + '</option>';
+                        }
+                    }
+                    selectWard.innerHTML = str;
+                }
+            }
+</script>
+
+<script>
+    var optionCity = document.querySelectorAll('#City > option')
+    for (let i = 0; i < optionCity.length; i++) {
+        if (optionCity[i].value == '@city.ID') {
+            optionCity[i].selected = true;
+            break;
+        }
+    }
+    fDistrict();
+    var optionDistrict = document.querySelectorAll('#District > option')
+    for (let i = 0; i < optionDistrict.length; i++) {
+        if (optionDistrict[i].value == '@district.ID') {
+            optionDistrict[i].selected = true;
+            break;
+        }
+    }
+    fWard();
+    var optionWard = document.querySelectorAll('#Ward > option')
+    for (let i = 0; i < optionWard.length; i++) {
+        if (optionWard[i].value == '@ward.ID') {
+            optionWard[i].selected = true;
+            break;
+        }
+    }
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (Session["Error"] != null)
+{
+    if (Session["Error"].ToString() == "false")
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                html: '<b style="color:green;">Cập nhật thành công !</b>'
+            })
+        </script>
+    }
+    else
+    {
+<script>
+            Swal.fire({
+                icon: 'error',
+                html: '<b style="color:red;">@Session["Error"].ToString()</b>'
+            })
+</script>
+    }
+    Session["Error"] = null;
+}

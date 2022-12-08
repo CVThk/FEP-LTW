@@ -78,6 +78,9 @@ namespace FEP.Controllers
         {
             Session["PayList"] = _CartService.GetCarts().Where(x => x.IDClient == idClient).ToList();
             Session["ListSneaker"] = _Sneakers;
+            ViewBag.City = HelperData.Instance.GetCities();
+            ViewBag.District = HelperData.Instance.GetDistricts();
+            ViewBag.Ward = HelperData.Instance.GetWards();
             return View();
         }
     }

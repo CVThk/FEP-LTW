@@ -62,50 +62,50 @@
                             @using (Html.BeginForm("SignUp", "Account"))
                             {
                                 <div class="input__item">
-                                    <input id="iName" type="text" name="Name" placeholder="Your Name">
+                                    <input id="iName" type="text" name="Name" placeholder="Your Name" minlength="5">
                                     <span><i class="mdi mdi-information-variant"></i></span>
-                                    @if (ViewData["LoiName"] != null)
-                                    {
-                                        <div class="err-form">@ViewData["LoiName"]</div>
-                                    }
                                 </div>
+                                if (ViewData["LoiName"] != null)
+                                {
+                                    <div class="err-form">@ViewData["LoiName"]</div>
+                                }
 
                                 <div class="input__item">
-                                    <input id="iUsername" type="text" name="Username" placeholder="Username">
+                                    <input id="iUsername" type="text" name="Username" placeholder="Username" minlength="5">
                                     <span><i class="mdi mdi-account"></i></span>
-                                    @if (ViewData["LoiUsername"] != null)
-                                    {
-                                        <div class="err-form">@ViewData["LoiUsername"]</div>
-                                    }
                                 </div>
+                                if (ViewData["LoiUsername"] != null)
+                                {
+                                    <div class="err-form">@ViewData["LoiUsername"]</div>
+                                }
 
                                 <div class="input__item d-flex align-items-center">
-                                    <input id="iPassword" type="password" name="Password" placeholder="Password" maxlength="30" oninput="checkPasscode();">
+                                    <input id="iPassword" type="password" name="Password" placeholder="Password" minlength="5" maxlength="30" oninput="checkPasscode();">
                                     <span><i class="mdi mdi-lock"></i></span>
                                     <div class="eye-pass"><i class="mdi mdi-eye"></i></div>
-                                    @if (ViewData["LoiPassword"] != null)
-                                    {
-                                        <div class="err-form">@ViewData["LoiPassword"]</div>
-                                    }
                                 </div>
+                                if (ViewData["LoiPassword"] != null)
+                                {
+                                    <div class="err-form">@ViewData["LoiPassword"]</div>
+                                }
 
                                 <div class="input__item">
-                                    <input id="iPhone" type="number" name="Phone" placeholder="Phone" maxlength="11">
+                                    <input id="iPhone" type="tel" name="Phone" placeholder="Phone" minlength="10" maxlength="11">
                                     <span><i class="mdi mdi-cellphone"></i></span>
-                                    @if (ViewData["LoiPhone"] != null)
-                                    {
-                                        <div class="err-form">@ViewData["LoiPhone"]</div>
-                                    }
                                 </div>
+                                if (ViewData["LoiPhone"] != null)
+                                {
+                                    <div class="err-form">@ViewData["LoiPhone"]</div>
+                                }
 
                                 <div class="input__item">
                                     <input id="iDateOfBirth" type="date" name="DateOfBirth" placeholder="Date Of Birth" style="padding-right:7%;">
                                     <span><i class="mdi mdi-calendar-today"></i></span>
-                                    @if (ViewData["LoiDateOfBirth"] != null)
-                                    {
-                                        <div class="err-form">@ViewData["LoiDateOfBirth"]</div>
-                                    }
                                 </div>
+                                if (ViewData["LoiDateOfBirth"] != null)
+                                {
+                                    <div class="err-form">@ViewData["LoiDateOfBirth"]</div>
+                                }
 
                                 <div class="input__item">
                                     @{
@@ -116,11 +116,11 @@
                                     }
                                     @Html.DropDownList("Gender", listItem, "Select gender")
                                     <span><i class="mdi mdi-gender-male-female"></i></span>
-                                    @if (ViewData["LoiGender"] != null)
-                                    {
-                                        <div class="err-form">@ViewData["LoiGender"]</div>
-                                    }
                                 </div>
+                                if (ViewData["LoiGender"] != null)
+                                {
+                                    <div class="err-form">@ViewData["LoiGender"]</div>
+                                }
 
                                 <div class="input__item">
                                     <select name="City" id="City" onchange="fDistrict(), fWard()"></select>
@@ -135,11 +135,11 @@
                                 <div class="input__item">
                                     <select name="Ward" id="Ward"><option value="null" selected="">Chọn Phường / Xã</option></select>
                                     <span><i class="mdi mdi-map-marker"></i></span>
-                                    @if (ViewData["LoiWard"] != null)
-                                    {
-                                        <div class="err-form">@ViewData["LoiWard"]</div>
-                                    }
                                 </div>
+                                if (ViewData["LoiWard"] != null)
+                                {
+                                    <div class="err-form">@ViewData["LoiWard"]</div>
+                                }
                                 <button id="loginNow" type="submit" class="site-btn">Login Now</button>
                             }
                             <h5>Already have an account? <a href="@Url.Action("Login", "Account")">Log In!</a></h5>
@@ -183,11 +183,11 @@
             function fDistrict() {
                 if (selectCity.value == null) {
                     selectDis.disabled = true;
-                    selectDis.innerHTML = '<option value="null" selected>Chọn Quận / Huyện<option>';
+                    selectDis.innerHTML = '<option value="null" selected>Chọn Quận / Huyện</option>';
                 }
                 else {
                     selectDis.disabled = false;
-                    var str = '<option value="null" selected>Chọn Quận / Huyện<option>';
+                    var str = '<option value="null" selected>Chọn Quận / Huyện</option>';
                     for (let i = 0; i < arrayDistrict.length; i++) {
                         if (selectCity.value == arrayDistrict[i].IDCity) {
                             str += '<option value="' + arrayDistrict[i].ID + '">' + arrayDistrict[i].Name + '</option>';

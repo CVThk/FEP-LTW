@@ -90,6 +90,12 @@ namespace FEP.Controllers
             if (string.IsNullOrEmpty(username))
             {
                 ktSignUp = false;
+                ViewData["LoiUsername"] = "Không được bỏ trống!";
+            }
+            else if(username.Length < 5)
+            {
+                ktSignUp = false;
+                ViewData["LoiUsername"] = "Username ít nhất 5 ký tự!";
             }    
 
             if (string.IsNullOrEmpty(name))

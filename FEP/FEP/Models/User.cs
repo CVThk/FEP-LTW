@@ -13,5 +13,6 @@ namespace FEP.Models
         public string Gender { get; set; }
         public string Phone { get; set; }
         public int IDWard { get; set; }
+        public string Image { get; set; }
     }
 }

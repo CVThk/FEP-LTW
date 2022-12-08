@@ -35,11 +35,16 @@ CREATE TABLE tbl_Client (
 	DateOfBirth Date,
 	Gender nvarchar(3),
 	Phone varchar(10) not null unique,
+	Image varchar(max),
 	IDWard int,
 	constraint PK_Client primary key(ID),
 	constraint FK_Client_Address foreign key(IDWard) references Ward(ID)
 )
 GO
+
+ALTER TABLE tbl_Client
+ADD CONSTRAINT DF_Image_Client default 'user.png' for Image
+go
 
 CREATE TABLE tbl_Account(
 	ID int identity not null,
@@ -65,11 +70,16 @@ CREATE TABLE tbl_Staff (
 	DateOfBirth Date,
 	Gender nvarchar(3),
 	Phone varchar(10) not null unique,
+	Image varchar(max),
 	IDWard int,
 	constraint PK_Staff primary key(ID),
 	constraint FK_Staff_Address foreign key(IDWard) references Ward(ID)
 )
 GO
+
+ALTER TABLE tbl_Staff
+ADD CONSTRAINT DF_Image_Staff default 'user.png' for Image
+go
 
 CREATE TABLE tbl_Account_Staff (
 	ID int identity not null,
@@ -952,3 +962,5 @@ GO
 --update tbl_Cart set AmountBuy = '' where IDClient = '' and IDSneaker = '' and IDSize = ''
 
 --delete tbl_Cart where IDClient = ''
+
+--update tbl_Client set Name = '', DateOfBirth = '', Gender = '', Phone = '', IDWard = '', Image = '' where ID = ''
