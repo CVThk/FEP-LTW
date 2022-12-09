@@ -13,9 +13,8 @@ namespace FEP.Controllers
 {
     public class AccountController : Controller
     {
+        static SneakerManagementAPIController api = new SneakerManagementAPIController();
         // GET: Account
-        static IAccountData _NHibernateData = new NHibernateData();
-        static AccountService accountService = new AccountService(_NHibernateData);
         public ActionResult Login()
         {
             Session["User"] = null;
@@ -34,35 +33,26 @@ namespace FEP.Controllers
             }
             else
             {
-                int idAccount = ADOHelper.Instance.ExecuteScalar(@"declare @idAccount int
-                                                                    exec @idAccount = sp_GetIDAccount @para_0,@para_1
-                                                                    select @idAccount", new object[] { username, pass });
-                Session["Account"] = accountService.getAll().Find(x => x.ID == idAccount);
+                int idAccount = api.GetIDAccount(username, pass);
+                Session["Account"] = idAccount;
                 if(idAccount == 0)
                     ViewData["Login"] = "false";
                 else
                 {
                     ViewData["Login"] = "true";
                     int id;
-                    id = ADOHelper.Instance.ExecuteScalar(@"declare @id int
-                                                            exec @id = sp_GetIDStaffByIDAccount @para_0
-                                                            select @id", new object[] { idAccount });
+                    id = api.GetIDStaffByIDAccount(idAccount);
                     if(id != 0)
                     {
                         ViewData["TypeAccount"] = "AD";
-                        List<User> Staffs = ADOHelper.Instance.ExecuteReader<User>("select * from tbl_Staff");
-                        Session["User"] = Staffs.Find(x => x.ID == id);
                     }   
                     else
                     {
-                        id = ADOHelper.Instance.ExecuteScalar(@"declare @id int
-                                                            exec @id = sp_GetIDClientByIDAccount @para_0
-                                                            select @id", new object[] { idAccount });
+                        id = api.GetIDClientByIDAccount(idAccount);
                         ViewData["TypeAccount"] = "CL";
-                        List<User> Clients = ADOHelper.Instance.ExecuteReader<User>("select * from tbl_Client");
-                        Session["User"] = Clients.Find(x => x.ID == id);
                         ktlogin = true;
                     }
+                    Session["User"] = id;
                 }
             }
             if(ktlogin && Session["idsneaker"] != null)
@@ -154,7 +144,7 @@ namespace FEP.Controllers
 
             if (ktSignUp)
             {
-                bool ktAccount = accountService.SignUp(name, username, password, phone, DateTime.Parse(dateofbirth), gender, int.Parse(idWard));
+                bool ktAccount = api.SignUp(name, username, password, phone, DateTime.Parse(dateofbirth), gender, int.Parse(idWard));
                 if (!ktAccount)
                     ViewData["LoiSignUp"] = "Tên đăng nhập hoặc số điện thoại đã tồn tại!";
                 else return RedirectToAction("Login", "Account");

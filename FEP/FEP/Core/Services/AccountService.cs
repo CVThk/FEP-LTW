@@ -16,12 +16,45 @@ namespace FEP.Core.Services
         {
             this._data = accountData;
         }
+
+        public void ChangePassword(string username, string password)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                session.CreateSQLQuery(@"update tbl_Account set Password = :pass where Username = :username")
+                    .SetParameter("pass", password)
+                    .SetParameter("username", username)
+                    .UniqueResult<int>();
+            }
+        }
+
         public List<Account> getAll()
         {
             return _data.GetAccounts();
         }
 
-        public string Login(string username, string password)
+        public int GetIDAccount(string username, string password)
+        {
+            return ADOHelper.Instance.ExecuteScalar(@"declare @idAccount int
+                                                                    exec @idAccount = sp_GetIDAccount @para_0,@para_1
+                                                                    select @idAccount", new object[] { username, password });
+        }
+
+        public int GetIDClientByIDAccount(int idAccount)
+        {
+            return ADOHelper.Instance.ExecuteScalar(@"declare @id int
+                                                            exec @id = sp_GetIDClientByIDAccount @para_0
+                                                            select @id", new object[] { idAccount });
+        }
+
+        public int GetIDStaffByIDAccount(int idAccount)
+        {
+            return ADOHelper.Instance.ExecuteScalar(@"declare @id int
+                                                            exec @id = sp_GetIDStaffByIDAccount @para_0
+                                                            select @id", new object[] { idAccount });
+        }
+
+        public void ResetPassword(string username)
         {
             throw new NotImplementedException();
         }

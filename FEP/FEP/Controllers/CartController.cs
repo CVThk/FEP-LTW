@@ -19,6 +19,8 @@ namespace FEP.Controllers
 
         static CartService _CartService = new CartService();
         static List<Cart> carts;
+
+        static SneakerManagementAPIController api = new SneakerManagementAPIController();
         public int TotalAmount()
         {
             int sl = 0;
@@ -44,7 +46,12 @@ namespace FEP.Controllers
         {
             carts = _CartService.GetCarts();
             //ViewBag.TotalAmount = TotalAmount();
-            User user = Session["User"] as User;
+            int idUser = 0;
+            if(Session["User"] != null)
+            {
+                idUser = int.Parse(Session["User"].ToString());
+            }
+            User user = api.GetClient(idUser);
             if (user == null)
             {
                 ViewBag.TotalAmount = 0;
@@ -61,7 +68,12 @@ namespace FEP.Controllers
 
         public ActionResult Cart()
         {
-            User user = Session["User"] as User;
+            int idUser = 0;
+            if (Session["User"] != null)
+            {
+                idUser = int.Parse(Session["User"].ToString());
+            }
+            User user = api.GetClient(idUser);
             if (user == null)
                 return RedirectToAction("Login", "Account");
 

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -40,7 +41,7 @@ namespace FEP.Utility
         }
         public bool CheckInputPassword(string password)
         {
-            if (new Regex(@"^([\x00-\x7F]+[^.])+$").IsMatch(password))
+            if (new Regex(@"^([\x00-\x7F]{5,20})$").IsMatch(password))
                 return true;
             return false;
         }
@@ -57,5 +58,7 @@ namespace FEP.Utility
         {
             return JsonConvert.SerializeObject(list).Replace('\'', ' ');
         }
+
+        
     }
 }

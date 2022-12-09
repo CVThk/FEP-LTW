@@ -1,9 +1,20 @@
 ﻿<!DOCTYPE html>
 @using FEP.Models
+@using FEP.Controllers
 @{ 
-    User user = Session["User"] as User;
-    Account account = Session["Account"] as Account;
-    //Session["User"] = user;
+    int idUser = 0;
+    if (Session["User"] != null)
+    {
+        idUser = int.Parse(Session["User"].ToString());
+    }
+    SneakerManagementAPIController api = new SneakerManagementAPIController();
+    User user = api.GetClient(idUser);
+    int idAccount = 0;
+    if (Session["Account"] != null)
+    {
+        idAccount = int.Parse(Session["Account"].ToString());
+    }
+    Account account = api.GetAccount(idAccount);
     var IDTypeNike = Session["IDTypeNike"];
     var IDTypeAdidas = Session["IDTypeAdidas"];
     var IDTypeLuxury = Session["IDTypeLuxury"];
@@ -75,7 +86,7 @@
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                            <a href="@Url.Action("Profile", "User", new { idUser=user.ID,idAccount=account.ID })" class="dropdown-item preview-item user-item">
+                            <a href="@Url.Action("Profile", "User")" class="dropdown-item preview-item user-item">
                                 <div class="preview-thumbnail">
                                     <i class="mdi mdi-account text-success"></i>
                                 </div>
@@ -84,7 +95,7 @@
                                 </div>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="@Url.Action("Profile", "User", new { idUser=user.ID })" class="dropdown-item preview-item user-item">
+                            <a href="@Url.Action("PasswordSwitch", "User")" class="dropdown-item preview-item user-item">
                                 <div class="preview-thumbnail">
                                     <i class="mdi mdi-settings text-success"></i>
                                 </div>

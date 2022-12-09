@@ -10,6 +10,10 @@ namespace FEP.Core.Interfaces.IServices
     public interface IAccountService:IBasicService<Account>
     {
         bool SignUp(string name, string username, string password, string phone, DateTime dateOfBirth, string gender, int idWard);
-        string Login(string username, string password);
+        void ChangePassword(string username, string password);
+        void ResetPassword(string username);
+        int GetIDAccount(string username, string password);
+        int GetIDClientByIDAccount(int idAccount);
+        int GetIDStaffByIDAccount(int idAccount);
     }
 }

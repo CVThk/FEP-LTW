@@ -1,10 +1,22 @@
 ﻿@using FEP.Models
 @using FEP.Utility
+@using FEP.Controllers
 @{
     ViewBag.Title = "Profile";
     Layout = "~/Views/Shared/_LayoutPageMain.cshtml";
-    User user = Session["User"] as User;
-    Account account = Session["Account"] as Account;
+    int idUser = 0;
+    if (Session["User"] != null)
+    {
+        idUser = int.Parse(Session["User"].ToString());
+    }
+    SneakerManagementAPIController api = new SneakerManagementAPIController();
+    User user = api.GetClient(idUser);
+    int idAccount = 0;
+    if (Session["Account"] != null)
+    {
+        idAccount = int.Parse(Session["Account"].ToString());
+    }
+    Account account = api.GetAccount(idAccount);
     var city = ViewBag.City;
     var district = ViewBag.District;
     var ward = ViewBag.Ward;
@@ -42,6 +54,8 @@
     <div style="padding:10px 0;">
         <div style="min-height:300px; width:100%; width: 60%; margin:0 auto; box-shadow:0px 0px 4px -1px rgba(0,0,0,0.4)">
             <div class="container" style="padding:20px;">
+                <input name="URL" value="@Request.Url" style="display:none;" />
+                <input name="idUser" value="@user.ID" style="display:none;" />
                 <div class="row">
                     <div class="col-12" style="border-bottom: 1px solid rgba(0,0,0,0.2); font-size: 14px; padding: 20px 40px">
                         <h4>Hồ sơ của tôi</h4>
@@ -111,11 +125,10 @@
                             <button class="btn btn-success">Lưu</button>
                         </div>
                     </div>
-                    <div class="col-4" style="text-align: center; border-left: 1px solid rgba(0,0,0,0.2)">
-                        <img src="~/Content/img/Profile/@user.Image" style="width:60%; margin:0 auto;" />
-                        <div>
-                            <label for="picture" class="btn btn-outline-github">Chọn Ảnh</label>
-                            <input id="picture" name="Image" style="visibility:hidden;" type="file" value="user.png" />
+                    <div class="col-4 pt-5" style="text-align: center; border-left: 1px solid rgba(0,0,0,0.2)">
+                        <img id="img-profile" src="~/Content/img/Profile/@user.Image" style="width:60%; margin:0 auto; border-radius:50%; height:100px; width:100px;" />
+                        <div style="margin-top:10px; text-align:center;">
+                            <input id="picture" name="Image" type="file" value="user.png" style="width: 80%; font-size: 10px;" />
                         </div>
                     </div>
                 </div>
@@ -123,6 +136,10 @@
         </div>
     </div>
 }
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 
 <script type="text/javascript">
             var arrayCity = JSON.parse('@Html.Raw(jsonCity)');
@@ -202,7 +219,7 @@
 
 </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 @if (Session["Error"] != null)

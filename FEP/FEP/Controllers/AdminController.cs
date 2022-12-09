@@ -10,10 +10,14 @@ namespace FEP.Controllers
 {
     public class AdminController : Controller
     {
+        static SneakerManagementAPIController api = new SneakerManagementAPIController();
         // GET: Admin
         public ActionResult Index()
         {
-            Account account = Session["Account"] as Account;
+            int idAccount = 0;
+            if (Session["Account"] != null)
+                idAccount = int.Parse(Session["Account"].ToString());
+            Account account = api.GetAccount(idAccount);
             if (account == null) return RedirectToAction("Login", "Account");
             int id = ADOHelper.Instance.ExecuteScalar(@"declare @id int
                                                             exec @id = sp_GetIDStaffByIDAccount @para_0

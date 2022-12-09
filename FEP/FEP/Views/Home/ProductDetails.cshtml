@@ -1,5 +1,6 @@
 ﻿@using FEP.Models
 @using FEP.Core.Services
+@using FEP.Controllers
 @{
     Sneaker sneaker = ViewBag.Sneaker;
     List<Sneaker> sptt = ViewBag.SPTT;
@@ -8,7 +9,13 @@
     List<int> inventorySize = ViewBag.InventorySize;
     List<int> inventory = ViewBag.Inventory;
     SneakerService _SneakerService = ViewBag.SneakerService;
-    User user = Session["User"] as User;
+    int idUser = 0;
+    if (Session["User"] != null)
+    {
+        idUser = int.Parse(Session["User"].ToString());
+    }
+    SneakerManagementAPIController api = new SneakerManagementAPIController();
+    User user = api.GetClient(idUser);
 }
 @{
     ViewBag.Title = sneaker.Name;

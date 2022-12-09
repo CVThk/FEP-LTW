@@ -1,8 +1,21 @@
 ﻿<!DOCTYPE html>
 @using FEP.Models
-@{ 
-    User user = Session["User"] as User;
-    Account account = Session["Account"] as Account;
+@using FEP.Controllers
+@{
+    int idStaff = 0;
+    if (Session["User"] != null)
+    {
+        idStaff = int.Parse(Session["User"].ToString());
+    }
+    SneakerManagementAPIController api = new SneakerManagementAPIController();
+    User user = api.GetStaff(idStaff);
+
+    int idAccount = 0;
+    if(Session["Account"] != null)
+    {
+        idAccount = int.Parse(Session["Account"].ToString());
+    }
+    Account account = api.GetAccount(idAccount);
 }
 
 <html>
