@@ -154,8 +154,11 @@ CREATE TABLE tbl_Bill(
 	IDClient int,
 	OrderDate date not null default GetDate(),
 	TotalMoney float,
+	IDWardTransport int,
+	AddressDetails nvarchar(max),
 	constraint PK_Bill primary key(ID),
-	constraint FK_Bill_Client foreign key(IDClient) references tbl_Client(ID)
+	constraint FK_Bill_Client foreign key(IDClient) references tbl_Client(ID),
+	constraint FK_Bill_Ward foreign key(IDWardTransport) references Ward(ID)
 )
 GO
 

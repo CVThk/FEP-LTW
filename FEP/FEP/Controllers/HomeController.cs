@@ -22,6 +22,8 @@ namespace FEP.Controllers
         static int IDTypeMLB = _SneakerService.GetIDSneakerType("MLB");
         static int IDTypeDep = _SneakerService.GetIDSneakerType("Dép");
         static CartService _CartService = new CartService();
+        static SneakerManagementAPIController api = new SneakerManagementAPIController();
+
         // GET: Home
         public ActionResult FEP()
         {
@@ -78,9 +80,23 @@ namespace FEP.Controllers
         {
             Session["PayList"] = _CartService.GetCarts().Where(x => x.IDClient == idClient).ToList();
             Session["ListSneaker"] = _Sneakers;
-            ViewBag.City = HelperData.Instance.GetCities();
-            ViewBag.District = HelperData.Instance.GetDistricts();
-            ViewBag.Ward = HelperData.Instance.GetWards();
+
+            Session["Client"] = api.GetClient(idClient);
+            Session["City"] = HelperData.Instance.GetCities();
+            Session["District"] = HelperData.Instance.GetDistricts();
+            Session["Ward"] = HelperData.Instance.GetWards();
+            return View();
+        }
+        [HttpPost]
+        public ActionResult PaymentList(FormCollection fc)
+        {
+            int idClient, idWard;
+            string addressDetails = fc["address"];
+            if (!int.TryParse(fc["idClient"], out idClient) || !int.TryParse(fc["Ward"], out idWard) || string.IsNullOrEmpty(addressDetails))
+            {
+                ViewData["Error"] = "Lỗi";
+                return View();
+            }
             return View();
         }
     }
