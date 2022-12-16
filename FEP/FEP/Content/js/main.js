@@ -7,7 +7,7 @@ function changeImage(id) {
 //TĂNG GIẢM SỐ LƯỢNG SẢN PHẨM (JQUERY)
 
 $('.is-form').on('click', function () {
-    var inputThis = $('input.product__describe-custom-input.show')
+    var inputThis = $('#input-amount')
     max = Number(inputThis.attr('max'))
     min = Number(inputThis.attr('min'))
     d = Number(inputThis.val())
@@ -26,11 +26,12 @@ $('.is-form').on('click', function () {
         })
     }
     inputThis.attr('value', d).val(d)
+    $('#Amount').val(d)
+    $('#AmountN').val(d)
 })
 
-
- //CHỌN SIZE
-var inputShowCur = $('input.product__describe-custom-input.show')
+var listInventory = sessionStorage.inventory.split(',');
+var inputAmount = $('#input-amount')
 const buttons = document.querySelectorAll(".button_size");
 buttons.forEach(function(btn, index){
     btn.addEventListener("click", function () {
@@ -38,27 +39,16 @@ buttons.forEach(function(btn, index){
             document.querySelector(".button_size.active").classList.remove("active");
         }
         this.classList.add("active");
-        var inputshow = document.querySelector(".product__describe-custom-input.show");
-        inputshow.classList.remove("show");
-        inputshow.classList.add("hide");
-        var idString = "inventory" + index.toString();
-        var inputchoose = document.getElementById(idString);
-        inputchoose.classList.remove("hide");
-        inputchoose.classList.add("show");
-
-        var inputThis = $('input.product__describe-custom-input.show')
-        max = Number(inputThis.attr('max'))
+        $(inputAmount).attr('max', listInventory[index])
+        $(inputAmount).attr('value', '1')
+        max = Number(listInventory[index])
         $('#Amount-inventory').text(max)
-
-        inputShowCur = $('input.product__describe-custom-input.show')
-        console.log(inputShowCur)
+        $('#Size').val($('.button_size.active').attr('id'))
+        $('#SizeN').val($('.button_size.active').attr('id'))
   })
 })
 
-
-
-$(inputShowCur).on('input', function () {
-    console.log(inputShowCur)
+$(listInventory).on('input', function () {
     max = Number($(this).attr('max'))
     min = Number($(this).attr('min'))
     val = Number($(this).val())
@@ -69,6 +59,7 @@ $(inputShowCur).on('input', function () {
             timer: 3000
         })
         $(this).val(max)
+        val = max
     }
     else if (val < min) {
         Swal.fire({
@@ -77,35 +68,19 @@ $(inputShowCur).on('input', function () {
             timer: 3000
         })
         $(this).val(min)
+        val = min
     }
 })
 
 
-$('#add-cart').on('click', function () {
-    var sizeChoose = $('.button_size.active')
-    var size = sizeChoose.text()
-    var amountInput = $('input.product__describe-custom-input.show').val().toString()
-    var idSneakerText = sessionStorage.idSneaker
-    var user = sessionStorage.idclient
-    $('#Size').val(size)
-    $('#Amount').val(amountInput)
-    $('#IdSneaker').val(idSneakerText)
-    $('#IdClient').val(user)
-})
+
 
 $('#log-out').on('click', function () {
     sessionStorage.clear();
 })
 
 
-if (sessionStorage.errAmount != null) {
-    Swal.fire({
-        icon: 'error',
-        title: 'Error!',
-        html: '<b style="color:red;">Đã vượt qua số lượng tồn kho!</b>',
-        timer: 3000
-    })
-}
+
 
 
 

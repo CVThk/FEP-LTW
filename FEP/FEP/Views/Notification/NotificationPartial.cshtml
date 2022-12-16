@@ -1,16 +1,6 @@
-﻿@using FEP.Models
-@using FEP.Core.Services
-@using FEP.Core.Interfaces.IData
-@using FEP.Data
-@{
-    List<Cart> list = Session["ListCart"] as List<Cart>;
-    ISneakerData _NHibernateData = new NHibernateData();
-    SneakerService _SneakerService = new SneakerService(_NHibernateData);
-    List<Sneaker> sneakers = _SneakerService.getAll();
-}
-<div id="Cart-main">
-    <a id="Cart-main-icon"><i class="fas fa-shopping-cart"></i><span id="amount">@ViewBag.TotalAmount</span></a>
-    <div class="main-cart-product">
+﻿<div id="Cart-main">
+    <a id="Cart-main-icon"><i class="mdi mdi-bell"></i><span id="amount">@ViewBag.TotalAmount</span></a>
+    @*<div class="main-cart-product">
         @if (list == null || list.Count == 0)
         {
             <div id="no_product">
@@ -52,6 +42,5 @@
                 <a href="@Url.Action("Cart", "Cart")" class="btn-cart">Xem giỏ</a>
             </div>
         }
-    </div>
+    </div>*@
 </div>
-

@@ -2069,6 +2069,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\SneakerManagementAPIController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Core\Interfaces\IData\IAccountData.cs" />
@@ -2091,6 +2092,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Bill.cs" />
+    <Compile Include="Models\BillDetails.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\District.cs" />
     <Compile Include="Models\User.cs" />
@@ -2369,9 +2372,11 @@
     <None Include="Properties\PublishProfiles\cvtpro2405-001-site1 - Web Deploy.pubxml" />
     <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\Error\Forbidden.cshtml" />
-    <Content Include="Views\Home\PaymentList.cshtml" />
+    <Content Include="Views\Home\Payment.cshtml" />
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\User\PasswordSwitch.cshtml" />
+    <Content Include="Views\User\Bill.cshtml" />
+    <Content Include="Views\Notification\NotificationPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

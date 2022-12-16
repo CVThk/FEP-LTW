@@ -105,19 +105,19 @@
                                         <hr>
                                         <div class="product__describe-custom">
                                             <input class="product__describe-custom-reduced is-form" type="button" value="-">
-                                            @*<input aria-label="quantity" class="product__describe-custom-input" max="100" min="1" name="" type="number" value="1">*@
-                                            @for (int i = 0; i < inventory.Count; i++)
-                                            {
-                                                string id = "inventory" + i.ToString();
-                                                if (i == 0)
+                                            <input aria-label="quantity" id="input-amount" class="product__describe-custom-input" max="@inventory[0]" min="1" name="" type="number" value="1">
+                                            @*@for (int i = 0; i < inventory.Count; i++)
                                                 {
-                                                    <input aria-label="quantity" id="@id" class="product__describe-custom-input show" max="@inventory[i]" min="1" name="" type="number" value="1">
-                                                }
-                                                else
-                                                {
-                                                    <input aria-label="quantity" id="@id" class="product__describe-custom-input hide" max="@inventory[i]" min="1" name="" type="number" value="1">
-                                                }
-                                            }
+                                                    string id = "inventory" + i.ToString();
+                                                    if (i == 0)
+                                                    {
+                                                        <input aria-label="quantity" id="@id" class="product__describe-custom-input show" max="@inventory[i]" min="1" name="" type="number" value="1">
+                                                    }
+                                                    else
+                                                    {
+                                                        <input aria-label="quantity" id="@id" class="product__describe-custom-input hide" max="@inventory[i]" min="1" name="" type="number" value="1">
+                                                    }
+                                                }*@
                                             <input class="product__describe-custom-increase is-form" type="button" value="+">
                                             @if (inventory.Count > 0)
                                             {
@@ -127,14 +127,18 @@
                                         <div id="btn-choose">
                                             @using (Html.BeginForm("AddCart", "Cart", new { url = Request.Url }))
                                             {
-                                                <input type="text" name="size" id="Size" style="display:none;" />
-                                                <input type="text" name="amount" id="Amount" style="display:none;" />
-                                                <input type="text" name="idsneaker" id="IdSneaker" style="display:none;" />
-                                                <input type="text" name="idclient" id="IdClient" style="display:none;" />
+                                                <input type="text" name="size" id="Size" style="display:none;" value="@inventorySize[0]" />
+                                                <input type="text" name="amount" id="Amount" style="display:none;" value="1" />
+                                                <input type="text" name="idsneaker" id="IdSneaker" style="display:none;" value="@sneaker.ID" />
+                                                <input type="text" name="idclient" id="IdClient" style="display:none;" value="@idUser" />
                                                 <button id="add-cart" class="btn-primary" type="submit">Thêm vào giỏ hàng</button>
                                             }
-                                            @using (Html.BeginForm())
+                                            @using (Html.BeginForm("PaymentNow", "Home"))
                                             {
+                                                <input type="text" name="size" id="SizeN" style="display:none;" value="@inventorySize[0]" />
+                                                <input type="text" name="amount" id="AmountN" style="display:none;" value="1" />
+                                                <input type="text" name="idsneaker" id="IdSneakerN" style="display:none;" value="@sneaker.ID" />
+                                                <input type="text" name="idclient" id="IdClientN" style="display:none;" value="@idUser" />
                                                 <button id="buy-now" class="btn-danger" type="submit">Mua ngay</button>
                                             }
                                         </div>
@@ -238,21 +242,41 @@
 
 </div>
 
-@if (user != null)
-{
-    <script>
-        sessionStorage.idclient = @user.ID;
-    </script>
-}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @if (Session["ErrAmount"] != null)
 {
-    <script>sessionStorage.errAmount = '@Session["ErrAmount"].ToString()'</script>
+    if (Session["ErrAmount"].ToString() == "true")
+    {
+        <script>
+            Swal.fire({
+                icon: 'error',
+                //title: 'Error!',
+                html: '<b style="color:red;">Đã vượt qua số lượng tồn kho! Bạn có thể check giỏ hàng.</b>',
+                timer: 3000
+            })
+        </script>
+    }
+    else
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                //title: 'Thêm thành công',
+                html: '<b style="color:green;">Thêm thành công.</b>',
+                timer: 3000
+            })
+        </script>
+    }
+    Session["ErrAmount"] = null;
 }
-<script>sessionStorage.idSneaker = '@sneaker.ID';</script>
-<script>sessionStorage.inventory = '@string.Join(",", inventory.ConvertAll(x => x.ToString()).ToArray())'</script>
+
+<script>
+    sessionStorage.inventory = '@string.Join(",", inventory.ConvertAll(x => x.ToString()).ToArray())'
+</script>
 <script src="~/Content/js/menu-tab-mobi.js"></script>
 <script src="~/Content/bootstrap5/js/bootstrap.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@*<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>*@
+<script src="~/Content/js/jquery.js"></script>
 <script src="~/Content/js/main.js"></script>
 

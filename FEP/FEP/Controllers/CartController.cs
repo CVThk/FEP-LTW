@@ -61,7 +61,6 @@ namespace FEP.Controllers
             {
                 ViewBag.TotalAmount = carts.Count(x => x.IDClient == user.ID);
                 Session["ListCart"] = carts.FindAll(x => x.IDClient == user.ID);
-                Session["ListSneaker"] = _Sneakers;
             }
             return PartialView();
         }
@@ -90,20 +89,22 @@ namespace FEP.Controllers
             string idSneaker = fc["idsneaker"];
             string size = fc["size"];
             string amount = fc["amount"];
-            if (string.IsNullOrEmpty(idUser))
+            if (string.IsNullOrEmpty(idUser) || api.GetClient(int.Parse(idUser)) == null)
             {
                 Session["idsneaker"] = idSneaker;
                 return RedirectToAction("Login", "Account");
             }
             if(_SneakerService.CheckAmountInventory(idSneaker, int.Parse(size), int.Parse(amount)))
             {
-                Cart cart = new Cart(int.Parse(idUser), idSneaker, int.Parse(size), int.Parse(amount));
+                Cart cart = new Cart(int.Parse(idUser), idSneaker, _SneakerService.GetIDSize(int.Parse(size)), int.Parse(amount));
                 _CartService.InsertCart(cart);
             }
             else
             {
                 Session["ErrAmount"] = "true";
+                return Redirect(url);
             }
+            Session["ErrAmount"] = "false";
             return Redirect(url);
         }
         public ActionResult DeleteCart(int idClient, string idSneaker, int idSize, string url)

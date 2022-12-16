@@ -19,12 +19,13 @@ namespace FEP.Controllers
         static SneakerManagementAPIController api = new SneakerManagementAPIController();
 
         // GET: User
-        static List<User> Clients = ADOHelper.Instance.ExecuteReader<User>("select * from tbl_Client");
+        static List<User> Clients;
         static List<Account> Accounts = accountService.getAll();
         public ActionResult Profile()
         {
             try
             {
+                Clients = ADOHelper.Instance.ExecuteReader<User>("select * from tbl_Client");
                 int idUser = int.Parse(Session["User"].ToString());
                 int idAccount = int.Parse(Session["Account"].ToString());
                 User user = Clients.Find(x => x.ID == idUser);
@@ -164,6 +165,12 @@ namespace FEP.Controllers
                 ViewData["Error"] = "Cập nhật thất bại !!!";
             }
             return View();
+        }
+
+        public ActionResult Bill(int idClient)
+        {
+            List<Bill> bills = ADOHelper.Instance.ExecuteReader<Bill>("select * from tbl_Bill where IDClient = @para_0", new object[] { idClient });
+            return View(bills);
         }
     }
 }

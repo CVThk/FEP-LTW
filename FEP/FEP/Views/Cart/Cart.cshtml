@@ -10,7 +10,7 @@
     List<Cart> carts = Session["CartsDetails"] as List<Cart>;
     ISneakerData _NHibernateData = new NHibernateData();
     SneakerService _SneakerService = new SneakerService(_NHibernateData);
-    List<Sneaker> sneakers = Session["ListSneaker"] as List<Sneaker>;
+    List<Sneaker> sneakers = _SneakerService.getAll();
     double total;
     bool kt = double.TryParse(Session["TotalMoney"].ToString(), out total);
     int idClient = 0;
@@ -61,7 +61,7 @@
                                         <a class="btn-red my-btn" href="@Url.Action("DeleteCart", "Cart", new { idClient=item.IDClient, idSneaker=item.IDSneaker, idSize=item.IDSize, url=Request.Url })">
                                             Xóa
                                         </a>
-                                        <a class="my-btn btn-green" style="background-color:mediumblue !important;">Thanh toán</a>
+                                        <a href="@Url.Action("PaymentOne", "Home", new { idClient=item.IDClient, idSneaker=item.IDSneaker, idSize=item.IDSize })" class="my-btn btn-green" style="background-color:mediumblue !important;">Thanh toán</a>
                                     </div>
                                 </div>
                             }

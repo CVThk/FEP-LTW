@@ -64,7 +64,7 @@ namespace FEP.Core.Services
             int result = 0;
             using(var session = NHibernateHelper.OpenSession())
             {
-                result = session.CreateSQLQuery(@"declare @result int exec sp_AddAccountClient :name, :username, :password, :phone, :dateOfBirth, :gender, :idWard select @result")
+                result = session.CreateSQLQuery(@"declare @result int exec @result = sp_AddAccountClient :name, :username, :password, :phone, :dateOfBirth, :gender, :idWard select @result")
                     .SetParameter("name", name)
                     .SetParameter("username", username)
                     .SetParameter("password", password)

@@ -153,9 +153,11 @@ CREATE TABLE tbl_Bill(
 	ID int identity not null,
 	IDClient int,
 	OrderDate date not null default GetDate(),
-	TotalMoney float,
+	TotalMoney float default 0,
 	IDWardTransport int,
 	AddressDetails nvarchar(max),
+	Name nvarchar(max),
+	Phone varchar(11),
 	constraint PK_Bill primary key(ID),
 	constraint FK_Bill_Client foreign key(IDClient) references tbl_Client(ID),
 	constraint FK_Bill_Ward foreign key(IDWardTransport) references Ward(ID)
@@ -168,6 +170,7 @@ CREATE TABLE tbl_BillDetails(
 	IDSize int,
 	IDSneaker varchar(20),
 	AmountBuy int not null check(AmountBuy > 0),
+	IntoMoney float default 0,
 	constraint PK_BillDetails primary key(ID),
 	constraint FK_BillDetails_Sneaker foreign key(IDSneaker) references tbl_Sneaker(ID),
 	constraint FK_BillDetails_Bill foreign key(IDBill) references tbl_Bill(ID),
@@ -775,7 +778,63 @@ INSERT INTO tbl_Account_Staff
 VALUES (1, 1)
 GO
 
--- ============================================================================= STORE PROCEDURE =============================================================================
+/*==========================================================================================================================*/
+/*                                                             TRIGGER                                                      */
+/*==========================================================================================================================*/
+
+ALTER TRIGGER tr_InsertBillDetails ON tbl_BillDetails
+AFTER INSERT
+AS
+BEGIN
+	if (select AmountBuy from inserted) > (select iv.Amount from inserted i, tbl_Inventory iv where i.IDSize = iv.IDSize and i.IDSneaker = iv.IDSneaker)
+	begin
+		Rollback tran
+		return
+	end
+	declare @idBill int, @idBillDetails int, @idSize int, @idSneaker varchar(20), @amount int, @price float
+	select @price = (s.Price - (s.Price * (cast(s.Discount as float) / 100))) from tbl_Sneaker s, inserted i where i.IDSneaker = s.ID
+	select @idBill = IDBILL, @idBillDetails = ID, @idSize = i.IDSize, @idSneaker = i.IDSneaker, @amount = AmountBuy from inserted i
+	update tbl_BillDetails
+	set IntoMoney = @amount * @price
+	where ID = @idBillDetails
+	update TBL_BILL
+	set TOTALMONEY = 0
+	where ID = @idBill and TotalMoney is null
+	update TBL_BILL
+	set TOTALMONEY = TOTALMONEY + (@amount * @price)
+	where ID = @idBill
+	update tbl_Inventory
+	set Amount = Amount - @amount
+	where IDSize = @idSize and IDSneaker = @idSneaker
+END
+GO
+
+
+/*==========================================================================================================================*/
+/*                                                     STORE PROCEDURE                                                      */
+/*==========================================================================================================================*/
+CREATE PROC sp_DeteleBill @idBill int
+AS
+	if not exists (select * from tbl_BillDetails where IDBill = @idBill)
+	begin
+		delete tbl_Bill where ID = @idBill
+	end
+GO
+
+CREATE PROC sp_InsertBill @idClient int, @iDWardTransport int, @addressDetails nvarchar(max), @name nvarchar(max), @phone varchar(12), @idBill int output
+AS
+	insert into tbl_Bill(IDClient, IDWardTransport, AddressDetails, Name, Phone, TotalMoney) values(@idClient, @iDWardTransport, @addressDetails, @name, @phone, 0)
+	select @idBill = MAX(ID) from tbl_Bill where IDClient = @idClient and IDWardTransport = @iDWardTransport and AddressDetails = @addressDetails and Name = @name and Phone = @phone
+GO
+--declare @idBill int
+--exec @idBill = sp_InsertBill @idClient=1, @iDWardTransport=1, @addressDetails='', @name='', @phone=''
+--select @idBill
+
+alter PROC sp_InsertBillDetails @idBill int, @idSize int, @idSneaker varchar(max), @amountBuy int
+AS
+	insert into tbl_BillDetails(IDBill, IDSize, IDSneaker, AmountBuy) values(@idBill, @idSize, @idSneaker, @amountBuy)
+GO
+--exec sp_InsertBillDetails @idBill=16, @idSize=5, @idSneaker='DBPSLB', @amountBuy=2
 
 -- Procedure lấy mã loại bằng tên gần giống
 CREATE PROC sp_GetIDSneaker
@@ -812,7 +871,7 @@ go
 --exec sp_GetSizeInventory 'GNAF1LWB'
 
 
-alter PROC sp_AddAccountClient
+CREATE PROC sp_AddAccountClient
 @name nvarchar(max), @username varchar(100), @password varchar(30), @phoneClient varchar(11), @dateOfBirth date, @gender nvarchar(3), @idWard int
 AS
 	if(select count(*) from tbl_Client where Phone = @phoneClient) > 0
@@ -834,7 +893,7 @@ AS
 go
 
 --declare @result int
---exec sp_AddAccountClient '', '', '', ''
+--exec @result = sp_AddAccountClient '', '', '', ''
 --select @result
 
 CREATE PROC sp_AccountLogin
@@ -906,10 +965,8 @@ GO
 --declare @result int
 --exec @result = sp_CheckAmountInventory 'NAF1TFWLA', 43, 3
 --select @result
-CREATE PROC sp_InsertCart @idClient int, @idSneaker varchar(max), @size int, @amountBuy int
+CREATE PROC sp_InsertCart @idClient int, @idSneaker varchar(max), @idSize int, @amountBuy int
 AS
-	declare @idSize int
-	select @idSize = ID from tbl_Size where Size = @size
 	if(select count(*) from tbl_Cart where IDClient = @idClient and IDSneaker = @idSneaker and IDSize = @idSize) > 0
 	begin
 		update tbl_Cart set AmountBuy += @amountBuy where IDClient = @idClient and IDSneaker = @idSneaker and IDSize = @idSize
@@ -925,45 +982,3 @@ GO
 --if @idAccount is null
 --	print 'true'
 --print convert(varchar(max), @idAccount)
-
--- ============================================================================= QUERY TEST =============================================================================
-
---Select * from tbl_Sneaker, tbl_SizeDetails, tbl_Size where tbl_Sneaker.ID = tbl_SizeDetails.IDSneaker and tbl_SizeDetails.IDSize = tbl_Size.ID
-
---insert into tbl_Inventory(IDSneaker, IDSize, Amount) values()
---insert into tbl_Cart(IDClient, IDSneaker, IDSize, AmountBuy) values()
-
---select * from Ward, City, District where Ward.IDDistrict = District.ID and District.IDCity = City.ID and City.Name like N'%Trà Vinh%'
-
---select * from tbl_Account
---select * from tbl_Staff
---select * from tbl_Account_Staff
-
---select * from tbl_Sneaker, tbl_SneakerType where tbl_SneakerType.Name like '%Luxury%' and LinkPictureDetails != ''
-
---select Link from tbl_CoverImage where tbl_CoverImage.IDSneaker = 'NAF1TFWLA'
---select Link from tbl_DetailsImage where tbl_DetailsImage.IDSneaker = 'NAF1TFWLA'
-
---select Size from tbl_Size
---select Size from tbl_Size, tbl_Inventory where tbl_Inventory.IDSize = tbl_Size.ID and IDSneaker = 'GNAF1LPSR'
-
---select * from tbl_Sneaker where ID = 'GNAF1LWB'
-
---select * from City, District, Ward where City.ID = District.IDCity and District.ID = Ward.IDDistrict and Ward.ID = 26773
-
-
---select tbl_Size.Size, tbl_Inventory.Amount from tbl_Size, tbl_Inventory where IDSneaker = 'GNAF1LWB' and tbl_Size.ID = tbl_Inventory.IDSize
-
---select Amount from tbl_Inventory where IDSneaker = 'GNAF1LWB'
-
---delete tbl_Cart where IDClient = '' and IDSneaker = '' and IDSize = ''
-
---select Amount from tbl_Inventory where IDSneaker = '' and IDSize = ''
-
---select * from tbl_Inventory
-
---update tbl_Cart set AmountBuy = '' where IDClient = '' and IDSneaker = '' and IDSize = ''
-
---delete tbl_Cart where IDClient = ''
-
---update tbl_Client set Name = '', DateOfBirth = '', Gender = '', Phone = '', IDWard = '', Image = '' where ID = ''

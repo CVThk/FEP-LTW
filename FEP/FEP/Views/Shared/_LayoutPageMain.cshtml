@@ -75,6 +75,7 @@
                     </div>
                 </div>
                 @Html.Action("CartPartial", "Cart")
+                
                 <div class="d-flex align-items-center ml-4" id="User">
                     @if (user != null)
                     {
@@ -101,6 +102,15 @@
                                 </div>
                                 <div class="preview-item-content">
                                     <p class="preview-subject mb-1">Password switch</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="@Url.Action("Bill", "User", new { idClient=user.ID })" class="dropdown-item preview-item user-item">
+                                <div class="preview-thumbnail">
+                                    <i class="mdi mdi-clipboard-text text-success"></i>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject mb-1">Bill</p>
                                 </div>
                             </a>
                             <div class="dropdown-divider"></div>
@@ -520,7 +530,7 @@
             </div>
         </div>
         <div id="nav-footer">
-            <a href="" class="nav-footer-item">
+            <a href="@Url.Action("FEP", "Home")" class="nav-footer-item">
                 <div class="nf-icon"><i class="mdi mdi-home"></i></div>
                 <div class="nf-describe">Home</div>
             </a>

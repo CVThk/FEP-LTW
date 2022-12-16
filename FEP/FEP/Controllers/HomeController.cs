@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FEP.Utility;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace FEP.Controllers
 {
@@ -76,11 +79,11 @@ namespace FEP.Controllers
             return View();
         }
 
-        public ActionResult PaymentList(int idClient)
+        public ActionResult Payment(int idClient)
         {
-            Session["PayList"] = _CartService.GetCarts().Where(x => x.IDClient == idClient).ToList();
+            List<Cart> carts = Session["ToPay"] as List<Cart>;
+            Session["PayList"] = carts;
             Session["ListSneaker"] = _Sneakers;
-
             Session["Client"] = api.GetClient(idClient);
             Session["City"] = HelperData.Instance.GetCities();
             Session["District"] = HelperData.Instance.GetDistricts();
@@ -88,16 +91,103 @@ namespace FEP.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult PaymentList(FormCollection fc)
+        public ActionResult Payment(FormCollection fc)
         {
-            int idClient, idWard;
+            int idWard;
             string addressDetails = fc["address"];
-            if (!int.TryParse(fc["idClient"], out idClient) || !int.TryParse(fc["Ward"], out idWard) || string.IsNullOrEmpty(addressDetails))
+            string name, phone;
+            name = fc["Name"];
+            phone = fc["Phone"];
+            if (!int.TryParse(fc["Ward"], out idWard) || string.IsNullOrEmpty(addressDetails) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(phone) || !Utilities.Instance.CheckPhone(phone))
             {
                 ViewData["Error"] = "Lỗi";
                 return View();
             }
-            return View();
+            List<Cart> list = Session["PayList"] as List<Cart>;
+            if(list.Count <= 0)
+            {
+                return RedirectToAction("Error", "Error");
+            }    
+            int idBill = 0;
+            int idClient = list.FirstOrDefault().IDClient;
+            foreach (var item in list)
+            {
+                if(idBill == 0)
+                {
+                    try
+                    {
+                        idBill = ADOHelper.Instance.ExecuteScalar(@"declare @idBill int
+                                exec sp_InsertBill @idClient = @para_0, @iDWardTransport = @para_1, @addressDetails = @para_2, @name = @para_3, @phone = @para_4, @idBill = @idBill output
+                                select @idBill as 'IDBILL'", new object[] { idClient, idWard, addressDetails, name, phone });
+                    }
+                    catch
+                    {
+                        idBill = 0;
+                    }
+                }
+                if(idBill > 0)
+                {
+                    try
+                    {
+                        ADOHelper.Instance.ExecuteNonQuery("exec sp_InsertBillDetails @idBill=@para_0, @idSize=@para_1, @idSneaker=@para_2, @amountBuy=@para_3", new object[] { idBill, item.IDSize, item.IDSneaker, item.AmountBuy });
+                        _CartService.DeleteCart(idClient, item.IDSneaker, item.IDSize);
+                    }
+                    catch
+                    {
+                        ADOHelper.Instance.ExecuteNonQuery("exec sp_DeteleBill @idBill = @para_0", new object[] { idBill });
+                        idBill = 0;
+                    }
+                }    
+            }
+            
+            return RedirectToAction("Bill", "User", new { idClient=idClient });
+        }
+        public ActionResult PaymentOne(int idClient, string idSneaker, int idSize)
+        {
+            List<Cart> carts = new List<Cart>();
+            Cart cart = _CartService.GetCarts().SingleOrDefault(x => x.IDClient == idClient && x.IDSize == idSize && x.IDSneaker == idSneaker);
+            if (cart != null)
+                carts.Add(cart);
+            if (carts.Count <= 0)
+                return RedirectToAction("Error", "Error");
+            Session["ToPay"] = carts;
+            return RedirectToAction("Payment", "Home", new { idClient = idClient });
+        }
+        public ActionResult PaymentList(int idClient)
+        {
+            List<Cart> carts = _CartService.GetCarts().Where(x => x.IDClient == idClient).ToList();
+            int countRemove = carts.RemoveAll(x => _SneakerService.CheckAmountInventory(x.IDSneaker, _SneakerService.GetSize(x.IDSize), x.AmountBuy) == false);
+            if (carts.Count <= 0)
+                return RedirectToAction("Error", "Error");
+            Session["ToPay"] = carts;
+            if (countRemove > 0)
+                Session["Remove"] = countRemove;
+            return RedirectToAction("Payment", "Home", new { idClient = idClient });
+        }
+        public ActionResult PaymentNow(FormCollection fc)
+        {
+            string idUser = fc["idclient"];
+            string idSneaker = fc["idsneaker"];
+            string size = fc["size"];
+            string amount = fc["amount"];
+            if (string.IsNullOrEmpty(idUser) || api.GetClient(int.Parse(idUser)) == null)
+            {
+                Session["idsneaker"] = idSneaker;
+                return RedirectToAction("Login", "Account");
+            }
+            if (_SneakerService.CheckAmountInventory(idSneaker, int.Parse(size), int.Parse(amount)))
+            {
+                Cart cart = new Cart(int.Parse(idUser), idSneaker, _SneakerService.GetIDSize(int.Parse(size)), int.Parse(amount));
+                List<Cart> carts = new List<Cart>();
+                carts.Add(cart);
+                Session["ToPay"] = carts;
+                return RedirectToAction("Payment", "Home", new { idClient = int.Parse(idUser) });
+            }
+            else
+            {
+                return RedirectToAction("Error", "Error");
+            }
+           
         }
     }
 }

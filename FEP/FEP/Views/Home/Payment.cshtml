@@ -59,12 +59,11 @@
                         <form action="Nhập thông tin đặt hàng">
                             <table>
                                 <div class="form-name">
-                                    <input name="idClient" value="@client.ID" style="display:none;" />
-                                    <input type="text" name="Name" value="@client.Name" readonly placeholder="Nhập họ và tên" style="border: 1px silver solid; border-radius: 4px;width: 100%;height: 45px;font-family: SVN-Futura; padding-left: 20px;" />
+                                    <input type="text" name="Name" value="@client.Name" placeholder="Nhập họ và tên" style="border: 1px silver solid; border-radius: 4px;width: 100%;height: 45px;font-family: SVN-Futura; padding-left: 20px;" />
                                 </div>
                                 <div class="form-email" @*style="display: flex;"*@>
                                     @*<input type="email" name="Email" id="email" placeholder="Nhập email của bạn" style="border: 1px silver solid; border-radius: 4px;width: 60%;height: 45px;font-family: SVN-Futura; padding-left: 20px;">*@
-                                    <input type="tel" name="Phone" id="SDT" value="@client.Phone" readonly placeholder="Số điện thoại" style="border: 1px silver solid; border-radius: 4px; width: 100%; height: 45px;font-family: SVN-Futura; padding-left: 20px;" />
+                                    <input type="tel" name="Phone" id="SDT" value="@client.Phone" placeholder="Số điện thoại" style="border: 1px silver solid; border-radius: 4px; width: 100%; height: 45px;font-family: SVN-Futura; padding-left: 20px;" />
                                 </div>
 
                                 <div class="cover-list">
@@ -307,5 +306,19 @@
                 }
             }
     </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (Session["Remove"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: 'error',
+                //title: 'Error!',
+                html: '<b style="color:red;">Có sản phẩm vượt qua số lượng tồn kho! Bạn có thể check giỏ hàng.</b>',
+                timer: 3000
+            })
+        </script>
+        Session["Remove"] = null;
+    }
 </body>
 </html>
