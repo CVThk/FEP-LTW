@@ -25,7 +25,7 @@ function successLogin() {
     setTimeout(() => {
         var link;
         if (sessionStorage.typeLogin == 'AD') {
-            link = "/Admin/Index";
+            link = "/Admin/Dashboard";
         }
         else {
             link = "/Home/FEP";

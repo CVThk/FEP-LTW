@@ -1,0 +1,106 @@
+﻿@using PagedList.Mvc
+@using PagedList
+@using FEP.Models
+@model IPagedList<Sneaker>
+@using FEP.Core.Services
+
+@{
+    List<SizeSneaker> Sizes = Session["Sizes"] as List<SizeSneaker>;
+    List<SneakerType> SneakerTypes = Session["SneakerTypes"] as List<SneakerType>;
+    SneakerService _SneakerService = Session["SneakerService"] as SneakerService;
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_LayoutPageAdmin.cshtml";
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+}
+<style>
+    .pagination > li > a, .pagination > li > span {
+        background-color: transparent;
+        border-color: #2c2e33;
+        color: #6c7293;
+    }
+    th {
+        color: #bcb7b7;
+    }
+</style>
+
+<div style="padding:10px;">
+    <div class="d-flex align-items-center justify-content-between container">
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        @Html.PagedListPager(Model, page => Url.Action("Products", "Admin", new { page, ViewBag.idSneakerType }))
+    </div>
+    <table class="table table-bordered">
+        <tr class="text-center">
+            <th rowspan="2">
+                ID
+            </th>
+            <th rowspan="2">
+                Name
+            </th>
+            <th rowspan="1" colspan="@Sizes.Count">
+                Size Inventory
+            </th>
+            <th rowspan="2">
+                Price
+            </th>
+            <th rowspan="2">
+                Discount
+            </th>
+            <th rowspan="2">
+                Type
+            </th>
+            <th rowspan="2">Update</th>
+            <th rowspan="2">Import</th>
+            <th rowspan="2">Delete</th>
+        </tr>
+        <tr class="text-center">
+            @foreach (var item in Sizes)
+            {
+                <th>@item.Size</th>
+            }
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td style="width:20%;">
+                    @string.Format("{0}...", item.Name.Length > 30 ? item.Name.Substring(0, 30) : item.Name)
+                </td>
+                @foreach (var itemSize in Sizes)
+                {
+                    if(_SneakerService.CheckSizeInventory(item.ID, itemSize.Size))
+                    {
+                        <td style="font-weight: bold; color: #aa030b !important;">@_SneakerService.GetMaxInventory(item.ID, itemSize.ID)</td>
+                    }
+                    else
+                    {
+                        <td>0</td>
+                    }
+                }
+                <td class="text-right">
+                    @string.Format("{0:0,0}", item.Price)
+                </td>
+                <td class="text-right">
+                    @string.Format("{0}%", item.Discount)
+                </td>
+                <td>
+                    @SneakerTypes.SingleOrDefault(x => x.ID == item.IDSneakerType).Name
+                </td>
+                <td class="text-center">
+                    <a><i class="mdi mdi-pen text-warning"></i></a>
+                </td>
+                <td class="text-center">
+                    <a><i class="mdi mdi-import text-success"></i></a>
+                </td>
+                <td class="text-center">
+                    <a><i class="mdi mdi-close text-danger"></i></a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
