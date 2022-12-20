@@ -11,7 +11,7 @@
     User user = api.GetStaff(idStaff);
 
     int idAccount = 0;
-    if(Session["Account"] != null)
+    if (Session["Account"] != null)
     {
         idAccount = int.Parse(Session["Account"].ToString());
     }
@@ -206,7 +206,7 @@
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                                <a href="@Url.Action("Profile", "User")" class="dropdown-item preview-item user-item">
+                                <a href="@Url.Action("Profile", "Admin")" class="dropdown-item preview-item user-item">
                                     <div class="preview-thumbnail">
                                         <i class="mdi mdi-account text-success"></i>
                                     </div>
@@ -215,7 +215,7 @@
                                     </div>
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="@Url.Action("PasswordSwitch", "User")" class="dropdown-item preview-item user-item">
+                                <a href="@Url.Action("PasswordSwitch", "Admin")" class="dropdown-item preview-item user-item">
                                     <div class="preview-thumbnail">
                                         <i class="mdi mdi-settings text-success"></i>
                                     </div>
@@ -281,3 +281,41 @@
         }
     })
 </script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (Session["AddProduct"] != null)
+{
+    if (Session["AddProduct"].ToString() == "true")
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                html: '<b style="color:green;">Thêm sản phẩm thành công.</b>'
+            })
+        </script>
+        Session["AddProduct"] = null;
+    }
+}
+
+@if (Session["DeleteProduct"] != null)
+{
+    if (Session["DeleteProduct"].ToString() == "Thành công.")
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                html: '<b style="color:green;">Xóa sản phẩm thành công.</b>'
+            })
+        </script>
+    }
+    else
+    {
+        <script>
+            Swal.fire({
+                icon: 'error',
+                html: '<b style="color:red;">'+'@Session["DeleteProduct"].ToString()'+'</b>'
+            })
+        </script>
+    }
+    Session["DeleteProduct"] = null;
+}

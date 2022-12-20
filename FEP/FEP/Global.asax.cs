@@ -20,7 +20,7 @@ namespace FEP
         protected void Application_Error()
         {
             var ex = Server.GetLastError();
-            Response.Redirect("~/Error/Forbidden");
+            Response.Redirect("~/Error/Error404");
         }
     }
 }

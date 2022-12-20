@@ -18,7 +18,6 @@ namespace FEP.Controllers
     {
         static ISneakerData _NHibernateData = new NHibernateData();
         static SneakerService _SneakerService = new SneakerService(_NHibernateData);
-        static List<Sneaker> _Sneakers = _SneakerService.getAll();
         static int IDTypeNike = _SneakerService.GetIDSneakerType("Nike");
         static int IDTypeAdidas = _SneakerService.GetIDSneakerType("Adidas");
         static int IDTypeLuxury = _SneakerService.GetIDSneakerType("Luxury");
@@ -30,6 +29,7 @@ namespace FEP.Controllers
         // GET: Home
         public ActionResult FEP()
         {
+            List<Sneaker> _Sneakers = _SneakerService.getAll();
             ViewBag.Nikes = _Sneakers.FindAll(x => x.IDSneakerType == IDTypeNike).Take(8).ToList();
             ViewBag.Adidas = _Sneakers.FindAll(x => x.IDSneakerType == IDTypeAdidas).Take(4).ToList();
             ViewBag.MLBs = _Sneakers.FindAll(x => x.IDSneakerType == IDTypeMLB).Take(4).ToList();
@@ -54,13 +54,14 @@ namespace FEP.Controllers
             Session["IDTypeDep"] = IDTypeDep;
             var pageNumber = (page ?? 1);
             ViewBag.pageSize = 8;
-            var sneaker = _Sneakers.FindAll(x => x.IDSneakerType == idSneakerType).ToList();
+            var sneaker = _SneakerService.getAll().FindAll(x => x.IDSneakerType == idSneakerType).ToList();
             ViewBag.idSneakerType = idSneakerType;
             return View(sneaker.ToPagedList((int)pageNumber, (int)ViewBag.pageSize));
         }
 
         public ActionResult ProductDetails(string idSneaker)
         {
+            List<Sneaker> _Sneakers = _SneakerService.getAll();
             List<int> sizeInventory = _SneakerService.GetSizeInventory(idSneaker);
             Sneaker s = _Sneakers.Find(x => x.ID == idSneaker);
             if(!_SneakerService.CheckInventory(sizeInventory))
@@ -71,7 +72,12 @@ namespace FEP.Controllers
 
             ViewBag.Sneaker = s;
             ViewBag.SPTT = _Sneakers.FindAll(x => x.IDSneakerType == s.IDSneakerType).Take(8).ToList();
-            ViewBag.DetailsImage = _SneakerService.GetDetailsPicture(idSneaker);
+            List<string> detailsPic = _SneakerService.GetDetailsPicture(idSneaker);
+            if(detailsPic == null || detailsPic.Count == 0)
+            {
+                detailsPic = _SneakerService.GetCoverPicture(idSneaker);
+            }
+            ViewBag.DetailsImage = detailsPic;
             ViewBag.Sizes = _SneakerService.GetSizes();
             ViewBag.InventorySize = sizeInventory;
             ViewBag.Inventory = inventory;
@@ -81,6 +87,7 @@ namespace FEP.Controllers
 
         public ActionResult Payment(int idClient)
         {
+            List<Sneaker> _Sneakers = _SneakerService.getAll();
             List<Cart> carts = Session["ToPay"] as List<Cart>;
             Session["PayList"] = carts;
             Session["ListSneaker"] = _Sneakers;
@@ -188,6 +195,27 @@ namespace FEP.Controllers
                 return RedirectToAction("Error", "Error");
             }
            
+        }
+
+        public ActionResult Search(string txtSearch)
+        {
+            if (txtSearch == null)
+                return RedirectToAction("Error", "Error404");
+            List<Sneaker> sneakers = _SneakerService.getAll();
+            List<Sneaker> sneakersSearch = sneakers.Where(x => x.ID.ToString().ToUpper().Contains(txtSearch.ToUpper()) || x.Name.ToString().ToUpper().Contains(txtSearch.ToUpper())).ToList();
+            Session["SneakersSearch"] = sneakersSearch;
+            return RedirectToAction("SearchPages", "Home");
+        }
+
+        public ActionResult SearchPages(int? page)
+        {
+            var pageNumber = (page ?? 1);
+            ViewBag.pageSize = 8;
+            List<Sneaker> sneakers = Session["SneakersSearch"] as List<Sneaker>;
+            if (sneakers == null)
+                return RedirectToAction("Error", "Error");
+            Session["SneakersSearch"] = sneakers;
+            return View(sneakers.ToPagedList((int)pageNumber, (int)ViewBag.pageSize));
         }
     }
 }

@@ -11,6 +11,7 @@ namespace FEP.Utility
 {
     public class Utilities
     {
+        
         #region Singleton Pattern
         private static Utilities instance;
         public static Utilities Instance
@@ -20,7 +21,7 @@ namespace FEP.Utility
         }
         private Utilities() { }
         #endregion
-        public List<string> ListLink(string linkPictureString) // phân list
+        public List<string> ListLink(string linkPictureString)
         {
             List<string> link = new List<string>();
             link = linkPictureString.Split(';').ToList();
@@ -59,6 +60,68 @@ namespace FEP.Utility
             return JsonConvert.SerializeObject(list).Replace('\'', ' ');
         }
 
-        
+        public string ChuanHoaChuoi(string str)
+        {
+            while(str.Contains("  "))
+            {
+                str = str.Replace("  ", " ");
+            }    
+            string[] s = str.Trim().ToLower().Split(' ');
+            str = "";
+            for(int i = 0; i < s.Length; i++)
+            {
+                string first = s[i].Substring(0, 1);
+                string another = s[i].Substring(1, s[i].Length - 1);
+                str += first.ToUpper() + another + " ";
+            }
+            str = str.Trim();
+            return str;
+        }
+        public string CreateIDSneaker(string str)
+        {
+            str = str.Replace('(', ' ');
+            str = str.Replace(')', ' ');
+            str = ChuanHoaChuoi(str);
+            str = ChuyenKhongDau(str);
+            string[] s = str.Split(' ');
+            string result = "";
+            for(int i = 0; i < s.Length; i++)
+            {
+                int z = 0;
+                if (s[i].Substring(0, 1) == "(")
+                    z = 1;
+                result += s[i].Substring(z, 1).ToUpper();
+            }
+            return result;
+        }
+
+        public string ChuyenKhongDau(string str)
+        {
+            string[] VietnameseSigns = new string[]
+            {
+                "aAeEoOuUiIdDyY",
+                "áàạảãâấầậẩẫăắằặẳẵ",
+                "ÁÀẠẢÃÂẤẦẬẨẪĂẮẰẶẲẴ",
+                "éèẹẻẽêếềệểễ",
+                "ÉÈẸẺẼÊẾỀỆỂỄ",
+                "óòọỏõôốồộổỗơớờợởỡ",
+                "ÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠ",
+                "úùụủũưứừựửữ",
+                "ÚÙỤỦŨƯỨỪỰỬỮ",
+                "íìịỉĩ",
+                "ÍÌỊỈĨ",
+                "đ",
+                "Đ",
+                "ýỳỵỷỹ",
+                "ÝỲỴỶỸ"
+            };
+
+            for (int i = 1; i < VietnameseSigns.Length; i++)
+            {
+                for (int j = 0; j < VietnameseSigns[i].Length; j++)
+                    str = str.Replace(VietnameseSigns[i][j], VietnameseSigns[0][i - 1]);
+            }
+            return str;
+        }
     }
 }

@@ -24,9 +24,9 @@
 </style>
 
 <div style="padding:10px;">
-    <div class="d-flex align-items-center justify-content-between container">
+    <div class="d-flex align-items-center justify-content-between">
         <p>
-            @Html.ActionLink("Create New", "Create")
+            @Html.ActionLink("Create New", "Create", "Admin")
         </p>
         @Html.PagedListPager(Model, page => Url.Action("Products", "Admin", new { page, ViewBag.idSneakerType }))
     </div>
@@ -97,7 +97,7 @@
                     <a><i class="mdi mdi-import text-success"></i></a>
                 </td>
                 <td class="text-center">
-                    <a><i class="mdi mdi-close text-danger"></i></a>
+                    <a href="@Url.Action("Delete", "Admin", new { idSneaker=item.ID })"><i class="mdi mdi-close text-danger"></i></a>
                 </td>
             </tr>
         }

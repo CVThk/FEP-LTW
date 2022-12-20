@@ -826,25 +826,17 @@ AS
 	insert into tbl_Bill(IDClient, IDWardTransport, AddressDetails, Name, Phone, TotalMoney) values(@idClient, @iDWardTransport, @addressDetails, @name, @phone, 0)
 	select @idBill = MAX(ID) from tbl_Bill where IDClient = @idClient and IDWardTransport = @iDWardTransport and AddressDetails = @addressDetails and Name = @name and Phone = @phone
 GO
---declare @idBill int
---exec @idBill = sp_InsertBill @idClient=1, @iDWardTransport=1, @addressDetails='', @name='', @phone=''
---select @idBill
 
 alter PROC sp_InsertBillDetails @idBill int, @idSize int, @idSneaker varchar(max), @amountBuy int
 AS
 	insert into tbl_BillDetails(IDBill, IDSize, IDSneaker, AmountBuy) values(@idBill, @idSize, @idSneaker, @amountBuy)
 GO
---exec sp_InsertBillDetails @idBill=16, @idSize=5, @idSneaker='DBPSLB', @amountBuy=2
 
--- Procedure lấy mã loại bằng tên gần giống
 CREATE PROC sp_GetIDSneaker
 @name nvarchar(max)
 AS
 	select ID from tbl_SneakerType where Name like '%' + @name + '%'
 go
-
---exec sp_GetIDSneaker 'NIKE'
-
 
 CREATE PROC sp_GetAmountInventorySneaker
 @idSneaker varchar(20)
@@ -855,10 +847,6 @@ AS
 	return @amount
 go
 
---declare @sl int
---exec @sl = sp_GetAmountInventorySneaker 'GNAF1LWB'
---select @sl
-
 CREATE PROC sp_GetSizeInventory
 @idSneaker varchar(20)
 AS
@@ -867,9 +855,6 @@ AS
 		select Size from tbl_Size, tbl_Inventory where tbl_Inventory.IDSize = tbl_Size.ID and IDSneaker = @idSneaker
 	else select @amount
 go
-
---exec sp_GetSizeInventory 'GNAF1LWB'
-
 
 CREATE PROC sp_AddAccountClient
 @name nvarchar(max), @username varchar(100), @password varchar(30), @phoneClient varchar(11), @dateOfBirth date, @gender nvarchar(3), @idWard int
@@ -892,10 +877,6 @@ AS
 	return 1
 go
 
---declare @result int
---exec @result = sp_AddAccountClient '', '', '', ''
---select @result
-
 CREATE PROC sp_AccountLogin
 @username varchar(max), @password varchar(30)
 AS
@@ -911,10 +892,6 @@ AS
 	return @id
 GO
 
---declare @id int
---exec @id = sp_AccountLogin 'cvt', 'cvtadmin'
---print convert(varchar(max), @id)
-
 CREATE PROC sp_GetIDAccount
 @username varchar(max), @password varchar(30)
 AS
@@ -924,10 +901,6 @@ AS
 		return 0
 	return @idAccount
 GO
-
---declare @idAccount int
---exec @idAccount = sp_GetIDAccount 'cvt','cvtadmin'
---print @idAccount
 
 CREATE PROC sp_GetIDClientByIDAccount
 @idAccount int
@@ -939,9 +912,6 @@ AS
 	return @id
 GO
 
---declare @id int
---exec @id = sp_GetIDClientByIDAccount 4
---print convert(varchar(max), @id)
 CREATE PROC sp_GetIDStaffByIDAccount
 @idAccount int
 AS
@@ -951,9 +921,6 @@ AS
 		return 0
 	return @id
 GO
---declare @id int
---exec @id = sp_GetIDStaffByIDAccount 1
---print convert(varchar(max), @id)
 
 CREATE PROC sp_CheckAmountInventory @idSneaker varchar(max), @size int, @amount int
 AS
@@ -962,9 +929,6 @@ AS
 	return 0
 GO
 
---declare @result int
---exec @result = sp_CheckAmountInventory 'NAF1TFWLA', 43, 3
---select @result
 CREATE PROC sp_InsertCart @idClient int, @idSneaker varchar(max), @idSize int, @amountBuy int
 AS
 	if(select count(*) from tbl_Cart where IDClient = @idClient and IDSneaker = @idSneaker and IDSize = @idSize) > 0
@@ -974,11 +938,23 @@ AS
 	else insert into tbl_Cart(IDClient, IDSneaker, IDSize, AmountBuy) values(@idClient, @idSneaker, @idSize, @amountBuy)
 GO
 
---exec sp_InsertCart '', '', '', ''
-
-
---declare @idAccount int
---select @idAccount = ID from tbl_Account where Username = '' and Password = ''
---if @idAccount is null
---	print 'true'
---print convert(varchar(max), @idAccount)
+CREATE PROC sp_DeleteSneaker @idSneaker varchar(max), @result nvarchar(max) output
+AS
+BEGIN
+	set @result = N'Không thể xóa'
+	if not exists (select * from tbl_Sneaker where ID = @idSneaker)
+	begin
+		set @result = N'Không tìm thấy sản phẩm'
+		return
+	end
+	if exists (select * from tbl_BillDetails where IDSneaker = @idSneaker)
+		return
+	if exists (select * from tbl_ImportInvoiceDetails where IDSneaker = @idSneaker)
+		return
+	if exists (select * from tbl_Inventory where IDSneaker = @idSneaker)
+		return
+	delete tbl_CoverImage where IDSneaker = @idSneaker
+	delete tbl_DetailsImage where IDSneaker = @idSneaker
+	delete tbl_Cart where IDSneaker = @idSneaker
+	set @result = N'Thành công.'
+END

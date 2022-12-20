@@ -77,7 +77,8 @@ a {
     margin: auto 15px;
 }
 
-.header__web-search{
+.header__web-search,
+.form-search {
     align-items: center;
     display: flex;
     flex: 1;
@@ -92,7 +93,7 @@ a {
     position: relative;
 }
 
-.header__web-search .search__input {
+/*.header__web-search > */.search__input{
     border: none;
     width: 98%;
     outline: none;

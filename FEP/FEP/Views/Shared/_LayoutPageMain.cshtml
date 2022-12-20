@@ -68,10 +68,13 @@
                 </div>
                 <div class="header__web-search">
                     <div class="header__web-search-border">
-                        <input id="search__input" class="search__input" type="text" placeholder="Nhập tìm kiếm của bạn..." title="Nhập tìm kiếm">
-                        <button class="search__btn">
-                            <a href=""><i class="fas fa-search"></i></a>
-                        </button>
+                        @using (Html.BeginForm("Search","Home",FormMethod.Post,new { @class="form-search" }))
+                        {
+                            <input id="search__input" class="search__input" type="text" name="txtSearch" placeholder="Nhập tìm kiếm của bạn..." title="Nhập tìm kiếm">
+                            <button class="search__btn" type="submit">
+                                <a href=""><i class="fas fa-search"></i></a>
+                            </button>
+                        }
                     </div>
                 </div>
                 @Html.Action("CartPartial", "Cart")

@@ -140,7 +140,7 @@ namespace FEP.Core.Services
 
         public Sneaker GetSneaker(string IDSneaker)
         {
-            throw new NotImplementedException();
+            return getAll().SingleOrDefault(x => x.ID == IDSneaker);
         }
 
         public bool CheckAmountInventory(string idSneaker, int size, int amount)
