@@ -47,8 +47,8 @@
     <div class="container-scroller">
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="index.html"><span style="font-weight:bold; letter-spacing:10px; color:white;">FEP</span></a>
-                <a class="sidebar-brand brand-logo-mini" href="index.html"><span style="font-weight:bold; letter-spacing:0px; color:white;">FEP</span></a>
+                <a class="sidebar-brand brand-logo" href="@Url.Action("FEP", "Home")"><span style="font-weight:bold; letter-spacing:10px; color:white;">FEP</span></a>
+                <a class="sidebar-brand brand-logo-mini" href="@Url.Action("FEP", "Home")"><span style="font-weight:bold; letter-spacing:0px; color:white;">FEP</span></a>
             </div>
             <ul class="nav mt-4">
                 <li class="nav-item menu-items">
@@ -282,21 +282,6 @@
     })
 </script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-@if (Session["AddProduct"] != null)
-{
-    if (Session["AddProduct"].ToString() == "true")
-    {
-        <script>
-            Swal.fire({
-                icon: 'success',
-                html: '<b style="color:green;">Thêm sản phẩm thành công.</b>'
-            })
-        </script>
-        Session["AddProduct"] = null;
-    }
-}
-
 @if (Session["DeleteProduct"] != null)
 {
     if (Session["DeleteProduct"].ToString() == "Thành công.")
@@ -318,4 +303,18 @@
         </script>
     }
     Session["DeleteProduct"] = null;
+}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if (Session["AddProduct"] != null)
+{
+    if (Session["AddProduct"].ToString() == "true")
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                html: '<b style="color:green;">Thêm sản phẩm thành công.</b>'
+            })
+        </script>
+        Session["AddProduct"] = null;
+    }
 }

@@ -91,7 +91,7 @@
                     @SneakerTypes.SingleOrDefault(x => x.ID == item.IDSneakerType).Name
                 </td>
                 <td class="text-center">
-                    <a><i class="mdi mdi-pen text-warning"></i></a>
+                    <a href="@Url.Action("Update", "Admin", new { idSneaker=item.ID })"><i class="mdi mdi-pen text-warning"></i></a>
                 </td>
                 <td class="text-center">
                     <a><i class="mdi mdi-import text-success"></i></a>

@@ -956,5 +956,7 @@ BEGIN
 	delete tbl_CoverImage where IDSneaker = @idSneaker
 	delete tbl_DetailsImage where IDSneaker = @idSneaker
 	delete tbl_Cart where IDSneaker = @idSneaker
+	delete tbl_Sneaker where ID = @idSneaker
 	set @result = N'Thành công.'
 END
+
