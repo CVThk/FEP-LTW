@@ -10,8 +10,7 @@
         margin-left: auto;
         margin-right: auto;
     }
-
-    .form-control, .form-control:focus {
+    .form-control,.form-control:focus {
         color: white !important;
     }
 </style>
@@ -50,36 +49,3 @@
     }
 </div>
 
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@if (ViewData["Error"] != null)
-{
-    <script>
-            Swal.fire({
-                icon: 'error',
-                html: '<b style="color:red;">'+'@ViewData["Error"].ToString()'+'</b>'
-            })
-    </script>
-}
-
-@if (Session["DeleteProduct"] != null)
-{
-    if (Session["DeleteProduct"].ToString() == "Thành công.")
-    {
-        <script>
-            Swal.fire({
-                icon: 'success',
-                html: '<b style="color:green;">Xóa sản phẩm thành công.</b>'
-            })
-        </script>
-    }
-    else
-    {
-        <script>
-            Swal.fire({
-                icon: 'error',
-                html: '<b style="color:red;">'+'@Session["DeleteProduct"].ToString()'+'</b>'
-            })
-        </script>
-    }
-    Session["DeleteProduct"] = null;
-}

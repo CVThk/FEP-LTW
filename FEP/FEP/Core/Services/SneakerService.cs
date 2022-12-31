@@ -83,7 +83,7 @@ namespace FEP.Core.Services
             List<string> list = new List<string>();
             using (var session = NHibernateHelper.OpenSession())
             {
-                list = (List<string>)session.CreateSQLQuery(@"select Link from tbl_CoverImage where tbl_CoverImage.IDSneaker = :id").SetParameter("id", idSneaker).List<string>();
+                list = (List<string>)session.CreateSQLQuery("select Link from tbl_CoverImage where tbl_CoverImage.IDSneaker = :id").SetParameter("id", idSneaker).List<string>();
             }
             return list;
         }
